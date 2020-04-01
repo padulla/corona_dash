@@ -1,28 +1,253 @@
 ---
-title: "Corona_world_dashborad"
+title: "Covid-19"
 output: 
   flexdashboard::flex_dashboard:
     orientation: columns
     vertical_layout: fill
+    theme: yeti
 ---
 
 ```{r setup, include=FALSE}
 library(flexdashboard)
 library(DT)
-library (RCurl)
+library(RCurl)
+library(magrittr)
+library(xts)
+library(dplyr)
+library(formattable)
+
+gcal <- c("#039be5", "#7986cb", "#33b679", "#8e24aa", "#e67c73", "#f6c026", "#f5511d",	"#039be5", "#616161", "#3f51b5", "#0b8043", "#d60000")
+ncal <- c('#5484ed','#a4bdfc','#46d6db', '#7ae7bf', '#51b749', '#fbd75b', '#ffb878', '#ff887c', '#dc2127', '#dbadff', '#e1e1e1')
+hcal <- c('#f2aa0e', '#aa1717', '#3d8e53', '#3d8e72')
+
+#========================================
+# This is bold blue: '#5484ed'
+# This is blue: '#a4bdfc'
+# This is turquoise: '#46d6db'
+# This is green: '#7ae7bf'
+# This is bold green: '#51b749'
+# This is yellow:'#fbd75b'
+# This is orange: '#ffb878'
+# This is red: '#ff887c'
+# This is bold red: '#dc2127'
+# This is purple: '#dbadff'
+# This is gray: '#e1e1e1'
+#=======================================
+# This is unknown: '#039be5'
+# This is Lavender: '#7986cb' 
+# This is Sage: '#33b679'     
+# This is Grape: '#8e24aa'
+# This is Flamingo:	'#e67c73'
+# This is Banana:	'#f6c026'
+# This is Tangerine: '#f5511d'
+# This is Peacock: '#039be5'
+# This is Graphite:	'#616161'
+# This is Bluberry:	'#3f51b5'
+# This is Basil: '#0b8043'
+# This is Tomato:	'#d60000'
+#=======================================
+# This is orange: '#f2aa0e'
+# This is dark red: '#aa1717'
+# This is green: '#3d8e53'
+# This is water green: '#3d8e72'
+
+plot.fl <- function(ts, title = '', colorset = c(gcal[1], ncal[7])){
+  require(PerformanceAnalytics)
+  chart.TimeSeries(ts, main = title, colorset = colorset, legend.loc = 'topleft')
+}
+
+chart.fl <- function(ts, title = '', colorset = c(gcal[1],ncal[7])){
+require(dygraphs)
+dygraph(ts, main = title) %>% 
+dyOptions(colors = colorset, axisLineWidth = .5, gridLineColor = 'lightgray') %>%
+#dyRangeSelector(height = 10, strokeColor = '') %>%
+dyHighlight(highlightSeriesBackgroundAlpha = 0.8) %>%
+dyLegend(show = 'always', hideOnMouseOut = TRUE)
+}
+
+
+
 ```
 
-Column {data-width=650}
+Todos os Países
+======================================================================
+
+
+Column {data-width=350}
 -----------------------------------------------------------------------
 
-### Tabela Evolução de Casos Países
+### Evolução de Casos Países
 
 ```{r}
-download <- getURL("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv")
-data <- read.csv (text = download)
-DT::datatable(data, options = list())
+download <- RCurl::getURL("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv")
+
+
+dias<-round(difftime(Sys.Date(),"2020-01-21", units = c("days")),0)+4
+
+
+#dim(data) = 254 73
+data_wc <- read.csv(text = download, 
+                 stringsAsFactors = FALSE, 
+                 colClasses = c(rep('character', 4), rep('numeric', dias-4)))
+
+dates <- colnames(data_wc)[-c(1:4)] %>% 
+         strsplit(., 'X') %>% 
+         lapply(., '[', 2) %>% 
+         unlist() %>% 
+         as.Date(format = "%m.%d.%y")
+colnames(data_wc) <- c(colnames(data_wc)[1:4], format(dates, '%m/%d/%y'))
+
+Countries_wc <- unique(data_wc[,2])
+Cases <- list()
+for (i in 1:length(Countries_wc)) {
+    Cases[[i]] <- filter(data_wc, Country.Region == Countries_wc[i])[,-c(1:4)]  %>% colSums()  %>% as.vector()
+}
+
+
+
+
+names(Cases) <- Countries_wc
+
+NewData_wc <- t(do.call(cbind, Cases))
+colnames(NewData_wc) <- format(dates, "%m/%d/%y")
+
+N = ncol(NewData_wc)
+DT::datatable(NewData_wc[,(N-4):N], options = list(
+                                                order = list(list(5, 'desc')
+                                                )
+                                                
+))
 
 ```
+
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Total de Mortos
+
+
+```{r}
+download <- RCurl::getURL("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv")
+
+
+#dim(data) = 254 73
+data_wd <- read.csv(text = download, 
+                 stringsAsFactors = FALSE, 
+                 colClasses = c(rep('character', 4), rep('numeric', dias-4)))
+
+dates <- colnames(data_wd)[-c(1:4)] %>% 
+         strsplit(., 'X') %>% 
+         lapply(., '[', 2) %>% 
+         unlist() %>% 
+         as.Date(format = "%m.%d.%y")
+colnames(data_wd) <- c(colnames(data_wd)[1:4], format(dates, '%m/%d/%y'))
+
+Countries_wd <- unique(data_wd[,2])
+Death <- list()
+for (i in 1:length(Countries_wd)) {
+    Death[[i]] <- filter(data_wd, Country.Region == Countries_wd[i])[,-c(1:4)]  %>% colSums()  %>% as.vector()
+}
+
+
+
+
+names(Death) <- Countries_wd
+
+NewData_wd <- t(do.call(cbind, Death))
+colnames(NewData_wd) <- format(dates, "%m/%d/%y")
+
+N = ncol(NewData_wd)
+DT::datatable(NewData_wd[,(N-4):N], options = list(
+                                                order = list(list(5, 'desc')
+                                                )
+                                                
+))
+
+```
+
+
+Graficos Selecionados
+======================================================================
+
+```{r}
+xtsDates <- seq.Date(from       = as.Date('2020-01-22'),
+                     length.out = ncol(data_wc) - 4,
+                     by         = 'day')
+cts <- xts(do.call(cbind, Cases), xtsDates)
+
+xtsDates <- seq.Date(from       = as.Date('2020-01-22'),
+                     length.out = ncol(data_wd) - 4,
+                     by         = 'day')
+cts_d <- xts(do.call(cbind, Death), xtsDates)
+
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------
+
+### Asia (Casos)
+```{r}
+cty         <- c("China", "Japan", "Singapore", "Korea, South")
+names(gcal) <- cty
+
+chart.fl(cts[,cty], colorset = unname(gcal[cty])) %>% dyRangeSelector(height = 5)
+```
+
+### Europe (Casos)
+```{r}
+cty         <- c("Germany", "Italy", "France", "Spain")
+names(gcal) <- cty
+
+chart.fl(cts[,cty], colorset = unname(gcal[cty])) %>% dyRangeSelector(height = 5)
+```
+
+
+### America (Casos)
+```{r}
+cty         <- c("Mexico", "Brazil", "US")
+names(gcal) <- cty
+
+chart.fl(cts[,cty], colorset = unname(gcal[cty])) %>% dyRangeSelector(height = 5)
+```
+
+
+Column {data-width=350}
+-----------------------------------------------------------------
+
+### Asia (Mortes)
+```{r}
+cty         <- c("China", "Japan", "Singapore", "Korea, South")
+names(gcal) <- cty
+
+chart.fl(cts_d[,cty], colorset = unname(gcal[cty])) %>% dyRangeSelector(height = 5)
+```
+
+### Europe (Mortes)
+```{r}
+cty         <- c("Germany", "Italy", "France", "Spain")
+names(gcal) <- cty
+
+chart.fl(cts_d[,cty], colorset = unname(gcal[cty])) %>% dyRangeSelector(height = 5)
+```
+
+
+### America (Mortes)
+```{r}
+cty         <- c("Mexico", "Brazil", "US")
+names(gcal) <- cty
+
+chart.fl(cts_d[,cty], colorset = unname(gcal[cty])) %>% dyRangeSelector(height = 5)
+```
+
+
+
+
+
+
+Europa
+======================================================================
+
 
 Column {data-width=350}
 -----------------------------------------------------------------------
@@ -39,3 +264,10 @@ Column {data-width=350}
 
 ```
 
+
+US
+======================================================================
+
+
+Brasil
+======================================================================
