@@ -2,23 +2,40 @@
 title: "Covid-19"
 output: 
   flexdashboard::flex_dashboard:
+    css: style.css
     orientation: columns
-    vertical_layout: fill
-    theme: yeti
+    vertical_layout: scroll
 ---
 
 ```{r setup, include=FALSE}
 library(flexdashboard)
-library(DT)
-library(RCurl)
 library(magrittr)
 library(xts)
+library(plotly)
 library(dplyr)
 library(formattable)
+
+# hex msafra: #4c1211
+# rgb msafra: 761817
 
 gcal <- c("#039be5", "#7986cb", "#33b679", "#8e24aa", "#e67c73", "#f6c026", "#f5511d",	"#039be5", "#616161", "#3f51b5", "#0b8043", "#d60000")
 ncal <- c('#5484ed','#a4bdfc','#46d6db', '#7ae7bf', '#51b749', '#fbd75b', '#ffb878', '#ff887c', '#dc2127', '#dbadff', '#e1e1e1')
 hcal <- c('#f2aa0e', '#aa1717', '#3d8e53', '#3d8e72')
+
+lcolors <- c("#000000"
+            ,"#d0cece"
+            ,"#7f7f7f"
+            ,"#4c1211"
+            ,"#007c00"
+            ,"#ff0000"
+            ,"#ffc000"
+            ,"#00b050"
+            ,"#f8dddc"
+            ,"#bfe4ff"
+            ,"#ffff00"
+            ,"#bbffda")
+
+names(lcolors) <- c("China", "Japan", "Singapore", "Korea, South", "Germany", "Italy", "France", "Spain", "Mexico", "Brazil", "US")
 
 #========================================
 # This is bold blue: '#5484ed'
@@ -51,44 +68,37 @@ hcal <- c('#f2aa0e', '#aa1717', '#3d8e53', '#3d8e72')
 # This is green: '#3d8e53'
 # This is water green: '#3d8e72'
 
-plot.fl <- function(ts, title = '', colorset = c(gcal[1], ncal[7])){
-  require(PerformanceAnalytics)
-  chart.TimeSeries(ts, main = title, colorset = colorset, legend.loc = 'topleft')
+plot.fl <- function(ts, title = '', colorset = c(gcal[1], ncal[7])) {
+    require(PerformanceAnalytics)
+    chart.TimeSeries(ts, main = title, colorset = colorset, legend.loc = 'topleft')
 }
 
-chart.fl <- function(ts, title = '', colorset = c(gcal[1],ncal[7])){
-require(dygraphs)
-dygraph(ts, main = title) %>% 
-dyOptions(colors = colorset, axisLineWidth = .5, gridLineColor = 'lightgray') %>%
-#dyRangeSelector(height = 10, strokeColor = '') %>%
-dyHighlight(highlightSeriesBackgroundAlpha = 0.8) %>%
-dyLegend(show = 'always', hideOnMouseOut = TRUE)
+chart.fl <- function(ts, title = '', colorset = c(gcal[1],ncal[7])) {
+    require(dygraphs)
+    dygraph(ts, main = title, group = 'master') %>% 
+    dyOptions(colors = colorset, axisLineWidth = .5, gridLineColor = 'lightgray') %>%
+    #dyRangeSelector(height = 10, strokeColor = '') %>%
+    dyHighlight(highlightSeriesBackgroundAlpha = 0.8) %>%
+    dyLegend(show = 'auto', width = 550, hideOnMouseOut = TRUE)
 }
-
-
-
 ```
 
 Todos os Países
 ======================================================================
 
-
-Column {data-width=350}
+Column {data-width=350, data-height=350}
 -----------------------------------------------------------------------
 
 ### Evolução de Casos Países
-
 ```{r}
 download <- RCurl::getURL("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv")
 
+# Watch out the time of updating
+dias <- round(difftime(Sys.Date(), "2020-01-22", units = "days"), 0) + 5  
 
-dias<-round(difftime(Sys.Date(),"2020-01-21", units = c("days")),0)+4
-
-
-#dim(data) = 254 73
 data_wc <- read.csv(text = download, 
-                 stringsAsFactors = FALSE, 
-                 colClasses = c(rep('character', 4), rep('numeric', dias-4)))
+                   stringsAsFactors = FALSE, 
+                   colClasses = c(rep('character', 4), rep('numeric', dias - 4)))
 
 dates <- colnames(data_wc)[-c(1:4)] %>% 
          strsplit(., 'X') %>% 
@@ -102,69 +112,166 @@ Cases <- list()
 for (i in 1:length(Countries_wc)) {
     Cases[[i]] <- filter(data_wc, Country.Region == Countries_wc[i])[,-c(1:4)]  %>% colSums()  %>% as.vector()
 }
-
-
-
-
 names(Cases) <- Countries_wc
 
 NewData_wc <- t(do.call(cbind, Cases))
 colnames(NewData_wc) <- format(dates, "%m/%d/%y")
 
 N = ncol(NewData_wc)
-DT::datatable(NewData_wc[,(N-4):N], options = list(
-                                                order = list(list(5, 'desc')
-                                                )
-                                                
+DT::datatable(NewData_wc[,(N-4):N], 
+              options = list(order = list(list(5, 'desc'))
 ))
-
 ```
-
 
 Column {data-width=350}
 -----------------------------------------------------------------------
 
 ### Total de Mortos
-
-
 ```{r}
 download <- RCurl::getURL("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv")
 
-
-#dim(data) = 254 73
 data_wd <- read.csv(text = download, 
                  stringsAsFactors = FALSE, 
                  colClasses = c(rep('character', 4), rep('numeric', dias-4)))
-
-dates <- colnames(data_wd)[-c(1:4)] %>% 
-         strsplit(., 'X') %>% 
-         lapply(., '[', 2) %>% 
-         unlist() %>% 
-         as.Date(format = "%m.%d.%y")
-colnames(data_wd) <- c(colnames(data_wd)[1:4], format(dates, '%m/%d/%y'))
 
 Countries_wd <- unique(data_wd[,2])
 Death <- list()
 for (i in 1:length(Countries_wd)) {
     Death[[i]] <- filter(data_wd, Country.Region == Countries_wd[i])[,-c(1:4)]  %>% colSums()  %>% as.vector()
 }
-
-
-
-
 names(Death) <- Countries_wd
 
 NewData_wd <- t(do.call(cbind, Death))
 colnames(NewData_wd) <- format(dates, "%m/%d/%y")
 
 N = ncol(NewData_wd)
-DT::datatable(NewData_wd[,(N-4):N], options = list(
-                                                order = list(list(5, 'desc')
-                                                )
-                                                
+DT::datatable(NewData_wd[,(N-4):N], 
+              options = list(order = list(list(5, 'desc'))
 ))
 
 ```
+
+
+Cases {data-navmenu='Europa'} 
+==========================================================================
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Total Cases
+```{r}
+SelectedCountries <- c("Italy"
+                      ,"Spain"
+                      ,"Germany"
+                      ,"France"
+                      ,"United Kingdom"
+                      ,"Switzerland"
+                      ,"Belgium"
+                      ,"Netherlands"
+                      ,"Austria"
+                      ,"Portugal"
+                      ,"Sweden"
+                      ,"Norway"
+                      ,"Denmark"
+                      ,"Ireland"
+                      ,"Romania"
+                      ,"Luxembourg"
+                      ,"Finland"
+                      ,"Greece"
+                      ,"Poland"
+                      ,"Kosovo")
+
+
+N = ncol(NewData_wc)
+DT::datatable(NewData_wc[SelectedCountries,(N-4):N],options = list(
+  pageLength = 20))
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### New Cases
+```{r}
+
+dife_c<-NewData_wc[, -1, drop = FALSE] - NewData_wc[, -ncol(NewData_wc), drop = FALSE]
+
+N = ncol(dife_c)
+DT::datatable(dife_c[SelectedCountries,(N-4):N],options = list(
+  pageLength = 20))
+```
+
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Var. (%)
+```{r}
+
+porce_c<-round(((NewData_wc[, -1, drop = FALSE] - NewData_wc[, -ncol(NewData_wc), drop = FALSE])/NewData_wc[, -ncol(NewData_wc), drop = FALSE]*100),2)
+
+N = ncol(porce_c)
+DT::datatable(porce_c[SelectedCountries,(N-4):N],options = list(
+  pageLength = 20))
+```
+
+
+
+Deaths {data-navmenu='Europa'} 
+==========================================================================
+
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Total Deaths
+```{r}
+NewData_wd <- t(do.call(cbind, Death))
+colnames(NewData_wd) <- format(dates, "%m/%d/%y")
+
+N = ncol(NewData_wd)
+DT::datatable(NewData_wd[SelectedCountries,(N-4):N],options = list(
+  pageLength = 20))
+
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### New Deaths
+```{r}
+NewData_wd <- t(do.call(cbind, Death))
+colnames(NewData_wd) <- format(dates, "%m/%d/%y")
+
+
+
+dife_d<-NewData_wd[, -1, drop = FALSE] - NewData_wd[, -ncol(NewData_wd), drop = FALSE]
+
+N = ncol(dife_d)
+DT::datatable(dife_d[SelectedCountries,(N-4):N],options = list(
+  pageLength = 20))
+
+
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Var. (%)
+```{r}
+NewData_wd <- t(do.call(cbind, Death))
+colnames(NewData_wd) <- format(dates, "%m/%d/%y")
+
+porce_d<-round(((NewData_wd[, -1, drop = FALSE] - NewData_wd[, -ncol(NewData_wd), drop = FALSE])/NewData_wd[, -ncol(NewData_wd), drop = FALSE]*100),2)
+
+N = ncol(porce_d)
+DT::datatable(porce_d[SelectedCountries,(N-4):N],options = list(
+  pageLength = 20))
+
+```
+
+
+
+
 
 
 Graficos Selecionados
@@ -174,100 +281,168 @@ Graficos Selecionados
 xtsDates <- seq.Date(from       = as.Date('2020-01-22'),
                      length.out = ncol(data_wc) - 4,
                      by         = 'day')
-cts <- xts(do.call(cbind, Cases), xtsDates)
 
-xtsDates <- seq.Date(from       = as.Date('2020-01-22'),
-                     length.out = ncol(data_wd) - 4,
-                     by         = 'day')
-cts_d <- xts(do.call(cbind, Death), xtsDates)
-
+cts <- xts(log(do.call(cbind, Cases) + 0.05), xtsDates)
+dts <- xts(log(do.call(cbind, Death) + 0.05), xtsDates)
 ```
 
-Column {data-width=350}
+Column {data-width=300}
 -----------------------------------------------------------------
-
 ### Asia (Casos)
 ```{r}
 cty         <- c("China", "Japan", "Singapore", "Korea, South")
-names(gcal) <- cty
-
-chart.fl(cts[,cty], colorset = unname(gcal[cty])) %>% dyRangeSelector(height = 5)
+chart.fl(cts[,cty], colorset = unname(lcolors[cty])) %>% dyRangeSelector(height = 5)
 ```
 
 ### Europe (Casos)
 ```{r}
 cty         <- c("Germany", "Italy", "France", "Spain")
-names(gcal) <- cty
 
-chart.fl(cts[,cty], colorset = unname(gcal[cty])) %>% dyRangeSelector(height = 5)
+chart.fl(cts[,cty], colorset = unname(lcolors[cty])) %>% dyRangeSelector(height = 5)
 ```
-
 
 ### America (Casos)
 ```{r}
 cty         <- c("Mexico", "Brazil", "US")
-names(gcal) <- cty
 
-chart.fl(cts[,cty], colorset = unname(gcal[cty])) %>% dyRangeSelector(height = 5)
+chart.fl(cts[,cty], colorset = unname(lcolors[cty])) %>% dyRangeSelector(height = 5)
 ```
 
-
-Column {data-width=350}
+Column {data-width=300}
 -----------------------------------------------------------------
-
 ### Asia (Mortes)
 ```{r}
 cty         <- c("China", "Japan", "Singapore", "Korea, South")
-names(gcal) <- cty
 
-chart.fl(cts_d[,cty], colorset = unname(gcal[cty])) %>% dyRangeSelector(height = 5)
+chart.fl(dts[,cty], colorset = unname(lcolors[cty])) %>% dyRangeSelector(height = 5)
 ```
 
 ### Europe (Mortes)
 ```{r}
 cty         <- c("Germany", "Italy", "France", "Spain")
-names(gcal) <- cty
 
-chart.fl(cts_d[,cty], colorset = unname(gcal[cty])) %>% dyRangeSelector(height = 5)
+chart.fl(dts[,cty], colorset = unname(lcolors[cty])) %>% dyRangeSelector(height = 5)
 ```
-
 
 ### America (Mortes)
 ```{r}
 cty         <- c("Mexico", "Brazil", "US")
-names(gcal) <- cty
 
-chart.fl(cts_d[,cty], colorset = unname(gcal[cty])) %>% dyRangeSelector(height = 5)
+chart.fl(dts[,cty], colorset = unname(lcolors[cty])) %>% dyRangeSelector(height = 5)
 ```
 
+Test 1 {data-navmenu='Graphics'} 
+========================================================
 
+Column {.tabset}
+---------------------------------------------------------
 
+### America (Cases)
+```{r, fig.width = 10, fig.height = 5}
+lC = c('US', 'Mexico', 'Brazil')
 
+df = data.frame(coredata(dts[,lC]), index(dts[,lC]))
+colnames(df) <- c(lC, 'date')
 
+cf = data.frame(log(coredata(cts[,lC])), index(cts[,lC]))
+colnames(cf) <- c(lC, 'date')
 
-Europa
-======================================================================
+f1 <- list(family = 'Old Standard TT, serif', size = 14, color = 'black')
 
+c_axis <- list(
+    title = "Number of Cases (Log scale)",
+    titlefont = f1,
+    showticklabels = TRUE
+)
 
-Column {data-width=350}
------------------------------------------------------------------------
+x_axis <- list(
+    title = "Dates",
+    titlefont = f1,
+    showticklabels = TRUE
+)
 
-### Chart B
+fig <- plot_ly(cf, x = ~date)
+for (country in lC) {
+ fig <- fig %>% add_trace(y = as.formula(paste0('~', country)), 
+                          name = country,
+                          mode = 'markers') 
+}
+fig <- fig %>% layout(xaxis = x_axis, yaxis = c_axis)
+fig
+```
 
+### America (Deaths)
+```{r}
+p <- plot_ly(type='bar', x = lC, y = as.numeric(tail(df[,-4],1)))
+p
+```
+
+Test 2 {data-navmenu='Graphics'} 
+========================================================
+
+### Plotly Version
 ```{r}
 
+
+df = data.frame(coredata(dts[,lC]), index(dts[,lC]))
+colnames(df) <- c(lC, 'date')
+
+cf = data.frame(coredata(cts[,lC]), index(cts[,lC]))
+colnames(cf) <- c(lC, 'date')
+
+plots <- lapply(lC, function(var) {
+  plot_ly(cf, x = ~date, y = as.formula(paste0("~", var))) %>%
+    add_lines(name = var)
+})
+subplot(plots, nrows = length(plots), shareX = TRUE, titleX = FALSE)
 ```
 
-### Chart C
 
-```{r}
 
+Grafico copiado
+========================================================
+
+### Graphic 1
+```{r, fig.width = 10, fig.height = 7}
+countries <- c("Italy", "Spain", "France", "Germany", "US", "Brazil")
+
+ects <- 10**(cts) - 1
+d0ts <- ects * apply(ects, 2, function(x) x >= 100)
+ld0ts <- lapply(countries, function(n) as.vector(coredata(d0ts[,n])))
+ld0ts <- lapply(ld0ts, function(x) x[x!=0])
+names(ld0ts) <- countries
+
+N = max(vapply(ld0ts, length, numeric(1)))
+
+d0f <- rbind(as.data.frame(lapply(ld0ts, '[', 1)), as.data.frame(lapply(ld0ts, '[', 2)))
+for (i in 3:N) {
+   d0f <- rbind(d0f, as.data.frame(lapply(ld0ts, '[', i)))
+}
+
+d0f <- cbind(1:N, d0f)
+colnames(d0f) <- c('Days', countries)
+
+p <- plot_ly(d0f, x = ~Days)
+for (country in countries) {
+    p <- p %>% add_trace(data = d0f, y = as.formula(paste0("~", country)), name = country, type = 'scatter', mode = 'lines+markers')
+}
+
+xax <- list(
+  title = 'Days from D0',
+  titlefont = f1,
+  showticklabels = TRUE
+)
+
+yax <- list(
+  title = 'Confirmed cases',
+  titlefont = f1,
+  showticklabels = TRUE,
+  type = "log"
+)
+
+p <- p %>% layout(xaxis = xax, yaxis = yax)
+
+#htmlwidgets::saveWidget(p, file = "/home/henrique/Documents/Padulla/corona_dash/graph.html")
+
+p
 ```
-
-
-US
-======================================================================
-
-
-Brasil
-======================================================================
