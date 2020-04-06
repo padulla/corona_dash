@@ -128,7 +128,7 @@ colnames(NewData_wc) <- format(dates, "%m/%d/%y")
 N = ncol(NewData_wc)
 DT::datatable(NewData_wc[,(N-4):N], 
               options = list(order = list(list(5, 'desc'))
-))
+)) %>%  DT::formatStyle(columns = 0:N, fontSize = '18pt')
 ```
 
 Column {data-width=350}
@@ -155,17 +155,17 @@ colnames(NewData_wd) <- format(dates, "%m/%d/%y")
 N = ncol(NewData_wd)
 DT::datatable(NewData_wd[,(N-4):N], 
               options = list(order = list(list(5, 'desc'))
-))
+)) %>%  DT::formatStyle(columns = 0:N, fontSize = '18pt')
 
 ```
 
-Zoropa
+Cases {data-navmenu='Europa'} 
 ==========================================================================
 
 Column {data-width=350}
 -----------------------------------------------------------------------
 
-### Cases
+### Total Cases
 ```{r}
 SelectedCountries <- c("Italy"
                       ,"Spain"
@@ -190,25 +190,281 @@ SelectedCountries <- c("Italy"
 
 
 N = ncol(NewData_wc)
-DT::datatable(NewData_wc[SelectedCountries,(N-4):N], 
-              options = list(order = list(list(5, 'desc'))
-))
+DT::datatable(NewData_wc[SelectedCountries,(N-4):N],options = list(
+  pageLength = 20,paging = FALSE,searching = FALSE)) %>%  DT::formatStyle(columns = 0:N, fontSize = '18pt')
+  
 ```
+
 
 Column {data-width=350}
 -----------------------------------------------------------------------
 
-### Deaths
+### New Cases
+```{r}
+
+dife_c<-NewData_wc[, -1, drop = FALSE] - NewData_wc[, -ncol(NewData_wc), drop = FALSE]
+
+N = ncol(dife_c)
+DT::datatable(dife_c[SelectedCountries,(N-4):N],options = list(
+  pageLength = 20,paging = FALSE,searching = FALSE)) %>%  DT::formatStyle(columns = 0:N, fontSize = '18pt')
+```
+
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Var. (%)
+```{r}
+
+porce_c<-round(((NewData_wc[, -1, drop = FALSE] - NewData_wc[, -ncol(NewData_wc), drop = FALSE])/NewData_wc[, -ncol(NewData_wc), drop = FALSE]*100),2)
+
+N = ncol(porce_c)
+DT::datatable(porce_c[SelectedCountries,(N-4):N],options = list(
+  pageLength = 20,paging = FALSE,searching = FALSE)) %>%  DT::formatStyle(columns = 0:N, fontSize = '18pt')
+```
+
+
+
+Deaths {data-navmenu='Europa'} 
+==========================================================================
+
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Total Deaths
 ```{r}
 NewData_wd <- t(do.call(cbind, Death))
 colnames(NewData_wd) <- format(dates, "%m/%d/%y")
 
 N = ncol(NewData_wd)
-DT::datatable(NewData_wd[SelectedCountries,(N-4):N], 
-              options = list(order = list(list(5, 'desc'))
-))
+DT::datatable(NewData_wd[SelectedCountries,(N-4):N],options = list(
+  pageLength = 20,paging = FALSE,searching = FALSE)) %>%  DT::formatStyle(columns = 0:N, fontSize = '18pt')
+  
 
 ```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### New Deaths
+```{r}
+NewData_wd <- t(do.call(cbind, Death))
+colnames(NewData_wd) <- format(dates, "%m/%d/%y")
+
+
+
+dife_d<-NewData_wd[, -1, drop = FALSE] - NewData_wd[, -ncol(NewData_wd), drop = FALSE]
+
+N = ncol(dife_d)
+DT::datatable(dife_d[SelectedCountries,(N-4):N],options = list(
+  pageLength = 20,paging = FALSE,searching = FALSE)) %>%  DT::formatStyle(columns = 0:N, fontSize = '18pt')
+
+
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Var. (%)
+```{r}
+NewData_wd <- t(do.call(cbind, Death))
+colnames(NewData_wd) <- format(dates, "%m/%d/%y")
+
+porce_d<-round(((NewData_wd[, -1, drop = FALSE] - NewData_wd[, -ncol(NewData_wd), drop = FALSE])/NewData_wd[, -ncol(NewData_wd), drop = FALSE]*100),2)
+
+N = ncol(porce_d)
+DT::datatable(porce_d[SelectedCountries,(N-4):N],options = list(
+  pageLength = 20,paging = FALSE,searching = FALSE)) %>%  DT::formatStyle(columns = 0:N, fontSize = '18pt')
+
+```
+
+
+
+Cases {data-navmenu='Brasil'} 
+==========================================================================
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Total Cases
+```{r}
+
+download_br <- RCurl::getURL("https://raw.githubusercontent.com/wcota/covid19br/master/cases-brazil-states.csv")
+
+data_br <- read.csv(text = download_br)
+
+data_br_cases<-reshape(data_br, v.names = "totalCases", idvar="state", direction = "wide", timevar = "date", drop=c("city","country","deaths","newCases"))
+
+
+
+
+date_br_cases <- vapply(strsplit(colnames(data_br_cases)[-1], "totalCases."), '[', character(1), 2) %>% as.Date
+
+colnames(data_br_cases) <- c("state" ,format(date_br_cases,"%m/%d/%y"))
+rownames(data_br_cases) <- data_br_cases[,1]
+data_br_cases <- data_br_cases[,-1]
+rownames(data_br_cases)[2]<-"Brasil"
+
+Demais_br <- t(data.frame(colSums(data_br_cases[c("AC","SE","AL","TO"),])))
+rownames(Demais_br)[1]<-"Demais"
+
+data_br_cases <- rbind(data_br_cases, Demais_br)
+
+
+ Selectedstate_br <- c("Brasil"
+                       ,"SP"
+                       ,"RJ"
+                       ,"CE"
+                       ,"MG"
+                       ,"RS"
+                       ,"DF"
+                       ,"PR"
+                       ,"BA"
+                       ,"AM"
+                       ,"SC"
+                       ,"RN"
+                       ,"PE"
+                       ,"ES"
+                       ,"MA"
+                       ,"GO"
+                       ,"PA"
+                       ,"MS"
+                       ,"MT"
+                       ,"Demais")
+
+
+
+N = ncol(data_br_cases)
+
+DT::datatable(data_br_cases[Selectedstate_br,(N-4):N],options = list(
+  pageLength = 20,paging = FALSE,searching = FALSE)) %>%  DT::formatStyle(columns = 0:N, fontSize = '18pt')
+
+
+
+ 
+
+ 
+ 
+
+
+  
+```
+
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### New Cases
+```{r}
+
+dife_c_br<-data_br_cases[, -1, drop = FALSE] - data_br_cases[, -ncol(data_br_cases), drop = FALSE]
+
+N = ncol(dife_c_br)
+DT::datatable(dife_c_br[Selectedstate_br,(N-4):N],options = list(
+  pageLength = 20,paging = FALSE,searching = FALSE)) %>%  DT::formatStyle(columns = 0:N, fontSize = '18pt')
+```
+
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Var. (%)
+```{r}
+
+porce_c_br<-round(((data_br_cases[, -1, drop = FALSE] - data_br_cases[, -ncol(data_br_cases), drop = FALSE])/data_br_cases[, -ncol(data_br_cases), drop = FALSE]*100),2)
+
+N = ncol(porce_c_br)
+DT::datatable(porce_c_br[Selectedstate_br,(N-4):N],options = list(
+  pageLength = 20,paging = FALSE,searching = FALSE)) %>%  DT::formatStyle(columns = 0:N, fontSize = '18pt')
+```
+
+
+
+Deaths {data-navmenu='Brasil'} 
+==========================================================================
+
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Total Deaths
+```{r}
+
+data_br_deaths<-reshape(data_br, v.names = "deaths", idvar="state", direction = "wide", timevar = "date", drop=c("city","country","totalCases","newCases"))
+
+
+
+
+date_br_deaths <- vapply(strsplit(colnames(data_br_deaths)[-1], "deaths."), '[', character(1), 2) %>% as.Date
+
+colnames(data_br_deaths) <- c("state" ,format(date_br_deaths,"%m/%d/%y"))
+rownames(data_br_deaths) <- data_br_deaths[,1]
+data_br_deaths <- data_br_deaths[,-1]
+rownames(data_br_deaths)[2]<-"Brasil"
+
+Demais_br_d <- t(data.frame(colSums(data_br_deaths[c("AC","SE","AL","TO"),])))
+rownames(Demais_br_d)[1]<-"Demais"
+
+data_br_deaths <- rbind(data_br_deaths, Demais_br_d)
+
+
+
+
+
+
+N = ncol(data_br_deaths)
+DT::datatable(data_br_deaths[Selectedstate_br,(N-4):N],options = list(
+  pageLength = 20,paging = FALSE,searching = FALSE)) %>%  DT::formatStyle(columns = 0:N, fontSize = '18pt')
+  
+
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### New Deaths
+```{r}
+
+
+dife_d_br<-data_br_deaths[, -1, drop = FALSE] - data_br_deaths[, -ncol(data_br_deaths), drop = FALSE]
+
+N = ncol(dife_d_br)
+DT::datatable(dife_d_br[Selectedstate_br,(N-4):N],options = list(
+  pageLength = 20,paging = FALSE,searching = FALSE))%>%  DT::formatStyle(columns = 0:N, fontSize = '18pt')
+
+
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Var. (%)
+```{r}
+
+
+porce_d_br<-round(((data_br_deaths[, -1, drop = FALSE] - data_br_deaths[, -ncol(data_br_deaths), drop = FALSE])/data_br_deaths[, -ncol(data_br_deaths), drop = FALSE]*100),2)
+
+N = ncol(porce_d_br)
+DT::datatable(porce_d_br[Selectedstate_br,(N-4):N],options = list(
+  pageLength = 20,paging = FALSE,searching = FALSE)) %>%  DT::formatStyle(columns = 0:N, fontSize = '18pt')
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 Graficos Selecionados
 ======================================================================
