@@ -94,7 +94,7 @@ Column {data-width=350, data-height=350}
 download <- RCurl::getURL("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv")
 
 # Watch out the time of updating
-dias <- round(difftime(Sys.Date(), "2020-01-22", units = "days"), 0) + 4  
+dias <- round(difftime(Sys.Date(), "2020-01-22", units = "days"), 0) + 4
 
 data_wc <- read.csv(text = download, 
                    stringsAsFactors = FALSE, 
@@ -282,8 +282,20 @@ xtsDates <- seq.Date(from       = as.Date('2020-01-22'),
                      length.out = ncol(data_wc) - 4,
                      by         = 'day')
 
-cts <- xts(log(do.call(cbind, Cases) + 0.05), xtsDates)
-dts <- xts(log(do.call(cbind, Death) + 0.05), xtsDates)
+cts <- xts(log10(do.call(cbind, Cases) + 1), xtsDates)
+dts <- xts(log10(do.call(cbind, Death) + 1), xtsDates)
+
+countriesAsia     <- c("China", "Japan", "Singapore", "Korea, South")
+valuesAsia        <- round(10**(tail(cts[,countriesAsia], 1)) - 1, 0)
+dvaluesAsia       <- round(10**(tail(dts[,countriesAsia], 1)) - 1, 0)
+
+countriesEUR      <- c("Germany", "Italy", "France", "Spain")
+valuesEUR         <- round(10**(tail(cts[,countriesEUR], 1)) - 1, 0)
+dvaluesEUR        <- round(10**(tail(dts[,countriesEUR], 1)) - 1, 0)
+
+countriesAmerica  <- c("Mexico", "Brazil", "US")
+valuesAmerica     <- round(10**(tail(cts[,countriesAmerica], 1)) - 1, 0)
+dvaluesAmerica    <- round(10**(tail(dts[,countriesAmerica], 1)) - 1, 0)
 ```
 
 Column {data-width=300}
