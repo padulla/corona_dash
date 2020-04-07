@@ -570,10 +570,6 @@ DT::datatable(porce_d_us_t,options = list(
 
 
 
-
-
-
-
 ################################################
 
 
@@ -752,10 +748,100 @@ DT::datatable(porce_d_br[Selectedstate_br,(N-4):N],options = list(
 
 
 
+############################################################################################
+
+Brasil {data-navmenu='Gráficos_Google'} 
+==========================================================================
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Total Cases
+```{r}
+
+download_br <- RCurl::getURL("https://raw.githubusercontent.com/wcota/covid19br/master/cases-brazil-states.csv")
+
+data_br <- read.csv(text = download_br)
+
+data_br_cases<-reshape(data_br, v.names = "totalCases", idvar="state", direction = "wide", timevar = "date", drop=c("city","country","deaths","newCases"))
 
 
 
 
+date_br_cases <- vapply(strsplit(colnames(data_br_cases)[-1], "totalCases."), '[', character(1), 2) %>% as.Date
+
+colnames(data_br_cases) <- c("state" ,format(date_br_cases,"%m/%d/%y"))
+rownames(data_br_cases) <- data_br_cases[,1]
+data_br_cases <- data_br_cases[,-1]
+rownames(data_br_cases)[2]<-"Brasil"
+
+Demais_br <- t(data.frame(colSums(data_br_cases[c("AC","SE","AL","TO"),])))
+rownames(Demais_br)[1]<-"Demais"
+
+data_br_cases <- rbind(data_br_cases, Demais_br)
+
+
+ Selectedstate_br <- c("Brasil"
+                       ,"SP"
+                       ,"RJ"
+                       ,"CE"
+                       ,"MG"
+                       ,"RS"
+                       ,"DF"
+                       ,"PR"
+                       ,"BA"
+                       ,"AM"
+                       ,"SC"
+                       ,"RN"
+                       ,"PE"
+                       ,"ES"
+                       ,"MA"
+                       ,"GO"
+                       ,"PA"
+                       ,"MS"
+                       ,"MT"
+                       ,"Demais")
+
+
+
+N = ncol(data_br_cases)
+
+DT::datatable(data_br_cases[Selectedstate_br,(N-4):N],options = list(
+  pageLength = 20,paging = FALSE,searching = FALSE)) %>%  DT::formatStyle(columns = 0:N, fontSize = '18pt')
+
+
+
+ 
+
+ 
+ 
+
+
+  
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#########################################################################################
 
 
 
