@@ -239,7 +239,7 @@ colnames(NewData_wd) <- format(dates, "%m/%d/%y")
 
 N = ncol(NewData_wd)
 DT::datatable(NewData_wd[SelectedCountries,(N-4):N],options = list(
-  pageLength = 20,paging = FALSE,searching = FALSE)) %>%  DT::formatStyle(columns = 0:N, fontSize = '18pt')
+  pageLength = 20,paging = FALSE,searching = FALSE)) %>%  DT::formatStyle(columns = 0:N, fontSize = '18pt') 
   
 
 ```
@@ -278,6 +278,305 @@ DT::datatable(porce_d[SelectedCountries,(N-4):N],options = list(
   pageLength = 20,paging = FALSE,searching = FALSE)) %>%  DT::formatStyle(columns = 0:N, fontSize = '18pt')
 
 ```
+
+
+
+
+
+Cases {data-navmenu='US'} 
+==========================================================================
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Total Cases
+```{r}
+ names_us <- t(data.frame("US","New York", "New Jersey", "Michigan", "California", "Massachusetts", "Florida", "Illinois", "Louisiana", "Washington", "Pennsylvania", "Georgia", "Texas", "Connecticut", "Colorado", "Tennessee", "Ohio", "Indiana", "Maryland", "Others"))
+
+
+download_us <- RCurl::getURL("https://raw.githubusercontent.com/COVID19Tracking/covid-tracking-data/master/data/states_daily_4pm_et.csv")
+
+data_us <- read.csv(text = download_us)
+
+data_us[is.na(data_us)] <- 0
+
+data_us_cases <- data_us %>% 
+                    select("positive","state","dateChecked") %>%
+                    arrange(dateChecked) %>%
+                    ungroup()
+
+data_us_cases<-reshape(data_us_cases, v.names = "positive", idvar="state", direction = "wide", timevar = "dateChecked")
+
+
+
+
+
+date_us_cases <- vapply(strsplit(colnames(data_us_cases)[-1], "positive."), '[', character(1), 2) %>% as.Date
+
+
+
+colnames(data_us_cases) <- c("state" ,format(date_us_cases,"%m/%d/%y"))
+rownames(data_us_cases) <- data_us_cases[,1]
+data_us_cases <- data_us_cases[,-1]
+
+
+
+
+total_us <- (data.frame(colSums(data_us_cases)))
+
+
+
+soma_us_v <- (data.frame(colSums(data_us_cases[c("NY"
+                        ,"NJ"
+                        ,"MI"
+                        , "CA"
+                        , "MA"
+                        , "FL"
+                        , "IL"
+                        , "LA"
+                        , "WA"
+                        , "PA"
+                        , "GA"
+                        , "TX"
+                        , "CT"
+                        , "CO"
+                        , "TN"
+                        , "OH"
+                        , "IN"
+                        , "MD"),])))
+
+
+
+other_us <- t(total_us - soma_us_v)
+total_us <- t(total_us)
+
+soma_us_b <- rbind(total_us, other_us)
+
+
+
+
+
+
+rownames(soma_us_b)[1]<-"US"
+rownames(soma_us_b)[2]<-"Others"
+
+data_us_cases <- rbind(data_us_cases, soma_us_b)
+
+
+
+ Selectedstate_us <- c("US"
+                        ,"NY"
+                        ,"NJ"
+                        ,"MI"
+                        , "CA"
+                        , "MA"
+                        , "FL"
+                        , "IL"
+                        , "LA"
+                        , "WA"
+                        , "PA"
+                        , "GA"
+                        , "TX"
+                        , "CT"
+                        , "CO"
+                        , "TN"
+                        , "OH"
+                        , "IN"
+                        , "MD"
+                        , "Others"
+                          )
+
+N = ncol(data_us_cases)
+data_us_cases_t <- data_us_cases[Selectedstate_us,(N-4):N]
+rownames(data_us_cases_t) <- c(names_us)
+
+ 
+ 
+
+DT::datatable(data_us_cases_t, options = list(
+  pageLength = 20,paging = FALSE,searching = FALSE)) %>%  DT::formatStyle(columns = 0:N, fontSize = '18pt')
+
+
+
+ 
+
+ 
+ 
+
+
+  
+```
+
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### New Cases
+```{r}
+
+dife_c_us<-data_us_cases[, -1, drop = FALSE] - data_us_cases[, -ncol(data_us_cases), drop = FALSE]
+
+
+
+N = ncol(dife_c_us)
+dife_c_us_t <- dife_c_us[Selectedstate_us,(N-4):N]
+rownames(dife_c_us_t) <- c(names_us)
+
+DT::datatable(dife_c_us_t,options = list(
+  pageLength = 20,paging = FALSE,searching = FALSE)) %>%  DT::formatStyle(columns = 0:N, fontSize = '18pt')
+```
+
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Var. (%)
+```{r}
+
+porce_c_us<-round(((data_us_cases[, -1, drop = FALSE] - data_us_cases[, -ncol(data_us_cases), drop = FALSE])/data_us_cases[, -ncol(data_us_cases), drop = FALSE]*100),2)
+
+N = ncol(porce_c_us)
+porce_c_us_t <- porce_c_us[Selectedstate_us,(N-4):N]
+rownames(porce_c_us_t) <- c(names_us)
+
+DT::datatable(porce_c_us_t,options = list(
+  pageLength = 20,paging = FALSE,searching = FALSE)) %>%  DT::formatStyle(columns = 0:N, fontSize = '18pt')
+```
+
+
+
+Deaths {data-navmenu='US'} 
+==========================================================================
+
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Total Deaths
+```{r}
+
+data_us_deaths <- data_us %>% 
+                    select("death","state","dateChecked") %>%
+                    arrange(dateChecked) %>%
+                    ungroup()
+
+data_us_deaths<-reshape(data_us_deaths, v.names = "death", idvar="state", direction = "wide", timevar = "dateChecked")
+
+
+
+
+
+date_us_deaths <- vapply(strsplit(colnames(data_us_deaths)[-1], "death."), '[', character(1), 2) %>% as.Date
+
+
+
+colnames(data_us_deaths) <- c("state" ,format(date_us_deaths,"%m/%d/%y"))
+rownames(data_us_deaths) <- data_us_deaths[,1]
+data_us_deaths <- data_us_deaths[,-1]
+
+
+
+
+total_us_d <- (data.frame(colSums(data_us_deaths)))
+
+
+
+soma_us_v <- (data.frame(colSums(data_us_deaths[c("NY"
+                        ,"NJ"
+                        ,"MI"
+                        , "CA"
+                        , "MA"
+                        , "FL"
+                        , "IL"
+                        , "LA"
+                        , "WA"
+                        , "PA"
+                        , "GA"
+                        , "TX"
+                        , "CT"
+                        , "CO"
+                        , "TN"
+                        , "OH"
+                        , "IN"
+                        , "MD"),])))
+
+
+
+other_us <- t(total_us_d - soma_us_v)
+total_us_d <- t(total_us_d)
+
+soma_us_b <- rbind(total_us_d, other_us)
+
+
+
+
+
+
+rownames(soma_us_b)[1]<-"US"
+rownames(soma_us_b)[2]<-"Others"
+
+data_us_deaths <- rbind(data_us_deaths, soma_us_b)
+
+
+
+N = ncol(data_us_deaths)
+data_us_deaths_t <- data_us_deaths[Selectedstate_us,(N-4):N]
+rownames(data_us_deaths_t) <- c(names_us)
+
+DT::datatable(data_us_deaths_t,options = list(
+  pageLength = 20,paging = FALSE,searching = FALSE)) %>%  DT::formatStyle(columns = 0:N, fontSize = '18pt')
+  
+
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### New Deaths
+```{r}
+
+
+dife_d_us<-data_us_deaths[, -1, drop = FALSE] - data_us_deaths[, -ncol(data_us_deaths), drop = FALSE]
+
+N = ncol(dife_d_us)
+dife_d_us_t <- dife_d_us[Selectedstate_us,(N-4):N]
+rownames(dife_d_us_t) <- c(names_us)
+
+DT::datatable(dife_d_us_t,options = list(
+  pageLength = 20,paging = FALSE,searching = FALSE))%>%  DT::formatStyle(columns = 0:N, fontSize = '18pt')
+
+
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Var. (%)
+```{r}
+
+
+porce_d_us<-round(((data_us_deaths[, -1, drop = FALSE] - data_us_deaths[, -ncol(data_us_deaths), drop = FALSE])/data_us_deaths[, -ncol(data_us_deaths), drop = FALSE]*100),2)
+
+N = ncol(porce_d_us)
+porce_d_us_t <- porce_d_us[Selectedstate_us,(N-4):N]
+rownames(porce_d_us_t) <- c(names_us)
+
+DT::datatable(porce_d_us_t,options = list(
+  pageLength = 20,paging = FALSE,searching = FALSE)) %>%  DT::formatStyle(columns = 0:N, fontSize = '18pt')
+
+```
+
+
+
+
+
+
+
+
+
+################################################
+
+
 
 
 
