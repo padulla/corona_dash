@@ -7,6 +7,12 @@ output:
     vertical_layout: scroll
 ---
 
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  fig.path = "README_figs/README-"
+)
+```
+
 
 
 ```{r setup, include=FALSE}
