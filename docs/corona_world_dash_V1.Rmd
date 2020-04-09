@@ -1045,9 +1045,11 @@ p
 Total Cases After Lockdown {data-navmenu='Figures'}
 ====================================================================
 
-### Total Cases After Lockdown
 
-```{r, fig.height = 7, fig.width = 6}
+
+Column {data-width=300}
+-----------------------------------------------------------------------
+```{r, fig.height = 10, fig.width = 10}
 
 countries <- c( 'Spain', 'Italy', 'United Kingdom', 'Austria', 'Denmark', 'Norway')
 lockdown  <- c("2020-03-14", "2020-03-08", "2020-03-23", "2020-03-15", "2020-03-13", "2020-03-12")
@@ -1100,9 +1102,61 @@ p <- p %>% layout(xaxis = xax, yaxis = yax, legend = leg)
 p
 ```
 
+Column {data-width=300}
+-----------------------------------------------------------------------
+
+```{r, fig.height = 10, fig.width = 10}
+countries <- c('France', 'Spain', 'Italy', 'United Kingdom', 'Austria', 'Denmark', 'Norway')
+lockdown  <- c("2020-03-17", "2020-03-14", "2020-03-08", "2020-03-23", "2020-03-15", "2020-03-13", "2020-03-12")
+
+names(lockdown) <- countries
+
+dates <- colnames(porce_c) %>% as.Date(format = "%m/%d/%y")
+ld    <- lapply(countries, function(x) as.vector(coredata(xts(t(porce_c), dates)[paste0(lockdown[x], '::'), x])))
+
+LMAX = vapply(ld, length, numeric(1)) %>% max
+df <- lapply(ld,  function(x) {
+  c(x, rep(NA, LMAX - length(x)))
+  } ) %>% do.call(cbind, .) %>% as.data.frame #%>% mutate_all(~replace(., is.na(.), 0)) 
+
+df <- cbind(1:LMAX, df)
+# United Kingdom doesn't work with plotly. Needs to be UK
+countries <- c('France', 'Spain', 'Italy', 'UK', 'Austria', 'Denmark', 'Norway')
+colnames(df) <- c('Days', countries)
+
+p <- plot_ly(d0f, x = ~Days)
+for (country in countries) {
+    p <- p %>% add_trace(data = df, y = as.formula(paste0("~", country)), name = country, type = 'scatter', mode = 'lines+markers')
+}
+
+xax <- list(
+  title = 'Days from Lookdown',
+  titlefont = f1,
+  showticklabels = TRUE,
+  range = c(0.5, 45),
+  size = 13
+)
+
+yax <- list(
+  title = 'New cases (%)',
+  titlefont = f1,
+  showticklabels = TRUE,
+ # type = "log",
+  size = 50
+)
+
+leg <- list(
+  orientation = 'h',
+  y = -0.15,
+  x = 0.33
+  )
+
+p <- p %>% layout(xaxis = xax, yaxis = yax, legend = leg)
 
 
 
+p
+```
 
 
 
