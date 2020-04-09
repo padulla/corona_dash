@@ -1049,7 +1049,7 @@ Total Cases After Lockdown {data-navmenu='Figures'}
 
 Column {data-width=300}
 -----------------------------------------------------------------------
-```{r, fig.height = 10, fig.width = 10}
+```{r, fig.height = 8, fig.width = 9}
 
 countries <- c( 'Spain', 'Italy', 'United Kingdom', 'Austria', 'Denmark', 'Norway')
 lockdown  <- c("2020-03-14", "2020-03-08", "2020-03-23", "2020-03-15", "2020-03-13", "2020-03-12")
@@ -1105,7 +1105,7 @@ p
 Column {data-width=300}
 -----------------------------------------------------------------------
 
-```{r, fig.height = 10, fig.width = 10}
+```{r, fig.height = 8, fig.width = 9}
 countries <- c('France', 'Spain', 'Italy', 'United Kingdom', 'Austria', 'Denmark', 'Norway')
 lockdown  <- c("2020-03-17", "2020-03-14", "2020-03-08", "2020-03-23", "2020-03-15", "2020-03-13", "2020-03-12")
 
