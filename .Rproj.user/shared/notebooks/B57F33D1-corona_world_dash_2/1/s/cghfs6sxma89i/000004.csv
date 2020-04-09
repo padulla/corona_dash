@@ -1,0 +1,3 @@
+"0","NewData_wd <- t(do.call(cbind, Death))"
+"2","Error in do.call(cbind, Death) : objeto 'Death' não encontrado
+"

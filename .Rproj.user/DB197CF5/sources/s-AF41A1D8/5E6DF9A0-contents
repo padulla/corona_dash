@@ -1,0 +1,143 @@
+---
+title: "COVID-19"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+    theme: yeti
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(DT)
+library(RCurl)
+library(magrittr)
+library(xts)
+library(dplyr)
+
+gcal <- c("#039be5", "#7986cb", "#33b679", "#8e24aa", "#e67c73", "#f6c026", "#f5511d",	"#039be5", "#616161", "#3f51b5", "#0b8043", "#d60000")
+ncal <- c('#5484ed','#a4bdfc','#46d6db', '#7ae7bf', '#51b749', '#fbd75b', '#ffb878', '#ff887c', '#dc2127', '#dbadff', '#e1e1e1')
+hcal <- c('#f2aa0e', '#aa1717', '#3d8e53', '#3d8e72')
+
+#========================================
+# This is bold blue: '#5484ed'
+# This is blue: '#a4bdfc'
+# This is turquoise: '#46d6db'
+# This is green: '#7ae7bf'
+# This is bold green: '#51b749'
+# This is yellow:'#fbd75b'
+# This is orange: '#ffb878'
+# This is red: '#ff887c'
+# This is bold red: '#dc2127'
+# This is purple: '#dbadff'
+# This is gray: '#e1e1e1'
+#=======================================
+# This is unknown: '#039be5'
+# This is Lavender: '#7986cb' 
+# This is Sage: '#33b679'     
+# This is Grape: '#8e24aa'
+# This is Flamingo:	'#e67c73'
+# This is Banana:	'#f6c026'
+# This is Tangerine: '#f5511d'
+# This is Peacock: '#039be5'
+# This is Graphite:	'#616161'
+# This is Bluberry:	'#3f51b5'
+# This is Basil: '#0b8043'
+# This is Tomato:	'#d60000'
+#=======================================
+# This is orange: '#f2aa0e'
+# This is dark red: '#aa1717'
+# This is green: '#3d8e53'
+# This is water green: '#3d8e72'
+
+plot.fl <- function(ts, title = '', colorset = c(gcal[1], ncal[7])){
+  require(PerformanceAnalytics)
+  chart.TimeSeries(ts, main = title, colorset = colorset, legend.loc = 'topleft')
+}
+
+chart.fl <- function(ts, title = '', colorset = c(gcal[1],ncal[7])){
+require(dygraphs)
+dygraph(ts, main = title) %>% 
+dyOptions(colors = colorset, axisLineWidth = .5, gridLineColor = 'lightgray') %>%
+#dyRangeSelector(height = 10, strokeColor = '') %>%
+dyHighlight(highlightSeriesBackgroundAlpha = 0.8) %>%
+dyLegend(show = 'always', hideOnMouseOut = TRUE)
+}
+
+```
+
+PagA
+======================================================================
+
+Column {data-width=650}
+-----------------------------------------------------------------------
+
+### Tabela Evolução de Casos Países
+
+```{r}
+download <- RCurl::getURL("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv")
+
+#dim(data) = 254 73
+data <- read.csv(text = download, 
+                 stringsAsFactors = FALSE, 
+                 colClasses = c(rep('character', 4), rep('numeric', 73-4)))
+
+dates <- colnames(data)[-c(1:4)] %>% 
+         strsplit(., 'X') %>% 
+         lapply(., '[', 2) %>% 
+         unlist() %>% 
+         as.Date(format = "%m.%d.%y")
+colnames(data) <- c(colnames(data)[1:4], format(dates, '%m/%d/%y'))
+
+Countries <- unique(data[,2])
+Cases <- list()
+for (i in 1:length(Countries)) {
+    Cases[[i]] <- filter(data, Country.Region == Countries[i])[,-c(1:4)]  %>% colSums()  %>% as.vector()
+}
+names(Cases) <- Countries
+
+NewData <- t(do.call(cbind, Cases))
+colnames(NewData) <- format(dates, "%m/%d/%y")
+
+N = ncol(NewData)
+DT::datatable(NewData[,(N-5):N])
+```
+
+PagB
+======================================================================
+
+```{r}
+xtsDates <- seq.Date(from       = as.Date('2020-01-22'),
+                     length.out = ncol(data) - 4,
+                     by         = 'day')
+cts <- xts(do.call(cbind, Cases), xtsDates)
+```
+
+Column {.tabset}
+-----------------------------------------------------------------
+
+### Asia
+```{r}
+cty         <- c("China", "Japan", "Singapore", "Korea, South")
+names(gcal) <- cty
+
+chart.fl(cts[,cty], colorset = unname(gcal[cty])) %>% dyRangeSelector(height = 5)
+```
+
+### Europe
+```{r}
+cty         <- c("Germany", "Italy", "France", "Spain")
+names(gcal) <- cty
+
+chart.fl(cts[,cty], colorset = unname(gcal[cty])) %>% dyRangeSelector(height = 5)
+```
+
+
+### America
+```{r}
+cty         <- c("Mexico", "Brazil", "US")
+names(gcal) <- cty
+
+chart.fl(cts[,cty], colorset = unname(gcal[cty])) %>% dyRangeSelector(height = 5)
+```
+

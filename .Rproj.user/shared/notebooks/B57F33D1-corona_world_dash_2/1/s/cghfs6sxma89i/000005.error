@@ -1,0 +1,1 @@
+{"frames":[{"character_number":0,"end_character_number":0,"end_line_number":0,"file":"","func":"t(do.call(cbind, Death))","line_number":0},{"character_number":0,"end_character_number":0,"end_line_number":0,"file":"","func":"do.call(cbind, Death)","line_number":0}],"message":"Error in do.call(cbind, Death) : objeto 'Death' não encontrado\n"}

@@ -1,0 +1,33 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1586222563744.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "98012656",
+    "lastKnownWriteTime" : 6877125773773464354,
+    "last_content_update" : 1586222563744,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "CE91D8B",
+        "caption" : "soma_us_b",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=soma_us_b&cache_key=CE91D8B",
+        "displayedObservations" : "2",
+        "environment" : "",
+        "expression" : "soma_us_b",
+        "object" : "soma_us_b",
+        "preview" : "0",
+        "totalObservations" : "2",
+        "variables" : "34"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 8,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_dataframe"
+}
