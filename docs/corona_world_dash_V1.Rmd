@@ -143,7 +143,7 @@ NewData_wc <- data_wc %>%
 N = ncol(NewData_wc)
 DT::datatable(NewData_wc[, (N-4):N], 
               options = list(order = list(list(5, 'desc'))
-)) %>%  DT::formatStyle(columns = 0:N, fontSize = '18pt')
+)) %>%  DT::formatStyle(columns = 0:N, fontSize = '14pt')
 ```
 
 Column {data-width=350}
@@ -170,7 +170,7 @@ colnames(NewData_wd) <- format(dates, "%m/%d/%y")
 N = ncol(NewData_wd)
 DT::datatable(NewData_wd[, (N-4):N], 
               options = list(order = list(list(5, 'desc'))
-)) %>%  DT::formatStyle(columns = 0:N, fontSize = '18pt')
+)) %>%  DT::formatStyle(columns = 0:N, fontSize = '14pt')
 
 ```
 
@@ -209,7 +209,7 @@ DT::datatable(NewData_wc[SelectedCountries, (N-4):N],
               options = list(pageLength = 20, 
                              paging     = FALSE, 
                              searching  = FALSE)
-              ) %>%  DT::formatStyle(columns = 0:N, fontSize = '18pt')
+              ) %>%  DT::formatStyle(columns = 0:N, fontSize = '14pt')
 ```
 
 
@@ -225,7 +225,7 @@ DT::datatable(dife_c[SelectedCountries, (N-4):N],
               options = list(pageLength = 20, 
                              paging     = FALSE,
                              searching  = FALSE)
-              ) %>%  DT::formatStyle(columns = 0:N, fontSize = '18pt')
+              ) %>%  DT::formatStyle(columns = 0:N, fontSize = '14pt')
 ```
 
 
@@ -241,7 +241,7 @@ DT::datatable(porce_c[SelectedCountries, (N-4):N],
               options = list(pageLength = 20, 
                              paging     = FALSE, 
                              searching  = FALSE)
-              ) %>%  DT::formatStyle(columns = 0:N, fontSize = '18pt')
+              ) %>%  DT::formatStyle(columns = 0:N, fontSize = '14pt')
 ```
 
 
@@ -259,7 +259,7 @@ DT::datatable(NewData_wd[SelectedCountries, (N-4):N],
               options = list(pageLength = 20, 
                              paging     = FALSE, 
                              searching  = FALSE)
-              ) %>%  DT::formatStyle(columns = 0:N, fontSize = '18pt') 
+              ) %>%  DT::formatStyle(columns = 0:N, fontSize = '14pt') 
 ```
 
 Column {data-width=350}
@@ -274,7 +274,7 @@ DT::datatable(dife_d[SelectedCountries, (N-4):N],
               options = list(pageLength = 20,
                              paging     = FALSE,
                              searching  = FALSE)
-              ) %>%  DT::formatStyle(columns = 0:N, fontSize = '18pt')
+              ) %>%  DT::formatStyle(columns = 0:N, fontSize = '14pt')
 ```
 
 Column {data-width=350}
@@ -289,7 +289,7 @@ DT::datatable(porce_d[SelectedCountries, (N-4):N],
               options = list(pageLength = 20,
                              paging     = FALSE,
                              searching  = FALSE)
-              ) %>%  DT::formatStyle(columns = 0:N, fontSize = '18pt')
+              ) %>%  DT::formatStyle(columns = 0:N, fontSize = '14pt')
 
 ```
 
@@ -383,7 +383,7 @@ rownames(data_us_cases_t) <- names_us
 DT::datatable(data_us_cases_t, options = list(pageLength = 20,
                                               paging     = FALSE,
                                               searching  = FALSE)
-              ) %>%  DT::formatStyle(columns = 0:N, fontSize = '18pt')
+              ) %>%  DT::formatStyle(columns = 0:N, fontSize = '14pt')
 ```
 
 
@@ -401,7 +401,7 @@ rownames(dife_c_us_t) <- names_us
 DT::datatable(dife_c_us_t,options = list(pageLength = 20,
                                          paging     = FALSE,
                                          searching  = FALSE)
-              ) %>%  DT::formatStyle(columns = 0:N, fontSize = '18pt')
+              ) %>%  DT::formatStyle(columns = 0:N, fontSize = '14pt')
 ```
 
 Column {data-width=350}
@@ -418,7 +418,7 @@ rownames(porce_c_us_t) <- names_us
 DT::datatable(porce_c_us_t, options = list(pageLength = 20,
                                            paging     = FALSE,
                                            searching  = FALSE)
-              ) %>%  DT::formatStyle(columns = 0:N, fontSize = '18pt')
+              ) %>%  DT::formatStyle(columns = 0:N, fontSize = '14pt')
 ```
 
 Deaths {data-navmenu='US'} 
@@ -457,7 +457,7 @@ rownames(data_us_deaths_t) <- c(names_us)
 DT::datatable(data_us_deaths_t, options = list(pageLength = 20,
                                                paging     = FALSE,
                                                searching  = FALSE)
-              ) %>%  DT::formatStyle(columns = 0:N, fontSize = '18pt')
+              ) %>%  DT::formatStyle(columns = 0:N, fontSize = '14pt')
 ```
 
 Column {data-width=350}
@@ -474,7 +474,7 @@ rownames(dife_d_us_t) <- names_us
 DT::datatable(dife_d_us_t, options = list(pageLength = 20,
                                           paging     = FALSE,
                                           searching  = FALSE)
-              )%>%  DT::formatStyle(columns = 0:N, fontSize = '18pt')
+              )%>%  DT::formatStyle(columns = 0:N, fontSize = '14pt')
 ```
 
 Column {data-width=350}
@@ -491,7 +491,7 @@ rownames(porce_d_us_t) <- names_us
 DT::datatable(porce_d_us_t, options = list(pageLength = 20,
                                            paging     = FALSE,
                                            searching  = FALSE)
-              ) %>%  DT::formatStyle(columns = 0:N, fontSize = '18pt')
+              ) %>%  DT::formatStyle(columns = 0:N, fontSize = '14pt')
 ```
 
 ################################################
@@ -554,7 +554,7 @@ DT::datatable(data_br_cases[SelectedBR, (N-4):N],
               options = list(pageLength = 20, 
                              paging     = FALSE, 
                              searching  = FALSE)
-              ) %>%  DT::formatStyle(columns = 0:N, fontSize = '18pt')
+              ) %>%  DT::formatStyle(columns = 0:N, fontSize = '14pt')
 ```
 
 
@@ -570,7 +570,7 @@ DT::datatable(dife_c_br[SelectedBR, (N-4):N],
               options = list(pageLength = 20,
                              paging     = FALSE,
                              searching  = FALSE)
-              ) %>%  DT::formatStyle(columns = 0:N, fontSize = '18pt')
+              ) %>%  DT::formatStyle(columns = 0:N, fontSize = '14pt')
 ```
 
 
@@ -586,7 +586,7 @@ DT::datatable(porce_c_br[SelectedBR, (N-4):N],
               options = list(pageLength = 20,
                              paging     = FALSE,
                              searching  = FALSE)
-              ) %>%  DT::formatStyle(columns = 0:N, fontSize = '18pt')
+              ) %>%  DT::formatStyle(columns = 0:N, fontSize = '14pt')
 ```
 
 Deaths {data-navmenu='Brasil'} 
@@ -617,7 +617,7 @@ DT::datatable(data_br_deaths[SelectedBR, (N-4):N],
               options = list(pageLength = 20, 
                              paging     = FALSE,
                              searching  = FALSE)
-              ) %>%  DT::formatStyle(columns = 0:N, fontSize = '18pt')
+              ) %>%  DT::formatStyle(columns = 0:N, fontSize = '14pt')
 ```
 
 Column {data-width=350}
@@ -632,7 +632,7 @@ DT::datatable(dife_d_br[SelectedBR, (N-4):N],
               options = list(pageLength = 20,
                              paging     = FALSE,
                              searching  = FALSE)
-              )%>%  DT::formatStyle(columns = 0:N, fontSize = '18pt')
+              )%>%  DT::formatStyle(columns = 0:N, fontSize = '14pt')
 ```
 
 Column {data-width=350}
@@ -647,7 +647,7 @@ DT::datatable(porce_d_br[SelectedBR, (N-4):N],
               options = list(pageLength = 20,
                              paging     = FALSE,
                              searching  = FALSE)
-              ) %>%  DT::formatStyle(columns = 0:N, fontSize = '18pt')
+              ) %>%  DT::formatStyle(columns = 0:N, fontSize = '14pt')
 ```
 
 ############################################################################################
