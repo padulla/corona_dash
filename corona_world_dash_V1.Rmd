@@ -21,12 +21,14 @@ gcal <- c("#039be5", "#7986cb", "#33b679", "#8e24aa", "#e67c73", "#f6c026", "#f5
 ncal <- c('#5484ed','#a4bdfc','#46d6db', '#7ae7bf', '#51b749', '#fbd75b', '#ffb878', '#ff887c', '#dc2127', '#dbadff', '#e1e1e1')
 hcal <- c('#f2aa0e', '#aa1717', '#3d8e53', '#3d8e72')
 
-lcolors <- c("#000000"   # China
-            ,"#d0cece"   # Japan
+lcolors <- c("#4c1211"   # Korea, South
             ,"#7f7f7f"   # Singapore
-            ,"#4c1211"   # Korea, South
-            ,"#007c00"   # Germany
             ,"#ffc000"   # Italy
+            ,"#007c00"   # Germany
+            ,"#0055ff"
+            ,"#ff4400"
+            ,"#d0cece"   # Japan
+            ,"#000000"   # China
             ,"#00b050"   # France
             ,"#f8dddc"   # Spain
             ,"#bfe4ff"   # Mexico
@@ -91,18 +93,18 @@ chart.fl <- function(ts, title = '', colorset = c(gcal[1],ncal[7])) {
 }
 ```
 
-Todos os Países
+World
 ======================================================================
 
 Column {data-width=350, data-height=350}
 -----------------------------------------------------------------------
 
-### Evolução de Casos Países
+### Total Cases
 ```{r}
 download <- RCurl::getURL("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv")
 
 # Watch out the time of updating
-dias <- round(difftime(Sys.Date(), "2020-01-22", units = "days"), 0) + 4
+dias <- round(difftime(Sys.Date(), "2020-01-22", units = "days"), 0) + 5
 
 data_wc <- read.csv(text = download, 
                     stringsAsFactors = FALSE, 
@@ -132,7 +134,7 @@ DT::datatable(NewData_wc[, (N-4):N],
 Column {data-width=350}
 -----------------------------------------------------------------------
 
-### Total de Mortos
+### Total Deaths
 ```{r}
 download <- RCurl::getURL("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv")
 
@@ -157,7 +159,7 @@ DT::datatable(NewData_wd[, (N-4):N],
 
 ```
 
-Cases {data-navmenu='Europa'} 
+Cases {data-navmenu='Europe'} 
 ==========================================================================
 
 Column {data-width=350}
@@ -229,7 +231,7 @@ DT::datatable(porce_c[SelectedCountries, (N-4):N],
 
 
 
-Deaths {data-navmenu='Europa'} 
+Deaths {data-navmenu='Europe'} 
 ==========================================================================
 
 Column {data-width=350}
@@ -635,65 +637,10 @@ DT::datatable(porce_d_br[SelectedBR, (N-4):N],
 
 ############################################################################################
 
-Brasil {data-navmenu='Gráficos_Google'} 
-==========================================================================
-
-Column {data-width=350}
------------------------------------------------------------------------
-
-### Total Cases
-```{r}
-download_br <- RCurl::getURL("https://raw.githubusercontent.com/wcota/covid19br/master/cases-brazil-states.csv")
-
-data_br <- read.csv(text = download_br)
-
-data_br_cases<-reshape(data_br, v.names = "totalCases", idvar="state", direction = "wide", timevar = "date", drop=c("city","country","deaths","newCases"))
-
-date_br_cases <- vapply(strsplit(colnames(data_br_cases)[-1], "totalCases."), '[', character(1), 2) %>% as.Date
-
-colnames(data_br_cases) <- c("state" ,format(date_br_cases,"%m/%d/%y"))
-rownames(data_br_cases) <- data_br_cases[,1]
-data_br_cases <- data_br_cases[,-1]
-rownames(data_br_cases)[2]<-"Brasil"
-
-Demais_br <- t(data.frame(colSums(data_br_cases[c("AC","SE","AL","TO"),])))
-rownames(Demais_br)[1]<-"Demais"
-
-data_br_cases <- rbind(data_br_cases, Demais_br)
-
-
- Selectedstate_br <- c("Brasil"
-                       ,"SP"
-                       ,"RJ"
-                       ,"CE"
-                       ,"MG"
-                       ,"RS"
-                       ,"DF"
-                       ,"PR"
-                       ,"BA"
-                       ,"AM"
-                       ,"SC"
-                       ,"RN"
-                       ,"PE"
-                       ,"ES"
-                       ,"MA"
-                       ,"GO"
-                       ,"PA"
-                       ,"MS"
-                       ,"MT"
-                       ,"Demais")
-
-
-
-N = ncol(data_br_cases)
-
-DT::datatable(data_br_cases[Selectedstate_br,(N-4):N],options = list(
-  pageLength = 20,paging = FALSE,searching = FALSE)) %>%  DT::formatStyle(columns = 0:N, fontSize = '18pt')
-```
 
 #########################################################################################
 
-Graficos Selecionados
+Total Cases by Country Group {data-navmenu='Figures'} 
 ======================================================================
 
 ```{r}
@@ -722,17 +669,17 @@ Column {data-width=300}
 
 ### Asia Casos. `r vapply(countriesAsia, function(country) paste0(country, ": ", valuesAsia[,country]), character(1)) %>% as.vector()`
 ```{r}
-chart.fl(cts[,countriesAsia], colorset = unname(lcolors[countriesAsia])) %>% dyRangeSelector(height = 10) 
+chart.fl(cts[,countriesAsia], colorset = unname(lcolors)) %>% dyRangeSelector(height = 10) 
 ```
 
 ### Europe Casos. `r vapply(countriesEUR, function(country) paste0(country, ": ", valuesEUR[,country]), character(1)) %>% as.vector()`
 ```{r}
-chart.fl(cts[,countriesEUR], colorset = unname(lcolors[countriesEUR])) %>% dyRangeSelector(height = 10) 
+chart.fl(cts[,countriesEUR], colorset = unname(lcolors)) %>% dyRangeSelector(height = 10) 
 ```
 
 ### America Casos. `r vapply(countriesAmerica, function(country) paste0(country, ": ", valuesAmerica[,country]), character(1)) %>% as.vector()`
 ```{r}
-chart.fl(cts[,countriesAmerica], colorset = unname(lcolors[countriesAmerica])) %>% dyRangeSelector(height = 10) 
+chart.fl(cts[,countriesAmerica], colorset = unname(lcolors)) %>% dyRangeSelector(height = 10) 
 ```
 
 Column {data-width=300}
@@ -740,160 +687,162 @@ Column {data-width=300}
 
 ### Asia Mortes. `r vapply(countriesAsia, function(country) paste0(country, ": ", dvaluesAsia[,country]), character(1)) %>% as.vector()`
 ```{r}
-chart.fl(dts[,countriesAsia], colorset = unname(lcolors[countriesAsia])) %>% dyRangeSelector(height = 10) 
+chart.fl(dts[,countriesAsia], colorset = unname(lcolors)) %>% dyRangeSelector(height = 10) 
 ```
 
 ### Europe Mortes. `r vapply(countriesEUR, function(country) paste0(country, ": ", dvaluesEUR[,country]), character(1)) %>% as.vector()`
 ```{r}
-chart.fl(dts[,countriesEUR], colorset = unname(lcolors[countriesEUR])) %>% dyRangeSelector(height = 10) 
+chart.fl(dts[,countriesEUR], colorset = unname(lcolors)) %>% dyRangeSelector(height = 10) 
 ```
 
 ### America Mortes. `r vapply(countriesAmerica, function(country) paste0(country, ": ", dvaluesAmerica[,country]), character(1)) %>% as.vector()`
 ```{r}
-chart.fl(dts[,countriesAmerica], colorset = unname(lcolors[countriesAmerica])) %>% dyRangeSelector(height = 10) 
+chart.fl(dts[,countriesAmerica], colorset = unname(lcolors)) %>% dyRangeSelector(height = 10) 
 ```
+# 
+# Test 1 {data-navmenu='Figures'} 
+# ========================================================
+# 
+# Row {.tabset}
+# ---------------------------------------------------------
+# 
+# ### America (Cases)
+# ```{r, fig.width = 10, fig.height = 5}
+# 
+# # Data frame with deaths
+# df = data.frame(coredata(10**(dts[,countriesAmerica] - 1)), index(dts[,countriesAmerica]))
+# colnames(df) <- c(countriesAmerica, 'date')
+# 
+# # Data frame with cases
+# cf = data.frame(coredata(10**(cts[,countriesAmerica] - 1)), index(cts[,countriesAmerica]))
+# colnames(cf) <- c(countriesAmerica, 'date')
+# 
+# f1 <- list(family = 'Old Standard TT, serif', size = 14, color = 'black')
+# 
+# c_axis <- list(
+#     title = "Cases (Log scale)",
+#     titlefont = f1,
+#     showticklabels = TRUE
+# )
+# 
+# x_axis <- list(
+#     title = "Days",
+#     titlefont = f1,
+#     showticklabels = TRUE
+# )
+# 
+# clr       <- lcolors[c(1,3,4)]
+# names(clr) <- countriesAmerica
+# 
+# fig <- plot_ly(cf, x = ~date)
+# for (country in countriesAmerica) {
+#  fig <- fig %>% add_trace(y = as.formula(paste0('~', country)), 
+#                           name = country,
+#                           mode = 'markers',
+#                           marker = list(color = unname(clr[country]), size = 10)) 
+# }
+# fig <- fig %>% layout(xaxis = x_axis, yaxis = c_axis)
+# fig
+# ```
+# 
+# ### America (Deaths)
+# ```{r}
+# tp <- tail(df, 5)
+# 
+# p <- plot_ly()
+# for(country in countriesAmerica) {
+#   p <- p %>% add_trace(data = tp, x = ~date, y = as.formula(paste0('~', country)), name = country, type = 'bar', marker = list(color = unname(clr[country])))
+# }
+# 
+# xax <- list(
+#   title = 'Days',
+#   titlefont = f1,
+#   showticklabels = TRUE
+# )
+# 
+# yax <- list(
+#   title = 'Reported deaths',
+#   titlefont = f1,
+#   showticklabels = TRUE
+# )
+# 
+# p %>% layout(xaxis = xax, yaxis = yax)
+# ```
+# 
+# Row {.tabset}
+# ---------------------------------------------------------
+# 
+# ### Asia (Cases)
+# ```{r, fig.width = 10, fig.height = 5}
+# 
+# # Data frame with deaths
+# df = data.frame(coredata(10**(dts[,countriesAsia] - 1)), index(dts[,countriesAsia]))
+# colnames(df) <- c(countriesAsia, 'date')
+# 
+# # Data frame with cases
+# cf = data.frame(coredata(10**(cts[,countriesAsia] - 1)), index(cts[,countriesAsia]))
+# colnames(cf) <- c(countriesAsia, 'date')
+# 
+# f1 <- list(family = 'Old Standard TT, serif', size = 14, color = 'black')
+# 
+# c_axis <- list(
+#     title = "Cases",
+#     titlefont = f1,
+#     showticklabels = TRUE
+# )
+# 
+# x_axis <- list(
+#     title = "Days",
+#     titlefont = f1,
+#     showticklabels = TRUE
+# )
+# 
+# clr        <- lcolors[c(1,3,4)]
+# names(clr) <- rev(countriesAsia[1:3])
+# 
+# fig <- plot_ly(cf, x = ~date)
+# for (country in countriesAsia[1:3]) {
+#  fig <- fig %>% add_trace(y = as.formula(paste0('~', country)), 
+#                           name = country,
+#                           mode = 'markers',
+#                           marker = list(color = unname(clr[country]), size = 10)) 
+# }
+# fig <- fig %>% layout(xaxis = x_axis, yaxis = c_axis)
+# fig
+# ```
+# 
+# ### Asia (Deaths)
+# ```{r}
+# tp <- tail(df, 5)
+# 
+# p <- plot_ly()
+# for(country in rev(countriesAsia[1:3])) {
+#   p <- p %>% add_trace(data = tp, x = ~date, y = as.formula(paste0('~', country)), name = country, type = 'bar', marker = list(color = unname(clr[country])))
+# }
+# 
+# xax <- list(
+#   title = 'Days',
+#   titlefont = f1,
+#   showticklabels = TRUE
+# )
+# 
+# yax <- list(
+#   title = 'Reported deaths',
+#   titlefont = f1,
+#   showticklabels = TRUE
+# )
+# 
+# p %>% layout(xaxis = xax, yaxis = yax)
+#```
 
-Test 1 {data-navmenu='Graphics'} 
+Comparative After 100 cases {data-navmenu='Figures'}
 ========================================================
 
-Row {.tabset}
----------------------------------------------------------
 
-### America (Cases)
-```{r, fig.width = 10, fig.height = 5}
-
-# Data frame with deaths
-df = data.frame(coredata(10**(dts[,countriesAmerica] - 1)), index(dts[,countriesAmerica]))
-colnames(df) <- c(countriesAmerica, 'date')
-
-# Data frame with cases
-cf = data.frame(coredata(10**(cts[,countriesAmerica] - 1)), index(cts[,countriesAmerica]))
-colnames(cf) <- c(countriesAmerica, 'date')
-
-f1 <- list(family = 'Old Standard TT, serif', size = 14, color = 'black')
-
-c_axis <- list(
-    title = "Cases (Log scale)",
-    titlefont = f1,
-    showticklabels = TRUE
-)
-
-x_axis <- list(
-    title = "Days",
-    titlefont = f1,
-    showticklabels = TRUE
-)
-
-clr       <- lcolors[c(1,3,4)]
-names(clr) <- countriesAmerica
-
-fig <- plot_ly(cf, x = ~date)
-for (country in countriesAmerica) {
- fig <- fig %>% add_trace(y = as.formula(paste0('~', country)), 
-                          name = country,
-                          mode = 'markers',
-                          marker = list(color = unname(clr[country]), size = 10)) 
-}
-fig <- fig %>% layout(xaxis = x_axis, yaxis = c_axis)
-fig
-```
-
-### America (Deaths)
-```{r}
-tp <- tail(df, 5)
-
-p <- plot_ly()
-for(country in countriesAmerica) {
-  p <- p %>% add_trace(data = tp, x = ~date, y = as.formula(paste0('~', country)), name = country, type = 'bar', marker = list(color = unname(clr[country])))
-}
-
-xax <- list(
-  title = 'Days',
-  titlefont = f1,
-  showticklabels = TRUE
-)
-
-yax <- list(
-  title = 'Reported deaths',
-  titlefont = f1,
-  showticklabels = TRUE
-)
-
-p %>% layout(xaxis = xax, yaxis = yax)
-```
-
-Row {.tabset}
----------------------------------------------------------
-
-### Asia (Cases)
-```{r, fig.width = 10, fig.height = 5}
-
-# Data frame with deaths
-df = data.frame(coredata(10**(dts[,countriesAsia] - 1)), index(dts[,countriesAsia]))
-colnames(df) <- c(countriesAsia, 'date')
-
-# Data frame with cases
-cf = data.frame(coredata(10**(cts[,countriesAsia] - 1)), index(cts[,countriesAsia]))
-colnames(cf) <- c(countriesAsia, 'date')
-
-f1 <- list(family = 'Old Standard TT, serif', size = 14, color = 'black')
-
-c_axis <- list(
-    title = "Cases",
-    titlefont = f1,
-    showticklabels = TRUE
-)
-
-x_axis <- list(
-    title = "Days",
-    titlefont = f1,
-    showticklabels = TRUE
-)
-
-clr        <- lcolors[c(1,3,4)]
-names(clr) <- rev(countriesAsia[1:3])
-
-fig <- plot_ly(cf, x = ~date)
-for (country in countriesAsia[1:3]) {
- fig <- fig %>% add_trace(y = as.formula(paste0('~', country)), 
-                          name = country,
-                          mode = 'markers',
-                          marker = list(color = unname(clr[country]), size = 10)) 
-}
-fig <- fig %>% layout(xaxis = x_axis, yaxis = c_axis)
-fig
-```
-
-### Asia (Deaths)
-```{r}
-tp <- tail(df, 5)
-
-p <- plot_ly()
-for(country in rev(countriesAsia[1:3])) {
-  p <- p %>% add_trace(data = tp, x = ~date, y = as.formula(paste0('~', country)), name = country, type = 'bar', marker = list(color = unname(clr[country])))
-}
-
-xax <- list(
-  title = 'Days',
-  titlefont = f1,
-  showticklabels = TRUE
-)
-
-yax <- list(
-  title = 'Reported deaths',
-  titlefont = f1,
-  showticklabels = TRUE
-)
-
-p %>% layout(xaxis = xax, yaxis = yax)
-```
-
-Grafico copiado
-========================================================
-
-### Graphic 1
 ```{r, fig.width = 10, fig.height = 7}
 countries <- c("Italy", "Spain", "France", "Germany", "US", "Brazil")
+
+f1 <- list(family = 'Old Standard TT, serif', size = 14, color = 'black')
 
 ects <- 10**(cts) - 1
 d0ts <- ects * apply(ects, 2, function(x) x >= 100)
@@ -944,11 +893,144 @@ p <- p %>% layout(xaxis = xax, yaxis = yax, legend = leg)
 p
 ```
 
-TODO {data-navmenu='Bla'}
+Comparative After 100 cases - 2  {data-navmenu='Figures'}
 ====================================================================
 ```{r, fig.height = 7, fig.width = 6}
-countries <- c('France', 'Spain', 'Italy', 'United Kingdom', 'Austria', 'Denmark', 'Norway')
-lockdown  <- c("2020-03-17", "2020-03-14", "2020-03-08", "2020-03-23", "2020-03-15", "2020-03-13", "2020-03-12")
+countries <- c("Italy", "Spain", "Brazil","US","Germany","France")
+
+ects <- 10**(cts) - 1
+d0ts <- ects * apply(ects, 2, function(x) x >= 100)
+ld0ts <- lapply(countries, function(n) as.vector(coredata(d0ts[,n])))
+ld0ts <- lapply(ld0ts, function(x) x[x!=0])
+names(ld0ts) <- countries
+
+N = max(vapply(ld0ts, length, numeric(1)))
+
+d0f <- rbind(as.data.frame(lapply(ld0ts, '[', 1)), as.data.frame(lapply(ld0ts, '[', 2)))
+for (i in 3:N) {
+   d0f <- rbind(d0f, as.data.frame(lapply(ld0ts, '[', i)))
+}
+
+daysToDouble <- c(2,4,7)
+exdf <- NULL
+for (i in daysToDouble) {
+     exdf <- cbind(exdf, vapply(seq(ceiling(i*log(100, 2)), length.out = N), function(d) 2**(d/i), numeric(1)))
+}
+
+d0f <- cbind(d0f, exdf)
+d0f <- log(d0f, 2)
+d0f <- cbind(1:N, d0f)
+DD  <- paste0("D", daysToDouble, "D")
+colnames(d0f) <- c('Days', countries, DD)
+
+d0f <- 2^(d0f)
+
+p <- plot_ly(d0f, x = ~Days)
+for (country in countries) {
+    p <- p %>% add_trace(data = d0f, y = as.formula(paste0("~", country)), name = country, type = 'scatter', mode = 'lines+markers')
+}
+
+for (days in DD) {
+  p <- p %>% add_lines(data = d0f, y = as.formula(paste0('~', days)), name = days, 
+                       line = list(color = 'rgb(205, 12, 24)', dash = 'dot', width = 1),
+                       showlegend = FALSE)
+}
+
+xax <- list(
+  title = 'Days from D0',
+  titlefont = f1,
+  showticklabels = TRUE,
+  range = c(0, 200),
+  size = 13
+)
+
+yax <- list(
+  title = 'Confirmed cases',
+  titlefont = f1,
+  showticklabels = TRUE,
+  type = "log",
+  range = c(0, 4),
+  size = 50
+)
+
+leg <- list(
+  orientation = 'h',
+  y = -0.15,
+  x = 0.42
+  )
+
+D1DA <- list(
+  xref = 'paper',
+  yref = 'y',
+  x = 0.915,
+  type = "log",
+#  y = tail(d0f,1)[,'D1D'],
+  xanchor = 'left',
+  yanchor = 'middle',
+  text = ~"Doubles every day",
+  font = list(family = 'Arial',
+              size = 9.9,
+              color = 'rgba(205,12,24,1)'),
+  showarrow = FALSE)
+
+D2DA <- list(
+  xref = 'paper',
+  yref = 'y',
+  x = 0.915,
+  y = tail(d0f,1)[,'D2D'],
+  type = "log",
+  xanchor = 'left',
+  yanchor = 'middle',
+  text = ~"Doubles every 2 days",
+  font = list(family = 'Arial',
+              size = 9.9,
+              color = 'rgba(205,12,24,1)'),
+  showarrow = FALSE)
+
+D4DA <- list(
+  xref = 'paper',
+  yref = 'y',
+  x = 0.915,
+  y = tail(d0f,1)[,'D4D'],
+  type = "log",
+  xanchor = 'left',
+  yanchor = 'middle',
+  text = ~"Doubles every 4 days",
+  font = list(family = 'Arial',
+              size = 9.9,
+              color = 'rgba(205,12,24,1)'),
+  showarrow = FALSE)
+
+D7DA <- list(
+  xref = 'paper',
+  yref = 'y',
+  x = 0.915,
+  y = tail(d0f,1)[,'D7D'],
+  type = "log",
+  xanchor = 'left',
+  yanchor = 'middle',
+  text = ~"Doubles every 7 days",
+  font = list(family = 'Arial',
+              size = 9.9,
+              color = 'rgba(205,12,24,1)'),
+  showarrow = FALSE)
+
+p <- p %>% layout(xaxis = xax, yaxis = yax, legend = leg)
+#p <- p %>% layout(annotations = D1DA)
+p <- p %>% layout(annotations = D2DA)
+p <- p %>% layout(annotations = D4DA)
+p <- p %>% layout(annotations = D7DA)
+
+p
+```
+
+
+
+Total Cases After Lockdown {data-navmenu='Figures'}
+====================================================================
+```{r, fig.height = 10, fig.width = 6}
+countries <- c( 'Spain', 'Italy', 'United Kingdom', 'Austria', 'Denmark', 'Norway')
+lockdown  <- c("2020-03-14", "2020-03-08", "2020-03-23", "2020-03-15", "2020-03-13", "2020-03-12")
 
 names(lockdown) <- countries
 
@@ -962,7 +1044,7 @@ df <- lapply(ld,  function(x) {
 
 df <- cbind(1:LMAX, df)
 # United Kingdom doesn't work with plotly. Needs to be UK
-countries <- c('France', 'Spain', 'Italy', 'UK', 'Austria', 'Denmark', 'Norway')
+countries <- c('Spain', 'Italy', 'UK', 'Austria', 'Denmark', 'Norway')
 colnames(df) <- c('Days', countries)
 
 p <- plot_ly(d0f, x = ~Days)
@@ -998,129 +1080,7 @@ p <- p %>% layout(xaxis = xax, yaxis = yax, legend = leg)
 p
 ```
 
-Prev {data-navmenu='Bla'}
-====================================================================
-```{r, fig.height = 7, fig.width = 6}
-countries <- c("Italy", "Spain", "Brazil")
 
-ects <- 10**(cts) - 1
-d0ts <- ects * apply(ects, 2, function(x) x >= 100)
-ld0ts <- lapply(countries, function(n) as.vector(coredata(d0ts[,n])))
-ld0ts <- lapply(ld0ts, function(x) x[x!=0])
-names(ld0ts) <- countries
-
-N = max(vapply(ld0ts, length, numeric(1)))
-
-d0f <- rbind(as.data.frame(lapply(ld0ts, '[', 1)), as.data.frame(lapply(ld0ts, '[', 2)))
-for (i in 3:N) {
-   d0f <- rbind(d0f, as.data.frame(lapply(ld0ts, '[', i)))
-}
-
-daysToDouble <- c(2,4,7)
-exdf <- NULL
-for (i in daysToDouble) {
-     exdf <- cbind(exdf, vapply(seq(ceiling(i*log(100, 2)), length.out = N), function(d) 2**(d/i), numeric(1)))
-}
-
-d0f <- cbind(d0f, exdf)
-d0f <- log(d0f, 2)
-d0f <- cbind(1:N, d0f)
-DD  <- paste0("D", daysToDouble, "D")
-colnames(d0f) <- c('Days', countries, DD)
-
-p <- plot_ly(d0f, x = ~Days)
-for (country in countries) {
-    p <- p %>% add_trace(data = d0f, y = as.formula(paste0("~", country)), name = country, type = 'scatter', mode = 'lines+markers')
-}
-
-for (days in DD) {
-  p <- p %>% add_lines(data = d0f, y = as.formula(paste0('~', days)), name = days, 
-                       line = list(color = 'rgb(205, 12, 24)', dash = 'dot', width = 1),
-                       showlegend = FALSE)
-}
-
-xax <- list(
-  title = 'Days from D0',
-  titlefont = f1,
-  showticklabels = TRUE,
-  range = c(0.5, 45),
-  size = 13
-)
-
-yax <- list(
-  title = 'Confirmed cases',
-  titlefont = f1,
-  showticklabels = TRUE,
-#  type = "log",
-  size = 50
-)
-
-leg <- list(
-  orientation = 'h',
-  y = -0.15,
-  x = 0.42
-  )
-
-D1DA <- list(
-  xref = 'paper',
-  yref = 'y',
-  x = 0.915,
-#  y = tail(d0f,1)[,'D1D'],
-  xanchor = 'left',
-  yanchor = 'middle',
-  text = ~"Doubles every day",
-  font = list(family = 'Arial',
-              size = 9.9,
-              color = 'rgba(205,12,24,1)'),
-  showarrow = FALSE)
-
-D2DA <- list(
-  xref = 'paper',
-  yref = 'y',
-  x = 0.915,
-  y = tail(d0f,1)[,'D2D'],
-  xanchor = 'left',
-  yanchor = 'middle',
-  text = ~"Doubles every 2 days",
-  font = list(family = 'Arial',
-              size = 9.9,
-              color = 'rgba(205,12,24,1)'),
-  showarrow = FALSE)
-
-D4DA <- list(
-  xref = 'paper',
-  yref = 'y',
-  x = 0.915,
-  y = tail(d0f,1)[,'D4D'],
-  xanchor = 'left',
-  yanchor = 'middle',
-  text = ~"Doubles every 4 days",
-  font = list(family = 'Arial',
-              size = 9.9,
-              color = 'rgba(205,12,24,1)'),
-  showarrow = FALSE)
-
-D7DA <- list(
-  xref = 'paper',
-  yref = 'y',
-  x = 0.915,
-  y = tail(d0f,1)[,'D7D'],
-  xanchor = 'left',
-  yanchor = 'middle',
-  text = ~"Doubles every 7 days",
-  font = list(family = 'Arial',
-              size = 9.9,
-              color = 'rgba(205,12,24,1)'),
-  showarrow = FALSE)
-
-p <- p %>% layout(xaxis = xax, yaxis = yax, legend = leg)
-#p <- p %>% layout(annotations = D1DA)
-p <- p %>% layout(annotations = D2DA)
-p <- p %>% layout(annotations = D4DA)
-p <- p %>% layout(annotations = D7DA)
-
-p
-```
 
 
 
