@@ -119,7 +119,7 @@ Column {data-width=350, data-height=350}
 download <- RCurl::getURL("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv")
 
 # Watch out the time of updating
-dias <- round(difftime(Sys.Date(), "2020-01-22", units = "days"), 0) + 5
+dias <- round(difftime(Sys.Date(), "2020-01-22", units = "days"), 0) + 4
 
 data_wc <- read.csv(text = download, 
                     stringsAsFactors = FALSE, 
@@ -850,6 +850,63 @@ chart.fl(dts[,countriesAmerica], colorset = unname(lcolors)) %>% dyRangeSelector
 # p %>% layout(xaxis = xax, yaxis = yax)
 #```
 
+Comparative After 100 cases {data-navmenu='Figures'}
+========================================================
+
+
+```{r, fig.width = 10, fig.height = 7}
+countries <- c("Italy", "Spain", "France", "Germany", "US", "Brazil")
+
+f1 <- list(family = 'Old Standard TT, serif', size = 14, color = 'black')
+
+ects <- 10**(cts) - 1
+d0ts <- ects * apply(ects, 2, function(x) x >= 100)
+ld0ts <- lapply(countries, function(n) as.vector(coredata(d0ts[,n])))
+ld0ts <- lapply(ld0ts, function(x) x[x!=0])
+names(ld0ts) <- countries
+
+N = max(vapply(ld0ts, length, numeric(1)))
+
+d0f <- rbind(as.data.frame(lapply(ld0ts, '[', 1)), as.data.frame(lapply(ld0ts, '[', 2)))
+for (i in 3:N) {
+   d0f <- rbind(d0f, as.data.frame(lapply(ld0ts, '[', i)))
+}
+
+d0f <- cbind(1:N, d0f)
+colnames(d0f) <- c('Days', countries)
+
+p <- plot_ly(d0f, x = ~Days)
+for (country in countries) {
+    p <- p %>% add_trace(data = d0f, y = as.formula(paste0("~", country)), name = country, type = 'scatter', mode = 'lines+markers')
+}
+
+xax <- list(
+  title = 'Days from D0',
+  titlefont = f1,
+  showticklabels = TRUE,
+  range = c(0.5, 45),
+  size = 13
+)
+
+yax <- list(
+  title = 'Confirmed cases',
+  titlefont = f1,
+  showticklabels = TRUE,
+  type = "log",
+  size = 50
+)
+
+leg <- list(
+  orientation = 'h',
+  y = -0.15,
+  x = 0.33
+  )
+p <- p %>% layout(xaxis = xax, yaxis = yax, legend = leg)
+
+
+
+p
+```
 
 Comparative After 100 cases  {data-navmenu='Figures'}
 ====================================================================
