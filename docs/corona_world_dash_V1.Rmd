@@ -161,7 +161,7 @@ rownames(WorldDeaths) <- NewRowNames
 #========================================================================================================
 # Brasil
 
-demaisEstados <- c("AC","SE","AL","TO")
+demaisEstados <- c()
 
 SelectedBR    <- c("Brasil"
                   ,"SP"
@@ -182,7 +182,10 @@ SelectedBR    <- c("Brasil"
                   ,"PA"
                   ,"MS"
                   ,"MT"
-                  ,"Demais")
+                  ,"AC"
+                  ,"SE"
+                  ,"AL"
+                  ,"TO")
 
 BrCases <- RawBr %>% 
   select(date, state, totalCases) %>% 
@@ -1092,6 +1095,14 @@ fig
 Column {data-width=350}
 -----------------------------------------------------------------------
 
+### <b style = "color: #4c1112">  Total Cases </b>
+```{r}
+printDT(UsCasesFormatted, 
+        rownames(UsCasesFormatted)
+        )
+```
+
+
 ### <b style = "color: #4c1112"> New Cases </b>
 ```{r}
 printDT(dife_c_us,
@@ -1106,15 +1117,7 @@ printDT(porce_c_us / 100,
         ) %>% DT::formatPercentage(1:5, 2)
 ```
 
-Column {data-width=350}
------------------------------------------------------------------------
 
-### <b style = "color: #4c1112">  Total Cases </b>
-```{r}
-printDT(UsCasesFormatted, 
-        rownames(UsCasesFormatted)
-        )
-```
 
 
 Deaths {data-navmenu='US'} 
@@ -1223,6 +1226,14 @@ fig
 Column {data-width=350}
 -----------------------------------------------------------------------
 
+### <b style = "color: #4c1112">  Total Deaths </b>
+```{r}
+printDT(UsDeathsFormatted, 
+        rownames(UsDeathsFormatted)
+        )
+```
+
+
 ### <b style = "color: #4c1112"> New Deaths </b>
 ```{r}
 printDT(dife_d_us,
@@ -1237,15 +1248,7 @@ printDT(porce_d_us / 100,
         ) %>% DT::formatPercentage(1:5, 2)
 ```
 
-Column {data-width=350}
------------------------------------------------------------------------
 
-### <b style = "color: #4c1112">  Total Deaths </b>
-```{r}
-printDT(UsDeathsFormatted, 
-        rownames(UsDeathsFormatted)
-        )
-```
 
 Mortality {data-navmenu="US"}
 ==========================================================================
@@ -1368,9 +1371,6 @@ printDT(BrCasesFormatted,
         )
 ```
 
-Column {data-width=350}
------------------------------------------------------------------------
-
 ### New Cases
 ```{r}
 printDT(dife_c_br,
@@ -1378,8 +1378,6 @@ printDT(dife_c_br,
         )
 ```
 
-Column {data-width=350}
------------------------------------------------------------------------
 
 ### Var. (%)
 ```{r}
@@ -1401,8 +1399,6 @@ printDT(BrDeathsFormatted,
        )
 ```
 
-Column {data-width=350}
------------------------------------------------------------------------
 
 ### New Deaths
 ```{r}
@@ -1411,8 +1407,6 @@ printDT(dife_d_br,
       )
 ```
 
-Column {data-width=350}
------------------------------------------------------------------------
 
 ### Var. (%)
 ```{r}
