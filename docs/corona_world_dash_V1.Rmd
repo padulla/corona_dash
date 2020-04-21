@@ -498,7 +498,7 @@ DT::datatable(toPrint,
 ```{r}
 toPrint <- WorldCases %>% select(last_col(0:4))
 DT::datatable(toPrint, 
-              options = list(order = list(list(5, 'desc')),
+              options = list(order = list(list(1, 'desc')),
                              initComplete = DT::JS(
                                  "function(settings, json) {", 
                                  "$(this.api().table().header()).css({'background-color': '#4c1112', 'color': '#fff'});",
@@ -507,7 +507,7 @@ DT::datatable(toPrint,
                             ),
               class = 'compact cell-border',
 ) %>%  DT::formatStyle(columns = 0:ncol(toPrint), fontSize = '14pt', color = "#4c1121")
-              class = 'compact cell-border'
+             
 ```
 
 Mortality {data-navmenu='World'}
