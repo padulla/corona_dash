@@ -407,7 +407,7 @@ porce_d_br        <- percentage(BrDeaths)[SelectedBR, ] %>% select(last_col(4:0)
 
 # Brazil Mortality
 BRDates <- seq.Date(from = as.Date('2020-02-25'),
-                    to   = Sys.Date() - 1,
+                    to   = Sys.Date()-1,
                     by   = 'day')
 
 BrMortality <- (BrDeaths / BrCases) %>% 
@@ -1736,7 +1736,7 @@ xax <- list(
 )
 
 yax <- list(
-  title = 'Confirmed cases',
+  title = 'Deaths',
   titlefont = f1,
   showticklabels = TRUE,
   type = "log",
