@@ -12,7 +12,7 @@ output:
 
 ```{r setup, include=FALSE}
 library(flexdashboard)
-library(dplyr)
+library(tidyverse)
 library(xts)
 library(plotly)
 
@@ -382,10 +382,10 @@ UsDeathsFormatted <- UsDeaths[c("US", USstates, "Others"), ] %>% select(last_col
 rownames(UsDeathsFormatted) <- SelectedUS
 
 dife_d_us <- difference(UsDeaths)[c("US", USstates, "Others"), ] %>% select(last_col(4:0))
-rownames(dife_c_us) <- SelectedUS
+rownames(dife_d_us) <- SelectedUS
 
 porce_d_us <- percentage(UsDeaths)[c("US", USstates, "Others"), ] %>% select(last_col(4:0))
-rownames(porce_c_us) <- SelectedUS
+rownames(porce_d_us) <- SelectedUS
 
 # US Mortality
 UsMortality <- (UsDeaths / UsCases) %>% 
