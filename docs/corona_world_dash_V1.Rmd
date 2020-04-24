@@ -49,6 +49,7 @@ WorldRepoCases  <- "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/ma
 WorldRepoDeaths <- "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv"
 USRepo          <- "https://raw.githubusercontent.com/COVID19Tracking/covid-tracking-data/master/data/states_daily_4pm_et.csv"
 BRRepo          <- "https://raw.githubusercontent.com/wcota/covid19br/master/cases-brazil-states.csv"
+BRpop           <- "http://api.sidra.ibge.gov.br/values/t/6579/p/2019/v/9324/n3/all/f/c/h/n"
 
 # World Cases
 RawWorldCases <- readr::read_csv(WorldRepoCases, 
@@ -70,6 +71,9 @@ RawUs <- readr::read_csv(USRepo,
 RawBr <- readr::read_csv(BRRepo,
                       col_types = paste0('D', 'ccc', strrep('i', 6))
                      )
+
+#BR Population
+RawBrPop <- rjson::fromJSON(file=BRpop) %>% as.data.frame
 
 #========================================================================================================
 # Formatting dataframes -----------------------------------------------------
@@ -309,7 +313,7 @@ dvaluesAmerica    <- round(10**(tail(dts[,countriesAmerica], 1)) - 1, 0)
 
 # US
 USDates <- seq.Date(from       = as.Date('2020-01-22'),
-                    to         = Sys.Date() - 0,
+                    to         = Sys.Date() - 1,
                     by         = 'day')
 
 UsCasesXts  <- xts(log10(t(UsCases)  + 1), USDates)
@@ -407,7 +411,7 @@ porce_d_br        <- percentage(BrDeaths)[SelectedBR, ] %>% select(last_col(4:0)
 
 # Brazil Mortality
 BRDates <- seq.Date(from = as.Date('2020-02-25'),
-                    to   = Sys.Date()-0,
+                    to   = Sys.Date()-1,
                     by   = 'day')
 
 BrMortality <- (BrDeaths / BrCases) %>% 
@@ -2021,6 +2025,52 @@ p
 
 
 
+<!-- teste <- 0 -->
+
+<!-- teste <- cbind( WorldCases[1],round( WorldCases[-1]/dife_c,1)) -->
+<!-- country <- c("China") -->
+<!-- time = seq(0, 181) -->
+
+<!-- ggplot(teste, aes(x=time, y = country)) + geom_line() -->
+
+<!-- teste2<-t(WorldCases[,-1] / dife_c) -->
+
+
+<!-- library(ggplot2) -->
+<!-- library(reshape) -->
+
+<!-- ggplot() +  -->
+<!--   geom_line(data = teste, aes(x = xtsDates, y = "Sweden") -->
+
+
+<!--  doublingTime <- function(x) { -->
+<!--   y <- x - dplyr::lag(x)  -->
+<!--   x / y -->
+<!-- }  -->
+
+
+<!-- da <-  -->
+<!-- WorldCases %>%  -->
+<!--   t() %>%  -->
+<!--   as_tibble() %>%  -->
+<!--   select(Sweden) %>%  -->
+<!--   mutate_all(doublingTime) %>% -->
+<!--   mutate(Dates = as.Date(xtsDates)) %>%  -->
+<!--   filter(Dates >= as.Date("2020-03-01")) -->
+
+<!-- ggplot(da) + -->
+<!--   geom_line(aes(x = Dates, y = Sweden), color = plotlyColors[1])   -->
+
+
+
+
+
+
+<!-- dp <- cbind(time, t(WorldCases[,-1] / dife_c)) -->
+<!-- colnames(dp)[1] <- "Dias" -->
+<!-- dp<-data.frame(dp) -->
+
+<!-- ggplot(dp, aes(x=Dias, y =  Sweden)) + geom_line() -->
 
 
 
@@ -2028,3 +2078,9 @@ p
 
 
 
+
+
+
+
+
+  
