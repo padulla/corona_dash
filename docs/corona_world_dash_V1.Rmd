@@ -313,7 +313,7 @@ dvaluesAmerica    <- round(10**(tail(dts[,countriesAmerica], 1)) - 1, 0)
 
 # US
 USDates <- seq.Date(from       = as.Date('2020-01-22'),
-                    to         = Sys.Date() - 1,
+                    to         = Sys.Date() - 0,
                     by         = 'day')
 
 UsCasesXts  <- xts(log10(t(UsCases)  + 1), USDates)
@@ -411,7 +411,7 @@ porce_d_br        <- percentage(BrDeaths)[SelectedBR, ] %>% select(last_col(4:0)
 
 # Brazil Mortality
 BRDates <- seq.Date(from = as.Date('2020-02-25'),
-                    to   = Sys.Date()-1,
+                    to   = Sys.Date()-0,
                     by   = 'day')
 
 BrMortality <- (BrDeaths / BrCases) %>% 
