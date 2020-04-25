@@ -41,7 +41,7 @@ chart.fl <- function(ts, title = '', colorset = plotlyColors) {
 
 #========================================================================================================
 # Setting time span: Watch out the time of updating
-dias <- ceiling(difftime(Sys.Date(), "2020-01-22", units = "days")) #+ 1
+dias <- ceiling(difftime(Sys.Date(), "2020-01-22", units = "days")) -1
 
 #========================================================================================================
 # Fetching Main databases -----------------------------------------------------
@@ -313,7 +313,7 @@ dvaluesAmerica    <- round(10**(tail(dts[,countriesAmerica], 1)) - 1, 0)
 
 # US
 USDates <- seq.Date(from       = as.Date('2020-01-22'),
-                    to         = Sys.Date() - 0,
+                    to         = Sys.Date() - 1,
                     by         = 'day')
 
 UsCasesXts  <- xts(log10(t(UsCases)  + 1), USDates)
@@ -411,7 +411,7 @@ porce_d_br        <- percentage(BrDeaths)[SelectedBR, ] %>% select(last_col(4:0)
 
 # Brazil Mortality
 BRDates <- seq.Date(from = as.Date('2020-02-25'),
-                    to   = Sys.Date()-0,
+                    to   = Sys.Date()-1,
                     by   = 'day')
 
 BrMortality <- (BrDeaths / BrCases) %>% 
@@ -482,6 +482,22 @@ fig
 Row {data-width=350, data-height=350}
 -----------------------------------------------------------------------
 
+### <b style = "color: #4c1112" > Total Cases </b>
+```{r}
+toPrint <- WorldCases %>% select(last_col(0:4))
+DT::datatable(toPrint, 
+              options = list(order = list(list(1, 'desc')),
+                             initComplete = DT::JS(
+                                 "function(settings, json) {", 
+                                 "$(this.api().table().header()).css({'background-color': '#4c1112', 'color': '#fff'});",
+                                 "}")
+                            
+                            ),
+              class = 'compact cell-border',
+) %>%  DT::formatStyle(columns = 0:ncol(toPrint), fontSize = '14pt', color = "#4c1121")
+             
+```
+
 ### <b style = "color: #4c1112" > Total Deaths </b>
 ```{r}
 toPrint <- WorldDeaths %>% select(last_col(0:4))
@@ -498,21 +514,7 @@ DT::datatable(toPrint,
 
 ```
 
-### <b style = "color: #4c1112" > Total Cases </b>
-```{r}
-toPrint <- WorldCases %>% select(last_col(0:4))
-DT::datatable(toPrint, 
-              options = list(order = list(list(1, 'desc')),
-                             initComplete = DT::JS(
-                                 "function(settings, json) {", 
-                                 "$(this.api().table().header()).css({'background-color': '#4c1112', 'color': '#fff'});",
-                                 "}")
-                            
-                            ),
-              class = 'compact cell-border',
-) %>%  DT::formatStyle(columns = 0:ncol(toPrint), fontSize = '14pt', color = "#4c1121")
-             
-```
+
 
 Mortality {data-navmenu='World'}
 ==========================================================================
@@ -1365,8 +1367,49 @@ fig
 Cases {data-navmenu='Brasil'} 
 ==========================================================================
 
-Column {data-width=350}
+### World Cases {.no-title}
+```{r, fig.width = 10, fig.height = 7}
+# MAGIC TIME! Joinining dataframes by country and filling the NA with 0
+dg <- WorldCases %>% 
+        tibble::rownames_to_column() %>% 
+        select(1, last_col()) %>% 
+        rename_all(~ c("COUNTRY", "CASES")) %>% 
+        left_join(WorldCodes, ., by = 'COUNTRY') %>% 
+        mutate_if(~ any(is.na(.)), ~ if_else(is.na(.), 0, .)) 
+
+# light grey boundaries
+l <- list(color = toRGB("grey"), width = 0.5)
+
+# specify map projection/options
+g <- list(
+  showframe      = FALSE,
+  showcoastlines = TRUE,
+  projection = list(type = 'Equirectangular')
+)
+
+fig <- plot_geo(dg, width = 1200, height = 800)
+fig <- fig %>% add_trace(
+    customdata = ~CASES,
+    z = ~log10(CASES + 1), 
+    colorscale = "Greys",
+    reversescale = TRUE,
+    showscale = FALSE,
+    hovertemplate = paste("Cases: %{customdata} <extra>%{text}</extra>"),
+    text = ~COUNTRY, locations = ~CODE, marker = list(line = l)
+  )
+fig <- fig %>% colorbar(title = 'CASES')
+fig <- fig %>% layout(
+    title = '<b>Worldwide COVID-19 Total Cases.</b>',
+    geo = g,
+    autosize = FALSE
+)
+
+fig
+```
+
+Row {data-width=350, data-height=350}
 -----------------------------------------------------------------------
+
 
 ### Total Cases
 ```{r}
@@ -1804,6 +1847,98 @@ p <- p %>% layout(annotations = D7DA)
 p
 ```
 
+Doubling Time {data-navmenu='Figures'}
+====================================================================
+
+Column {.tabset}
+-----------------------------------------------------------------------
+
+### <b style = "color: #4c1112">  Time to double cases </b>
+```{r, fig.height = 6, fig.width = 10}
+
+doublingTime <- function(x) {
+  y <- x - dplyr::lag(x)
+  x / y
+}
+
+countries <- c("United States"
+              ,"Spain"
+              ,"Italy"
+              ,"Germany"
+              ,"United Kingdom"
+              ,"France"
+              ,"Brazil"
+              ,"Sweden"
+              ,"Japan"
+              )
+
+f1 <- list(family = 'Old Standard TT, serif', size = 14, color = 'black')
+
+da <-
+WorldCases %>%
+  t() %>%
+  as_tibble() %>%
+  select(countries) %>%
+  mutate_all(~ TTR::SMA(., 7)) %>%
+  mutate_all(doublingTime) %>%
+  mutate(Dates = as.Date(xtsDates)) %>%
+  filter(Dates >= as.Date("2020-03-23"))
+
+
+
+p <- plot_ly(da, x = ~Dates, height = 550)
+for (country in countries) {
+    countryExpr <- paste0("~","`", country, "`")
+    p <- p %>% add_trace(data = da, y = as.formula(countryExpr), name = country, type = 'scatter', mode = 'lines+markers')
+}
+
+
+xax <- list(
+  title = 'Days',
+  titlefont = f1,
+  showticklabels = TRUE,
+ # range = c(0.5, 45),
+  size = 13
+)
+
+yax <- list(
+  title = 'Double Time',
+  titlefont = f1,
+  showticklabels = TRUE,
+  #type = "log",
+  size = 50
+)
+
+leg <- list(
+  orientation = 'h',
+  y = -0.15,
+  x = -0.05
+  )
+p <- p %>% layout(xaxis = xax, yaxis = yax, legend = leg)
+
+p
+
+
+
+
+
+# g <- ggplot(da, aes(x = Dates))
+# for (country in countries) {
+#   g <- g + geom_line(aes_(y = as.name(country), col = country))
+#   g <- g + geom_point(aes_(y = as.name(country), col = country))
+# }
+# g <- g + scale_colour_manual("", values = plotlyColors[1:length(countries)], breaks = countries)
+# g <- g + labs(title = "Doubling time", x = "Dates", y = "Doubling time in days") + theme(legend.position = "bottom")
+# g
+
+
+
+
+
+
+```
+
+
 Total Cases After Lockdown {data-navmenu='Figures'}
 ====================================================================
 
@@ -2025,6 +2160,38 @@ p
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <!-- teste <- 0 -->
 
 <!-- teste <- cbind( WorldCases[1],round( WorldCases[-1]/dife_c,1)) -->
@@ -2071,6 +2238,7 @@ p
 <!-- dp<-data.frame(dp) -->
 
 <!-- ggplot(dp, aes(x=Dias, y =  Sweden)) + geom_line() -->
+
 
 
 
