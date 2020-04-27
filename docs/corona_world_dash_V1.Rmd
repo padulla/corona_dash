@@ -41,7 +41,7 @@ chart.fl <- function(ts, title = '', colorset = plotlyColors) {
 
 #========================================================================================================
 # Setting time span: Watch out the time of updating
-dias <- ceiling(difftime(Sys.Date(), "2020-01-22", units = "days")) -1
+dias <- ceiling(difftime(Sys.Date(), "2020-01-22", units = "days")) #-1
 
 #========================================================================================================
 # Fetching Main databases -----------------------------------------------------
