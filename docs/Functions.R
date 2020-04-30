@@ -46,7 +46,7 @@ printDTFull <- function(x, selectedRows) {
   return(table)
 }
 
-
+##################################################################
 plotThis <- function(x, region, abbreviations = NULL, ytitle, xtitle) {
   
   if (is.null(abbreviations)) { abbreviations <- region }
@@ -137,7 +137,102 @@ plotThis <- function(x, region, abbreviations = NULL, ytitle, xtitle) {
   return(list("plotly" = p, "ggplot" = ggfig))
 }
 
+#################################################
+plotThis10 <- function(x, region, abbreviations = NULL, ytitle, xtitle) {
+  
+  if (is.null(abbreviations)) { abbreviations <- region }
+  
+  listRegions <- 
+    x %>% 
+    rownames_to_column(var = "COUNTRY") %>% 
+    filter(COUNTRY %in% abbreviations) %>% 
+    arrange(COUNTRY) %>% 
+    select(-1) %>% 
+    t()
+  
+  lv <- lapply(
+    lapply(1:ncol(listRegions), function(x) listRegions[,x] %>% as.vector),
+    function(x) {
+      y <- x[x >= 10]
+      if (identical(y, numeric(0))) {
+        return(rep(NA, length(x)))
+      } else {
+        return(y)
+      }
+    }
+  )
+  
+  N <- vapply(lv, function(x) max(length(x)), numeric(1)) %>% max
+  
+  lvtibble <- 
+    lapply(lv,
+           function(x) {
+             y <- replace(vector(mode = 'numeric', length = N), 1:length(x), x)
+             y[y == 0] <- NA
+             y
+           })
+  
+  dh <- as_tibble(do.call(cbind, lvtibble)) %>% 
+    add_column(Days = 0:(N - 1)) %>% 
+    rename_at(vars(-Days), ~ sort(region))
+  
+  p <- plot_ly(dh, x = ~Days, height = 550)
+  for (place in region) {
+    expr <- paste0("~","`", place, "`")
+    p <- p %>% add_trace(data = dh, y = as.formula(expr), name = place, type = 'scatter', mode = 'lines+markers')
+  }
+  
+  f1 <- list(family = 'Old Standard TT, serif', size = 14, color = 'black')
+  
+  xax <- list(
+    title = xtitle,
+    titlefont = f1,
+    showticklabels = TRUE,
+    # range = c(0.5, 45),
+    size = 13
+  )
+  
+  yax <- list(
+    title = ytitle, 
+    titlefont = f1,
+    showticklabels = TRUE,
+    type = "log",
+    size = 50
+  )
+  
+  leg <- list(
+    orientation = 'h',
+    y = -0.15,
+    x = -0.05
+  )
+  
+  p <- p %>% layout(xaxis = xax, yaxis = yax, legend = leg)
+  
+  names(region) <- plotlyColors[1:length(region)]
+  plotColors    <- sort(region) %>% names
+  
+  ggfig <- dh %>% ggplot(aes(x = Days))
+  for (place in region) {
+    ggfig <- ggfig + 
+      geom_line( aes_(y = as.name(place), colour = place), na.rm = TRUE) +
+      geom_point(aes_(y = as.name(place), colour = place), na.rm = TRUE)
+  }
+  ggfig <- ggfig + 
+    scale_y_log10()  +
+    scale_color_manual("", values = plotColors, breaks = sort(region)) +
+    theme(legend.position = "bottom") +
+    labs(y = ytitle
+         ,x = xtitle
+    )
+  
+  return(list("plotly" = p, "ggplot" = ggfig))
+}
 
+
+
+
+
+###################################################
 plotMap <- function(dataFrame, place, plotTitle, proj = "Equirectangular"){
 
   if (place == 'usa') {

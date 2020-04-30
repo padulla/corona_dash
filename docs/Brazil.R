@@ -70,17 +70,72 @@ BrDeaths <- BrDeaths %>% rbind(
 rownames(BrDeaths)[28:29] <- c("Brasil", "Demais")
 
 
+
+BrCasesLb <-BrCases[-c(28, 29), ]
+BrDeathsLb <-BrDeaths[-c(28, 29), ]
+
 N = ncol(RawBrPop)
 BrPop <- RawBrPop %>% 
            rename_all(~ letters[1:N]) %>% 
-           select(d, k) %>% 
+           select(c, k) %>% 
            rename_all(~ c("Estado", "Pop")) %>% 
            arrange(Estado)
 
+
+BrPop$Estado[BrPop$Estado == "11"] <- "RO"
+BrPop$Estado[BrPop$Estado == "12"] <- "AC"
+BrPop$Estado[BrPop$Estado == "13"] <- "AM"
+BrPop$Estado[BrPop$Estado == "14"] <- "RR"
+BrPop$Estado[BrPop$Estado == "15"] <- "PA"
+BrPop$Estado[BrPop$Estado == "16"] <- "AP"
+BrPop$Estado[BrPop$Estado == "17"] <- "TO"
+BrPop$Estado[BrPop$Estado == "21"] <- "MA"
+BrPop$Estado[BrPop$Estado == "22"] <- "PI"
+BrPop$Estado[BrPop$Estado == "23"] <- "CE"
+BrPop$Estado[BrPop$Estado == "24"] <- "RN"
+BrPop$Estado[BrPop$Estado == "25"] <- "PB"
+BrPop$Estado[BrPop$Estado == "26"] <- "PE"
+BrPop$Estado[BrPop$Estado == "27"] <- "AL"
+BrPop$Estado[BrPop$Estado == "28"] <- "SE"
+BrPop$Estado[BrPop$Estado == "29"] <- "BA"
+BrPop$Estado[BrPop$Estado == "31"] <- "MG"
+BrPop$Estado[BrPop$Estado == "32"] <- "ES"
+BrPop$Estado[BrPop$Estado == "33"] <- "RJ"
+BrPop$Estado[BrPop$Estado == "35"] <- "SP"
+BrPop$Estado[BrPop$Estado == "41"] <- "PR"
+BrPop$Estado[BrPop$Estado == "42"] <- "SC"
+BrPop$Estado[BrPop$Estado == "43"] <- "RS"
+BrPop$Estado[BrPop$Estado == "50"] <- "MS"
+BrPop$Estado[BrPop$Estado == "51"] <- "MT"
+BrPop$Estado[BrPop$Estado == "52"] <- "GO"
+BrPop$Estado[BrPop$Estado == "53"] <- "DF"
+
+
+BrPop <-BrPop %>%  arrange(Estado)
+
+BrPop <- data.frame(BrPop, row.names = 1)
+
+BrPop<-cbind(BrPop, replicate(ncol(BrCasesLb)-1,BrPop$Pop))
+
+colnames(BrPop) <- colnames(BrCasesLb)
+
+BrCasesPop <- (BrCasesLb /BrPop)*100000
+BrDeathsPop <- (BrDeathsLb /BrPop)*1000000
+
+
+
+
+
+
+
+
+
+
 c("RO" ,"AC" ,"AM" ,"RR" ,"PA" ,"AP" ,"TO" ,"MA"
-,"PI" ,"CE" ,"RN" ,"PB" ,"PE" ,"AL" ,"SE" ,"BA"
-,"MG" ,"ES" ,"RJ" ,"SP" ,"PR" ,"SC" ,"RS" ,"MS"
-,"MT" ,"GO" ,"DF")
+  ,"PI" ,"CE" ,"RN" ,"PB" ,"PE" ,"AL" ,"SE" ,"BA"
+  ,"MG" ,"ES" ,"RJ" ,"SP" ,"PR" ,"SC" ,"RS" ,"MS"
+  ,"MT" ,"GO" ,"DF")
+
 
 #===================================================================
 
@@ -106,3 +161,9 @@ BrMortality <- (BrDeaths / BrCases) %>%
                  as_tibble() %>% 
                  add_column(Dates) %>% 
                  rename_at(vars(-Dates), ~ rownames(BrCases))
+
+
+
+
+
+

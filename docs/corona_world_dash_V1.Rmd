@@ -38,7 +38,7 @@ dias <- ceiling(difftime(Sys.Date(), "2020-01-22", units = "days")) #-1
 ggpath  <- "C:/Users/Padulla/Documents/GitHub/corona_dash/"
 Here    <- Sys.Date()
 HereUSA <- Here - 1
-HereBR  <- Here - 1
+HereBR  <- Here - 0
 
 # loading stuff
 source("Functions.R")
@@ -385,7 +385,7 @@ plotMortality(dx, states, "USA Mortality Rate Variation by State")
 Cases {data-navmenu='Brasil'} 
 ==========================================================================
 
-Column 
+Column {.tabset}
 -----------------------------------------------------------------------
 
 ### <b style = "color: #4c1112" > Comparative after 100 cases </b>
@@ -422,6 +422,44 @@ states <- c("SP"
 plot <- plotThis(BrCases, states, ytitle = "Confirmed Cases", xtitle = "Days from 100 Cases")
 plot$plotly
 ggsave(paste0(ggpath, "BRCases.png"))
+
+```
+
+### <b style = "color: #4c1112" > Comparative after 10 cases per 100.000 hab </b>
+```{r, fig.width = 10, fig.height = 6}
+states <- c("SP"
+           ,"RJ"
+           ,"CE"
+           ,"MG"
+           ,"RS"
+           ,"DF"
+           ,"PR"
+           ,"BA"
+           ,"AM"
+           ,"SC"
+           ,"RN"
+           ,"PE"
+           ,"ES"
+           ,"MA"
+           ,"GO"
+           ,"PA"
+           ,"MS"
+           ,"MT"
+           ,"AC"
+           ,"SE"
+           ,"AL"
+           ,"TO"
+           ,"RO"
+           ,"AP"
+           ,"PB"
+           ,"PI"
+           ,"RR"
+           )
+
+plot <- plotThis10(BrCasesPop, states, ytitle = "Confirmed Cases", xtitle = "Days from 10 Cases")
+plot$plotly
+ggsave(paste0(ggpath, "BRCasespop.png"))
+
 ```
 
 Row {data-width=350, data-height=350}
@@ -451,10 +489,11 @@ printDT(porce_c_br / 100,
 
 Deaths {data-navmenu='Brasil'} 
 ==========================================================================
-Column 
+
+Column {.tabset}
 -----------------------------------------------------------------------
 
-### <b style = "color: #4c1112" > Comparative after 100 cases </b>
+### <b style = "color: #4c1112" > Comparative after 100 deaths </b>
 ```{r, fig.width = 10, fig.height = 6}
 states <- c("SP"
            ,"RJ"
@@ -488,7 +527,50 @@ states <- c("SP"
 plot <- plotThis(BrDeaths, states, ytitle = "Confirmed Deaths", xtitle = "Days from 100 Deaths")
 plot$plotly
 ggsave(paste0(ggpath, "BRDeaths.png"))
+
 ```
+
+
+<!-- Column  -->
+<!-- ----------------------------------------------------------------------- -->
+### <b style = "color: #4c1112" > Comparative after 10 deaths per 1.000.000 hab </b>
+```{r, fig.width = 10, fig.height = 6}
+states <- c("SP"
+           ,"RJ"
+           ,"CE"
+           ,"MG"
+           ,"RS"
+           ,"DF"
+           ,"PR"
+           ,"BA"
+           ,"AM"
+           ,"SC"
+           ,"RN"
+           ,"PE"
+           ,"ES"
+           ,"MA"
+           ,"GO"
+           ,"PA"
+           ,"MS"
+           ,"MT"
+           ,"AC"
+           ,"SE"
+           ,"AL"
+           ,"TO"
+           ,"RO"
+           ,"AP"
+           ,"PB"
+           ,"PI"
+           ,"RR"
+           )
+
+plot <- plotThis10(BrDeathsPop, states, ytitle = "Confirmed Deaths", xtitle = "Days from 10 Deaths")
+plot$plotly
+ggsave(paste0(ggpath, "BRDeathspop.png"))
+```
+
+
+
 
 Row {data-width=350, data-height=350}
 -----------------------------------------------------------------------
