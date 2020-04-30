@@ -73,7 +73,7 @@ RawUs <- readr::read_csv(USRepo,
 
 # BR
 RawBr <- readr::read_csv(BRRepo,
-                      col_types = paste0('D', 'ccc', strrep('i', 6))
+                      col_types = paste0('D', 'ccc', strrep('d',10))
                      )
 
 #BR Population
@@ -259,9 +259,18 @@ BrPop$`Unidade da Federação (Código)`[BrPop$`Unidade da Federação (Código)
 BrPop$`Unidade da Federação (Código)`[BrPop$`Unidade da Federação (Código)` == "53"] <- "DF"
 
 
-BrPop  %>% remove_rownames %>% tibble::column_to_rownames(var="Unidade da Federação (Código)")
 
-
+BrPop <- data.frame(BrPop, row.names = 1)
+# BrPop %>% arrange()
+# 
+# 
+# 
+# 
+# 
+# BrCasesLb <-BrCases[-c(28, 29), ]  %>% arrange()
+# 
+# 
+# BrCasesPop <- bind_cols(BrCasesLb[1], map_dfc(BrCasesLb[-1], `/`, BrPop[-1]))
 
 
 
