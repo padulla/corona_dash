@@ -1,0 +1,73 @@
+
+
+```{r}
+library(dplyr)
+library(leaflet)
+library(flexdashboard)
+library(tidyverse)
+library(plotly)
+library(sidrar)
+
+
+
+
+
+BRDIARepo          <- "https://raw.githubusercontent.com/wcota/covid19br/master/cases-brazil-total.csv"
+
+RawBrDia <- readr::read_csv(BRDIARepo)
+
+BrCasesDia <- RawBrDia %>%  select(state, totalCases)
+BrCasesDia<-slice(BrCasesDia, 2:28)
+BrCasesDia <- BrCasesDia %>%   tibble::column_to_rownames(var = "state")
+
+
+BrEstados <- geojsonio::geojson_read("C:/Users/Padulla/Documents/GitHub/corona_dash/GEOjson/brazil-states.geojson", what = "sp")
+class(BrEstados)
+names(BrEstados)
+
+BrEstados@data <- BrEstados@data %>% tibble:: add_column(BrCasesDia) 
+
+
+bins <- c(100, 200, 400, 800, 1000, 1200, 1500, 5000, Inf)
+pal <- colorBin("YlOrRd", domain = BrEstados@data$BrCasesDia$totalCases, bins = bins)
+
+
+
+
+m <- leaflet(BrEstados) %>%
+  setView(-50, -16, 3.5) %>% addTiles()
+
+
+
+labels <- sprintf(
+  "<strong>%s</strong><br/>%g people",
+  BrEstados@data$name, BrEstados@data$BrCasesDia$totalCases
+) %>% lapply(htmltools::HTML)
+
+
+
+
+
+
+m <-m %>% addPolygons(
+  fillColor = ~pal(BrEstados@data$BrCasesDia$totalCases),
+  weight = 2,
+  opacity = 1,
+  color = "white",
+  dashArray = "5",
+  fillOpacity = 2,
+  highlight = highlightOptions(  weight = 5,    color = "#666",    dashArray = "",    fillOpacity = 0.7,    bringToFront = TRUE),
+  label = labels,
+  labelOptions = labelOptions(
+    style = list("font-weight" = "normal", padding = "3px 8px"),
+    textsize = "15px",
+    direction = "auto")) %>%
+  addLegend(pal = pal, values = ~density, opacity = 0.7, title = NULL,
+    position = "bottomright")
+
+m
+
+
+
+```
+
