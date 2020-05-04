@@ -599,20 +599,6 @@ printDT(porce_d_br / 100,
 ```
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 Tests {data-navmenu='Brasil'} 
 ==========================================================================
 
@@ -621,13 +607,61 @@ Column {.tabset}
 
 ### <b style = "color: #4c1112" > Tests </b>
 ```{r, fig.width = 10, fig.height = 6}
+tg <- BrTests %>% 
+        tibble::rownames_to_column() %>% 
+        select(1, last_col()) %>% 
+        rename_all(~ c("States", "Tests")) %>% 
+        mutate_if(~ any(is.na(.)), ~ if_else(is.na(.), 0, .)) 
+tg <-tg[-c(28,29), ] 
+tg <- arrange(tg,desc(Tests))
 
+
+  
+fig <- plot_ly(
+  x = tg$States,
+  y = tg$Tests,
+  type = "bar",
+  color = I("Gray")
+) %>%
+layout(
+     title = "Total Tests",
+     xaxis = list(title = "States",
+     categoryorder = "array",
+     categoryarray = ~tg$States),
+     yaxis = list(title = "Tests")
+)
+
+fig
 
 ```
 
 ### <b style = "color: #4c1112" > Tests 100.000 hab </b>
 ```{r, fig.width = 10, fig.height = 6}
+tg <- BrTestsP100k %>% 
+        tibble::rownames_to_column() %>% 
+        select(1, last_col()) %>% 
+        rename_all(~ c("States", "Tests")) %>% 
+        mutate_if(~ any(is.na(.)), ~ if_else(is.na(.), 0, .)) 
+tg <-tg[-c(28,29), ] 
+tg <- arrange(tg,desc(Tests))
 
+
+  
+fig <- plot_ly(
+  x = tg$States,
+  y = tg$Tests,
+  type = "bar",
+  color = I("firebrick4")
+) %>%
+layout(
+     title = "Total Tests per 100k hab.",
+     xaxis = list(title = "States",
+     categoryorder = "array",
+     categoryarray = ~tg$States),
+     yaxis = list(title = "Tests per 100k hab.")
+)
+
+fig
 
 ```
 
@@ -655,38 +689,6 @@ printDT(BrTests100kFormatted,
         rownames(BrTests100kFormatted)
         )
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
