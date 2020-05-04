@@ -37,8 +37,8 @@ dias <- ceiling(difftime(Sys.Date(), "2020-01-22", units = "days")) #-1
 # Choose here the path to output png plots:
 ggpath  <- "C:/Users/Padulla/Documents/GitHub/corona_dash/"
 Here    <- Sys.Date()
-HereUSA <- Here - 1
-HereBR  <- Here - 1
+HereUSA <- Here - 0
+HereBR  <- Here - 0
 
 # loading stuff
 source("Functions.R")
@@ -597,6 +597,101 @@ printDT(porce_d_br / 100,
         rownames(porce_d_br)
        ) %>% DT::formatPercentage(1:5, 2)
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Tests {data-navmenu='Brasil'} 
+==========================================================================
+
+Column {.tabset}
+-----------------------------------------------------------------------
+
+### <b style = "color: #4c1112" > Tests </b>
+```{r, fig.width = 10, fig.height = 6}
+
+
+```
+
+### <b style = "color: #4c1112" > Tests 100.000 hab </b>
+```{r, fig.width = 10, fig.height = 6}
+
+
+```
+
+Row {data-width=350, data-height=350}
+-----------------------------------------------------------------------
+
+### Total Tests
+```{r}
+printDT(BrTestsFormatted,
+        rownames(BrTestsFormatted)
+        )
+```
+
+### New Tests
+```{r}
+printDT(dife_t_br,
+        rownames(dife_t_br)
+        )
+```
+
+
+### Tests per 100K hab. 
+```{r}
+printDT(BrTests100kFormatted,
+        rownames(BrTests100kFormatted)
+        )
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 Mortality {data-navmenu="Brasil"}
 ==========================================================================

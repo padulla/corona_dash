@@ -6,7 +6,7 @@ BRpop           <- "http://api.sidra.ibge.gov.br/values/t/6579/p/2019/v/9324/n3/
 # Fetching Main databases -----------------------------------------------------
 # BR
 RawBr <- readr::read_csv(BRRepo,
-                         col_types = paste0('D', 'ccc', strrep('d', 10))
+                         col_types = paste0('D', 'ccc', strrep('d', 13))
                          )
 
 #BR Population
@@ -68,6 +68,35 @@ BrDeaths <- BrDeaths %>% rbind(
    filter(BrDeaths, rownames(BrDeaths) %in% NULL) %>% colSums
   )
 rownames(BrDeaths)[28:29] <- c("Brasil", "Demais")
+
+
+
+BrTests <- RawBr %>% 
+  select(date, state, tests) %>% 
+  tidyr::spread(date, tests, fill = 0) %>% 
+  tibble::column_to_rownames(var = "state") %>% 
+  rename_all(function(x) format(as.Date(x), "%m/%d/%y"))
+
+BrTests <- BrTests %>% rbind(
+  filter(BrTests, rownames(BrTests) %in% NULL) %>% colSums
+)
+rownames(BrTests)[28:29] <- c("Brasil", "Demais")
+
+
+BrTestsP100k <- RawBr %>% 
+  select(date, state, tests_per_100k_inhabitants) %>% 
+  tidyr::spread(date, tests_per_100k_inhabitants, fill = 0) %>% 
+  tibble::column_to_rownames(var = "state") %>% 
+  rename_all(function(x) format(as.Date(x), "%m/%d/%y"))
+
+BrTestsP100k <- BrTestsP100k %>% rbind(
+  filter(BrTestsP100k, rownames(BrTestsP100k) %in% NULL) %>% colSums
+)
+rownames(BrTestsP100k)[28:29] <- c("Brasil", "Demais")
+
+
+
+
 
 
 
@@ -148,6 +177,27 @@ porce_c_br       <- percentage(BrCases)[SelectedBR, ] %>% select(last_col(4:0))
 BrDeathsFormatted <- BrDeaths[SelectedBR, ] %>% select(last_col(4:0))
 dife_d_br         <- difference(BrDeaths)[SelectedBR, ] %>% select(last_col(4:0))
 porce_d_br        <- percentage(BrDeaths)[SelectedBR, ] %>% select(last_col(4:0))
+
+
+# Brazil Tests
+BrTestsFormatted <- BrTests[SelectedBR, ] %>% select(last_col(4:0))
+dife_t_br        <- difference(BrTests)[SelectedBR, ] %>% select(last_col(4:0))
+porce_t_br       <- percentage(BrTests)[SelectedBR, ] %>% select(last_col(4:0))
+
+
+
+# Brazil Tests100k
+BrTests100kFormatted <- BrTestsP100k[SelectedBR, ] %>% select(last_col(4:0))
+dife_t100k_br        <- difference(BrTestsP100k)[SelectedBR, ] %>% select(last_col(4:0))
+porce_t100k_br       <- percentage(BrTestsP100k)[SelectedBR, ] %>% select(last_col(4:0))
+
+
+
+
+
+
+
+
 
 
 # Brazil Mortality
