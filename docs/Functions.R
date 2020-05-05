@@ -91,6 +91,7 @@ plotThis <- function(x, region, abbreviations = NULL, ytitle, xtitle) {
       p <- p %>% add_trace(data = dh, y = as.formula(expr), name = place, type = 'scatter', mode = 'lines+markers')
   }
   
+  
   f1 <- list(family = 'Old Standard TT, serif', size = 14, color = 'black')
   
   xax <- list(

@@ -15,34 +15,35 @@ library(flexdashboard)
 library(tidyverse)
 library(plotly)
 library(sidrar)
-library(viridis)
-library(ggplot2)
+library(randomcoloR)
+
 
 # Some color schemes: 
 
 # hex msafra: #4c1211
 # rgb msafra: 761817
-# plotlyColors <-   c('#1f77b4',  # muted blue
-#                     '#ff7f0e',  # safety orange
-#                     '#2ca02c',  # cooked asparagus green
-#                     '#d62728',  # brick red
-#                     '#9467bd',  # muted purple
-#                     '#8c564b',  # chestnut brown
-#                     '#e377c2',  # raspberry yogurt pink
-#                     '#7f7f7f',  # middle gray
-#                     '#bcbd22',  # curry yellow-green
-#                     '#17becf')  # blue-teal
+plotlyColors <-   c('#1f77b4',  # muted blue
+                    '#ff7f0e',  # safety orange
+                    '#2ca02c',  # cooked asparagus green
+                    '#d62728',  # brick red
+                    '#9467bd',  # muted purple
+                    '#8c564b',  # chestnut brown
+                    '#e377c2',  # raspberry yogurt pink
+                    '#7f7f7f',  # middle gray
+                    '#bcbd22',  # curry yellow-green
+                    '#17becf')  # blue-teal
 
- plotlyColors <- c(viridis(100))
+ #plotlyColors <- c(distinctColorPalette(30, altCol = TRUE))
 
+ 
 # Setting time span: Watch out the time of updating
 dias <- ceiling(difftime(Sys.Date(), "2020-01-22", units = "days")) #-1
 
 # Choose here the path to output png plots:
 ggpath  <- "C:/Users/Padulla/Documents/GitHub/corona_dash/"
 Here    <- Sys.Date()
-HereUSA <- Here - 0
-HereBR  <- Here - 0
+HereUSA <- Here - 1
+HereBR  <- Here - 1
 
 # loading stuff
 source("Functions.R")
@@ -358,7 +359,7 @@ printDT(porce_d_us / 100,
 ```
 
 
-Deaths Graphs {data-navmenu='US'} 
+Deaths per day Graphs {data-navmenu='US'} 
 ==========================================================================
 
 Column
@@ -493,6 +494,7 @@ states <- c("SP"
            )
 
 plot <- plotThis(BrCases, states, ytitle = "Confirmed Cases", xtitle = "Days from 100 Cases")
+
 plot$plotly
 ggsave(paste0(ggpath, "BRCases.png"))
 
@@ -671,7 +673,7 @@ printDT(porce_d_br / 100,
 ```
 
 
-Deaths Graphs {data-navmenu='Brasil'} 
+Deaths per day Graphs {data-navmenu='Brasil'} 
 ==========================================================================
 
 Column
