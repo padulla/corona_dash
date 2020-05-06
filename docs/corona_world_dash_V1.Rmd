@@ -15,25 +15,47 @@ library(flexdashboard)
 library(tidyverse)
 library(plotly)
 library(sidrar)
-library(randomcoloR)
+
 
 
 # Some color schemes: 
 
 # hex msafra: #4c1211
 # rgb msafra: 761817
-plotlyColors <-   c('#1f77b4',  # muted blue
-                    '#ff7f0e',  # safety orange
-                    '#2ca02c',  # cooked asparagus green
-                    '#d62728',  # brick red
-                    '#9467bd',  # muted purple
-                    '#8c564b',  # chestnut brown
-                    '#e377c2',  # raspberry yogurt pink
-                    '#7f7f7f',  # middle gray
-                    '#bcbd22',  # curry yellow-green
-                    '#17becf')  # blue-teal
+plotlyColors <-   c('#740001',
+                    '#005b96',
+                    '#23272a',
+                    '#d3a625',
+                    '#008744',
+                    '#fb2e01',
+                    '#01cdfe',
+                    '#99aab5',
+                    '#ffc425',
+                    '#00b159',
+                    '#d11141',
+                    '#00aedb',
+                    '#777777',
+                    '#ffe28a',
+                    '#6fcb9f',
+                    '#0057e7',
+                    '#ae0001',
+                    '#05ffa1',
+                    '#b967ff',
+                    '#7289da',
+                    '#f37735',
+                    '#666547',
+                    '#d62d20',
+                    '#6497b1',
+                    '#b3cde0',
+                    '#ff4d00',
+                    '#66545e',
+                    '#a39193',
+                    '#aa6f73',
+                    '#eea990'
+                    )
 
- #plotlyColors <- c(distinctColorPalette(30, altCol = TRUE))
+
+
 
  
 # Setting time span: Watch out the time of updating
@@ -137,7 +159,7 @@ Column
 countries <- c("Italy", "Spain", "France", "Germany", "United Kingdom", "Netherlands")
 plots <- plotThis(WorldCases, countries, ytitle = "Confirmed Cases", xtitle = "Days from 100 Cases")
 plots$plotly
-ggsave(paste0(ggpath, "EuropeDeaths.png"))
+ggsave(paste0(ggpath, "1EuropeCases.png"))
 ```
 
 ### <b style = "color: #4c1112" > Europe: Total Cases </b>
@@ -189,7 +211,7 @@ Column
 countries <- c("Italy", "Spain", "France", "Germany", "United Kingdom", "Netherlands")
 plots <- plotThis(WorldDeaths, countries, ytitle = "Confirmed Deaths", xtitle = "Days from 100 Deaths")
 plots$plotly
-ggsave(paste0(ggpath, "EuropeDeaths.png"))
+ggsave(paste0(ggpath, "2EuropeDeaths.png"))
 ```
 
 ### <b style = "color: #4c1112">  Europe: total deaths </b>
@@ -260,7 +282,7 @@ abr    <- c("NY", "NJ", "MI", "CA", "MA", "FL", "WA", "TX")
  
 plot <- plotThis(UsCases, states, abr, ytitle = "Confirmed Cases", xtitle = "Days from 100 Cases")
 plot$plotly
-ggsave(paste0(ggpath, "USACases.png"))
+ggsave(paste0(ggpath, "3USACases.png"))
 ```
 
 ### <b style = "color: #4c1112">  USA: total cases </b>
@@ -315,7 +337,7 @@ abr    <- c("NY", "NJ", "MI", "CA", "MA", "FL", "WA", "TX")
 
 plot <- plotThis(UsCases, states, abr, ytitle = "Confirmed Cases", xtitle = "Days from 100 Cases")
 plot$plotly
-ggsave(paste0(ggpath, "USADeaths.png"))
+ggsave(paste0(ggpath, "4USADeaths.png"))
 ```
 
 ### <b style = "color: #4c1112">  USA: total deaths </b>
@@ -496,7 +518,7 @@ states <- c("SP"
 plot <- plotThis(BrCases, states, ytitle = "Confirmed Cases", xtitle = "Days from 100 Cases")
 
 plot$plotly
-ggsave(paste0(ggpath, "BRCases.png"))
+ggsave(paste0(ggpath, "5BRCases.png"))
 
 ```
 
@@ -601,7 +623,7 @@ states <- c("SP"
 
 plot <- plotThis(BrDeaths, states, ytitle = "Confirmed Deaths", xtitle = "Days from 100 Deaths")
 plot$plotly
-ggsave(paste0(ggpath, "BRDeaths.png"))
+ggsave(paste0(ggpath, "6BRDeaths.png"))
 
 ```
 
@@ -950,7 +972,7 @@ plot$ggplot +
   annotate('text', x = 55, y = d0f[n,2,drop=T] + 0.5e6, label = "Doubles every 4 days", color = "#CD0C0E") +
   geom_line(d0f, mapping = aes(y = V3), linetype = 'dashed', color = "#CD0C0E") +
   annotate('text', x = 55, y = d0f[n,3,drop=T] + 0.1e5, label = "Doubles every 7 days", color = "#CD0C0E") 
-ggsave(paste0(ggpath,"CasesExp.png"))
+ggsave(paste0(ggpath,"7CasesExp.png"))
 ```
 
 ### <b style = "color: #4c1112">  Deaths relation with exponential growth </b>
@@ -1044,7 +1066,7 @@ plot$ggplot +
   annotate('text', x = 55, y = d0f[n,2,drop=T] + 0.5e6, label = "Doubles every 4 days", color = "#CD0C0E") +
   geom_line(d0f, mapping = aes(y = V3), linetype = 'dashed', color = "#CD0C0E") +
   annotate('text', x = 55, y = d0f[n,3,drop=T] + 0.1e5, label = "Doubles every 7 days", color = "#CD0C0E") 
-ggsave(paste0(ggpath,"DeathsExp.png"))
+ggsave(paste0(ggpath,"8DeathsExp.png"))
 ```
 
 Doubling Time {data-navmenu='Figures'}

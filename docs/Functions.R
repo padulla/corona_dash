@@ -86,9 +86,10 @@ plotThis <- function(x, region, abbreviations = NULL, ytitle, xtitle) {
           rename_at(vars(-Days), ~ sort(region))
   
   p <- plot_ly(dh, x = ~Days, height = 550)
-  for (place in region) {
-      expr <- paste0("~","`", place, "`")
-      p <- p %>% add_trace(data = dh, y = as.formula(expr), name = place, type = 'scatter', mode = 'lines+markers')
+  for (place in 1:length(region)) {
+      expr <- paste0("~","`", region[place], "`")
+      p <- p %>% add_trace(data = dh, y = as.formula(expr), name = region[place], type = 'scatter', mode = 'lines+markers',color=plotlyColors[place])
+     
   }
   
   
