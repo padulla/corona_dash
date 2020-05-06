@@ -65,7 +65,7 @@ dias <- ceiling(difftime(Sys.Date(), "2020-01-22", units = "days")) #-1
 ggpath  <- "C:/Users/Padulla/Documents/GitHub/corona_dash/"
 Here    <- Sys.Date()
 HereUSA <- Here - 1
-HereBR  <- Here - 1
+HereBR  <- Here - 0
 
 # loading stuff
 source("Functions.R")
@@ -323,6 +323,75 @@ printDT(porce_c_us / 100,
         rownames(porce_c_us)
         ) %>% DT::formatPercentage(1:5, 2)
 ```
+
+
+Cases per day Graphs {data-navmenu='US'} 
+==========================================================================
+
+Column
+-----------------------------------------------------------------------
+
+### Cases per day
+```{r, fig.width = 10, fig.height = 15}
+cols_names <- USACodes %>% rbind("US") 
+dz <- 
+  UsCases[-c(57), ]  %>%
+  mutate(States = cols_names$state) %>%
+  select(States, everything())
+  rownames(dz) <- dz[,1]
+  dz[,1] <- NULL
+
+  dz <- t(dz) %>% 
+  as_tibble %>% 
+  mutate_all(~ . - lag(.)) %>% 
+  mutate(Dates = as.Date(colnames(UsCases), format = "%m/%d/%y") ) %>% 
+  select(Dates, everything()) %>% 
+  mutate_if(~ any(is.na(.)), ~ if_else(is.na(.), 0, .))
+
+
+
+dw <- 
+do.call(cbind, lapply(colnames(dz)[-1], function(x) TTR::SMA(dz[,x], 7))) %>% 
+  as_tibble %>% 
+  rename_all(~ paste0('M',colnames(dz)[-1])) %>% 
+  mutate_if(~ any(is.na(.)), ~ if_else(is.na(.), 0, .)) 
+
+dh <- 
+cbind(dz, dw) %>% 
+  as_tibble %>%   
+  filter(Dates >= as.Date("2020-03-20"))
+
+f2 <- list(family = 'Old Standard TT, serif', size = 14, color = I("firebrick4"))
+
+plots <- 
+lapply(colnames(dh)[2:58], function(x){ 
+                           expr   <- paste0("~", "`", x, "`")
+                           mexpr  <- paste0("~", "`", "M", x, "`")
+                           legm   <- paste0("Moving average of ", x)
+                           a <- list(
+                                      text = x,
+                                      font = f2,
+                                      xref = "paper",
+                                      yref = "paper",
+                                      yanchor = "bottom",
+                                      xanchor = "center",
+                                      align = "center",
+                                      x = 0.5,
+                                      y = 1,
+                                      showarrow = FALSE
+                                    )
+                           plot_ly(dh, x = ~Dates) %>% 
+                             add_trace(y = as.formula(expr),  type = 'bar', color = I("firebrick4")) %>% 
+                             add_trace(y = as.formula(mexpr), type = 'scatter', mode = 'lines', color = I("black") ) %>% 
+                             layout(showlegend = FALSE, annotations = a)
+})
+names(plots) <- colnames(dz)[-c(1, length(dz))]
+p <- subplot(plots, nrows = 10, shareX = FALSE, shareY = FALSE)
+p
+```
+
+
+
 
 Deaths {data-navmenu='US'} 
 ==========================================================================
