@@ -515,9 +515,57 @@ states <- c("SP"
            ,"RR"
            )
 
+S_SE <- c("SP"
+           ,"RJ"
+           ,"MG"
+           ,"RS"
+           ,"PR"
+           ,"SC"
+           ,"ES"
+           )
+
+
+Norte <- c("AM"
+           ,"PA"
+           ,"AC"
+           ,"TO"
+           ,"RO"
+           ,"AP"
+           ,"RR"
+           )
+
+
+CO <- c("DF"
+        ,"GO"
+           ,"MS"
+           ,"MT"
+           )
+
+NE <- c("CE"
+         ,"BA"
+           ,"PE"
+           ,"MA"
+           ,"SE"
+           ,"AL"
+           ,"PB"
+           ,"PI"
+           ,"RR"
+           )
+
+
+plotN <- plotThis(BrCases, Norte, ytitle = "Confirmed Cases", xtitle = "Days from 100 Cases")
+plotNE <- plotThis(BrCases, NE, ytitle = "Confirmed Cases", xtitle = "Days from 100 Cases")
+plotS_SE <- plotThis(BrCases, S_SE, ytitle = "Confirmed Cases", xtitle = "Days from 100 Cases")
+plotCO <- plotThis(BrCases, CO, ytitle = "Confirmed Cases", xtitle = "Days from 100 Cases")
+
+
 plot <- plotThis(BrCases, states, ytitle = "Confirmed Cases", xtitle = "Days from 100 Cases")
 
+# fig <- subplot(plotN$plotly, plotNE$plotly,plotCO$plotly,plotS_SE$plotly, nrows = 2, shareX = TRUE, shareY = FALSE, titleX = T, titleY = T)
+# fig
+
 plot$plotly
+
 ggsave(paste0(ggpath, "5BRCases.png"))
 
 ```
