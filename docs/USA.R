@@ -81,6 +81,43 @@ UsDeaths <- UsDeaths %>% rbind(
 )
 rownames(UsDeaths)[57:58] <- c("Others", "US")
 
+
+
+
+UsHosp <- RawUs %>% 
+  select(hospitalized, state, dateChecked) %>% 
+  arrange(dateChecked) %>% 
+  tidyr::spread(dateChecked, hospitalized, fill = 0) %>% 
+  rename_at(vars(-1), function(x) format(as.Date(x), "%m/%d/%y")) %>% 
+  tibble::column_to_rownames("state")
+
+UsHosp <- UsHosp %>% rbind(
+  filter(UsHosp, !(rownames(UsHosp) %in% UsHosp)) %>% colSums
+)
+
+UsHosp <- UsHosp %>% rbind(
+  filter(UsHosp, rownames(UsHosp) != 57) %>% colSums
+)
+rownames(UsHosp)[57:58] <- c("Others", "US")
+
+
+
+
+# Us Hospitalized
+UsHospFormatted <- UsHosp[c("US", USstates, "Others"), ] %>% select(last_col(4:0)) 
+rownames(UsHospFormatted) <- SelectedUS
+
+dife_h_us <- difference(UsHosp)[c("US", USstates, "Others"), ] %>% select(last_col(4:0))
+rownames(dife_h_us) <- SelectedUS
+
+porce_h_us <- percentage(UsHosp)[c("US", USstates, "Others"), ] %>% select(last_col(4:0))
+rownames(porce_h_us) <- SelectedUS
+
+
+
+
+
+
 # Us Cases
 UsCasesFormatted <- UsCases[c("US", USstates, "Others"), ] %>% select(last_col(4:0)) 
 rownames(UsCasesFormatted) <- SelectedUS

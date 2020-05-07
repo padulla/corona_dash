@@ -258,8 +258,9 @@ plotMap <- function(dataFrame, place, plotTitle, proj = "Equirectangular"){
   fig <- plot_geo(dataFrame, locationmode = mode) #, width = 800, height = 650)
   fig <- fig %>% add_trace(
       customdata = ~CASES,
-      z = ~log10(CASES + 1), 
-      colorscale    = "Greys",
+      z = ~log10(CASES + 1),
+      type="choropleth",
+      colorscale    = "Viridis",
       reversescale  = TRUE,
       showscale     = FALSE,
       hovertemplate = paste("Cases: %{customdata} <extra>%{text}</extra>"),
@@ -270,6 +271,9 @@ plotMap <- function(dataFrame, place, plotTitle, proj = "Equirectangular"){
       geo = g,
       autosize = TRUE
   )
+  
+  
+ 
   
   fig
 }
