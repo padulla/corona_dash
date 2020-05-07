@@ -1629,8 +1629,8 @@ Column {.tabset}
 
 ### <b style = "color: #4c1112">  Cases after lockdown </b>
 ```{r, fig.height = 6, fig.width = 10}
-countries       <- c('France', 'Spain', 'Italy', 'United Kingdom', 'Austria', 'Denmark', 'Norway')
-lockdown        <- c("2020-03-17", "2020-03-14", "2020-03-08", "2020-03-23", "2020-03-15", "2020-03-13", "2020-03-12")
+countries       <- c('Germany', 'France', 'Spain', 'Italy', 'United Kingdom', 'Austria', 'Denmark', 'Norway')
+lockdown        <- c("2020-03-22", "2020-03-17", "2020-03-14", "2020-03-08", "2020-03-23", "2020-03-15", "2020-03-13", "2020-03-12")
 names(lockdown) <- countries
 
 lockdownPlot(dife_c, countries, lockdown, DatesWorld)
