@@ -65,7 +65,7 @@ dias <- ceiling(difftime(Sys.Date(), "2020-01-22", units = "days")) #-1
 ggpath  <- "C:/Users/Padulla/Documents/GitHub/corona_dash/"
 Here    <- Sys.Date()
 HereUSA <- Here - 1
-HereBR  <- Here - 0
+HereBR  <- Here - 1
 
 # loading stuff
 source("Functions.R")
@@ -239,8 +239,9 @@ lapply(colnames(dh)[2:21], function(x){
                            expr   <- paste0("~", "`", x, "`")
                            mexpr  <- paste0("~", "`", "M", x, "`")
                            legm   <- paste0("Moving average of ", x)
+                           t <- dh[nrow(dh),x]
                            a <- list(
-                                      text = x,
+                                      text = paste0(x," - Last data:",t),
                                       font = f2,
                                       xref = "paper",
                                       yref = "paper",
@@ -396,8 +397,9 @@ lapply(colnames(dh)[2:21], function(x){
                            expr   <- paste0("~", "`", x, "`")
                            mexpr  <- paste0("~", "`", "M", x, "`")
                            legm   <- paste0("Moving average of ", x)
+                           t <- dh[nrow(dh),x]
                            a <- list(
-                                      text = x,
+                                      text = paste0(x," - Last data:",t),
                                       font = f2,
                                       xref = "paper",
                                       yref = "paper",
@@ -538,8 +540,9 @@ lapply(colnames(dh)[2:58], function(x){
                            expr   <- paste0("~", "`", x, "`")
                            mexpr  <- paste0("~", "`", "M", x, "`")
                            legm   <- paste0("Moving average of ", x)
+                           t <- dh[nrow(dh),x]
                            a <- list(
-                                      text = x,
+                                      text = paste0(x," - Last data:",t),
                                       font = f2,
                                       xref = "paper",
                                       yref = "paper",
@@ -749,8 +752,9 @@ lapply(colnames(dh)[2:58], function(x){
                            expr   <- paste0("~", "`", x, "`")
                            mexpr  <- paste0("~", "`", "M", x, "`")
                            legm   <- paste0("Moving average of ", x)
+                           t <- dh[nrow(dh),x]
                            a <- list(
-                                      text = x,
+                                      text = paste0(x," - Last data:",t),
                                       font = f2,
                                       xref = "paper",
                                       yref = "paper",
@@ -993,8 +997,9 @@ lapply(colnames(dh)[2:29], function(x){
                            expr   <- paste0("~", "`", x, "`")
                            mexpr  <- paste0("~", "`", "M", x, "`")
                            legm   <- paste0("Moving average of ", x)
+                           t <- dh[nrow(dh),x]
                            a <- list(
-                                      text = x,
+                                      text = paste0(x," - Last data:",t),
                                       font = f2,
                                       xref = "paper",
                                       yref = "paper",
@@ -1175,6 +1180,83 @@ ggsave(paste0(ggpath, "BRDeathspop.png"))
 ```
 
 
+### <b style = "color: #4c1112" > Comparative Official and States </b>
+```{r, fig.width = 10, fig.height = 6}
+
+dmb1 <- BrDeaths    %>%   t %>%   as_tibble  %>% select ('Brasil') %>% rename(BrasilS=Brasil)
+dmb2 <- BrDeathsMS        %>% t  %>% as_tibble        %>% select ('Brasil') %>% rename(BrasilMS=Brasil)
+dmb3 <- BrDeaths_dif        %>% t  %>% as_tibble        %>% select ('Brasil') %>% rename(BrasilD=Brasil)
+
+
+dmb <- cbind(dmb1,dmb2)
+
+dmb <- dmb %>% 
+  as_tibble %>%        
+  #mutate_all(~ . - lag(.)) %>% 
+  mutate(Dates = as.Date(colnames(BrDeaths), format = "%m/%d/%y") ) %>%   select(Dates, everything())  %>% 
+  filter(Dates >= as.Date("2020-03-29"))
+
+dmb3 <- dmb3 %>% 
+  as_tibble %>%        
+  mutate(Dates = as.Date(colnames(BrDeaths), format = "%m/%d/%y") ) %>%   select(Dates, everything())  %>% 
+  filter(Dates >= as.Date("2020-03-29"))
+
+
+
+
+fig1 <- plot_ly(
+  x = dmb$Dates,
+  y = dmb$BrasilS,
+   name = 'States',
+  type = "bar",
+  color = I("firebrick4")
+) %>%
+layout(
+     title = "Official vs States",
+     xaxis = list(title = "Date",
+     categoryorder = "array",
+     categoryarray = ~dmb$Dates),
+     yaxis = list(title = "Deaths")
+)
+
+fig1 <- fig1 %>% add_trace(y = dmb$BrasilMS, name = 'Official',
+  color = I("dimgrey"))
+
+
+
+
+
+
+fig2 <- plot_ly(
+  x = dmb3$Dates,
+  y = dmb3$BrasilD,
+   name = 'States',
+  type = "bar",
+  color = I("dodgerblue4")
+) %>%
+layout(
+     title = "Difference (States-Official)",
+     xaxis = list(title = "Date",
+     categoryorder = "array",
+     categoryarray = ~dmb3$Dates),
+     yaxis = list(title = "Deaths")
+)
+
+
+
+
+
+
+
+p <- subplot(fig1, fig2,  nrows = 2, shareX = FALSE, shareY = FALSE)
+p
+
+
+
+
+
+```
+
 
 Row {data-width=350, data-height=350}
 -----------------------------------------------------------------------
@@ -1238,8 +1320,9 @@ lapply(colnames(dh)[2:29], function(x){
                            expr   <- paste0("~", "`", x, "`")
                            mexpr  <- paste0("~", "`", "M", x, "`")
                            legm   <- paste0("Moving average of ", x)
+                           t <- dh[nrow(dh),x]
                            a <- list(
-                                      text = x,
+                                      text = paste0(x," - Last data:",t),
                                       font = f2,
                                       xref = "paper",
                                       yref = "paper",

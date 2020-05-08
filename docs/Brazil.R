@@ -70,6 +70,20 @@ BrDeaths <- BrDeaths %>% rbind(
 rownames(BrDeaths)[28:29] <- c("Brasil", "Demais")
 
 
+BrDeathsMS <- RawBr %>% 
+  select(date, state, deathsMS) %>% 
+  tidyr::spread(date, deathsMS, fill = 0) %>% 
+  tibble::column_to_rownames(var = "state") %>% 
+  rename_all(function(x) format(as.Date(x), "%m/%d/%y"))
+
+BrDeathsMS <- BrDeathsMS %>% rbind(
+  filter(BrDeathsMS, rownames(BrDeathsMS) %in% NULL) %>% colSums
+)
+rownames(BrDeathsMS)[28:29] <- c("Brasil", "Demais")
+
+BrDeaths_dif <- BrDeaths-BrDeathsMS
+
+
 
 BrTests <- RawBr %>% 
   select(date, state, tests) %>% 
@@ -150,6 +164,10 @@ colnames(BrPop) <- colnames(BrCasesLb)
 
 BrCasesPop <- (BrCasesLb /BrPop)*100000
 BrDeathsPop <- (BrDeathsLb /BrPop)*1000000
+
+
+
+
 
 
 
