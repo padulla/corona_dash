@@ -34,7 +34,7 @@ SelectedCountries <- c("Italy"
                       ,"Finland"
                       ,"Greece"
                       ,"Poland"
-                      ,"Kosovo")
+                      ,"Czechia")
 
 WorldCases <- RawWorldCases %>% 
   select(-`Province/State`, -Lat, -Long) %>% 

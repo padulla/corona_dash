@@ -63,7 +63,7 @@ m <-m %>% addPolygons(
     textsize = "15px",
     direction = "auto")) %>%
   addLegend(pal = pal, values = ~density, opacity = 0.7, title = "Total Cases",
-    position = "bottomright")
+    position = "bottomright" )
 
 m
 

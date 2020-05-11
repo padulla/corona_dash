@@ -1,0 +1,5 @@
+[0508/231041.280:ERROR:process_info.cc(359)] UncheckedAllocate
+[0508/231218.309:ERROR:process_info.cc(359)] UncheckedAllocate
+[0508/231218.345:ERROR:process_info.cc(359)] UncheckedAllocate
+[0508/231218.442:ERROR:filesystem_win.cc(148)] DeleteFile C:\Users\Padulla\AppData\Local\Temp\scoped_dir1696_682088477\Crashpad\reports\e8a0e439-5517-4c90-abba-20f105cca1bb.dmp: O arquivo já está sendo usado por outro processo. (0x20)
+[0508/231547.249:ERROR:process_info.cc(359)] UncheckedAllocate
