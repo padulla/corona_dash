@@ -242,7 +242,7 @@ lapply(colnames(dh)[2:21], function(x){
                           t <- dh[nrow(dh),x]
                           tt <- WorldCases[x,ncol(WorldCases)]
                            a <- list(
-                                      text = paste0(x," - Total Deaths:",tt," - Last data:",t),
+                                      text = paste0(x," - Total Cases:",tt," - Last data:",t),
                                       font = f2,
                                       xref = "paper",
                                       yref = "paper",
@@ -554,7 +554,7 @@ lapply(colnames(dh)[2:58], function(x){
                            t <- dh[nrow(dh),x]
                           tt <- dzz[nrow(dzz),x]
                            a <- list(
-                                      text = paste0(x," - Total Deaths:",tt," - Last data:",t),
+                                      text = paste0(x," - Total Cases:",tt," - Last data:",t),
                                       font = f2,
                                       xref = "paper",
                                       yref = "paper",
@@ -1029,7 +1029,7 @@ lapply(colnames(dh)[2:29], function(x){
                            t <- dh[nrow(dh),x]
                            tt <- BrCases[x,ncol(BrCases)]
                            a <- list(
-                                      text = paste0(x," - Total Deaths:",tt," - Last data:",t),
+                                      text = paste0(x," - Total Cases:",tt," - Last data:",t),
                                       font = f2,
                                       xref = "paper",
                                       yref = "paper",
