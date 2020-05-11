@@ -15,6 +15,11 @@ RawBrPop <- get_sidra(6579,
                       period = "2019",
                       geo = "State" )
 
+
+
+excel_base <- RawBr %>% select(date,country,state,city,newCases,totalCases,deaths)
+write.xlsx(excel_base, 'C:\\Users\\Padulla\\Documents\\GitHub\\corona_dash\\docs\\excel_base.xlsx')
+
 #========================================================================================================
 # Brasil
 
