@@ -542,7 +542,7 @@ do.call(cbind, lapply(colnames(dz)[-1], function(x) TTR::SMA(dz[,x], 7))) %>%
 dh <- 
 cbind(dz, dw) %>% 
   as_tibble %>%   
-  filter(Dates >= as.Date("2020-03-20"))
+  filter(Dates >= as.Date("2020-01-01"))
 
 f2 <- list(family = 'Old Standard TT, serif', size = 14, color = ("#4c1112"))
 
@@ -771,7 +771,7 @@ do.call(cbind, lapply(colnames(dz)[-1], function(x) TTR::SMA(dz[,x], 7))) %>%
 dh <- 
 cbind(dz, dw) %>% 
   as_tibble %>%   
-  filter(Dates >= as.Date("2020-03-20"))
+  filter(Dates >= as.Date("2020-01-01"))
 
 f2 <- list(family = 'Old Standard TT, serif', size = 14, color = ("#4c1112"))
 
