@@ -64,8 +64,8 @@ dias <- ceiling(difftime(Sys.Date(), "2020-01-22", units = "days")) #-1
 # Choose here the path to output png plots:
 ggpath  <- "C:/Users/Padulla/Documents/GitHub/corona_dash/"
 Here    <- Sys.Date()
-HereUSA <- Here - 1
-HereBR  <- Here - 1
+HereUSA <- Here - 0
+HereBR  <- Here - 0
 
 # loading stuff
 source("Functions.R")
@@ -542,7 +542,7 @@ do.call(cbind, lapply(colnames(dz)[-1], function(x) TTR::SMA(dz[,x], 7))) %>%
 dh <- 
 cbind(dz, dw) %>% 
   as_tibble %>%   
-  filter(Dates >= as.Date("2020-01-01"))
+  filter(Dates >= as.Date("2020-03-01"))
 
 f2 <- list(family = 'Old Standard TT, serif', size = 14, color = ("#4c1112"))
 
@@ -771,7 +771,7 @@ do.call(cbind, lapply(colnames(dz)[-1], function(x) TTR::SMA(dz[,x], 7))) %>%
 dh <- 
 cbind(dz, dw) %>% 
   as_tibble %>%   
-  filter(Dates >= as.Date("2020-01-01"))
+  filter(Dates >= as.Date("2020-03-01"))
 
 f2 <- list(family = 'Old Standard TT, serif', size = 14, color = ("#4c1112"))
 
