@@ -210,16 +210,28 @@ Column
 
 ### Cases per day
 ```{r, fig.width = 10, fig.height = 12}
+
+
+
+ListOfCountries <- 
+WorldCases %>% 
+       rownames_to_column(var = "NovaColuna") %>%
+       arrange_at(vars(last_col()), desc) %>%
+       select(NovaColuna) %>%
+       filter(NovaColuna %in% SelectedCountries) %>% pull()
+
+
 dz <- 
 WorldCases %>% 
-  
   t %>% 
   as_tibble %>% 
-  select(SelectedCountries) %>%
+  select(ListOfCountries) %>%
   mutate_all(~ . - lag(.)) %>% 
   mutate(Dates = as.Date(colnames(WorldCases), format = "%m/%d/%y") ) %>% 
   select(Dates, everything()) %>% 
   mutate_if(~ any(is.na(.)), ~ if_else(is.na(.), 0, .))
+
+
 
 dw <- 
 do.call(cbind, lapply(colnames(dz)[-1], function(x) TTR::SMA(dz[,x], 7))) %>% 
@@ -369,12 +381,23 @@ Column
 
 ### Deaths per day
 ```{r, fig.width = 10, fig.height = 12}
+ListOfCountries <- 
+WorldCases %>% 
+       rownames_to_column(var = "NovaColuna") %>%
+       arrange_at(vars(last_col()), desc) %>%
+       select(NovaColuna) %>%
+       filter(NovaColuna %in% SelectedCountries) %>% pull()
+
+
+
+
+
 dz <- 
 WorldDeaths %>% 
   
   t %>% 
   as_tibble %>% 
-  select(SelectedCountries) %>%
+  select(ListOfCountries) %>%
   mutate_all(~ . - lag(.)) %>% 
   mutate(Dates = as.Date(colnames(WorldDeaths), format = "%m/%d/%y") ) %>% 
   select(Dates, everything()) %>% 
@@ -514,6 +537,15 @@ dz <-
   select(States, everything())
   rownames(dz) <- dz[,1]
   dz[,1] <- NULL
+  
+  
+ dz <- dz %>% 
+       rownames_to_column(var = "NovaColuna") %>%
+       arrange_at(vars(last_col()), desc) %>%
+       select(NovaColuna, everything())  %>%
+      column_to_rownames("NovaColuna")
+  
+  
 
 dzz <- t(dz) %>% 
   as_tibble %>% 
@@ -740,7 +772,17 @@ dz <-
   rownames(dz) <- dz[,1]
   dz[,1] <- NULL
 
+
   
+ dz <- dz %>% 
+       rownames_to_column(var = "NovaColuna") %>%
+       arrange_at(vars(last_col()), desc) %>%
+       select(NovaColuna, everything())  %>%
+      column_to_rownames("NovaColuna")  
+  
+  
+  
+    
   dzs <- t(dz) %>% 
   as_tibble %>% 
   mutate(Dates = as.Date(colnames(UsDeaths), format = "%m/%d/%y") ) %>% 
@@ -1001,12 +1043,22 @@ Column
 ```{r, fig.width = 10, fig.height = 12}
 dz <- 
 BrCases %>% 
+  
+  rownames_to_column(var = "NovaColuna") %>%
+       arrange_at(vars(last_col()), desc) %>%
+       select(NovaColuna, everything())  %>%
+      column_to_rownames("NovaColuna") %>%
+  
+  
   t %>% 
   as_tibble %>% 
   mutate_all(~ . - lag(.)) %>% 
   mutate(Dates = as.Date(colnames(BrCases), format = "%m/%d/%y") ) %>% 
   select(Dates, everything()) %>% 
   mutate_if(~ any(is.na(.)), ~ if_else(is.na(.), 0, .))
+
+
+
 
 dw <- 
 do.call(cbind, lapply(colnames(dz)[-1], function(x) TTR::SMA(dz[,x], 7))) %>% 
@@ -1325,6 +1377,13 @@ Column
 ```{r, fig.width = 10, fig.height = 12}
 dz <- 
 BrDeaths %>% 
+  
+  
+    rownames_to_column(var = "NovaColuna") %>%
+       arrange_at(vars(last_col()), desc) %>%
+       select(NovaColuna, everything())  %>%
+      column_to_rownames("NovaColuna") %>%
+  
   t %>% 
   as_tibble %>% 
   mutate_all(~ . - lag(.)) %>% 
