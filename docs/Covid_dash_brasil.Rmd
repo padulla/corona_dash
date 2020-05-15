@@ -297,14 +297,34 @@ p <- subplot(plots, nrows = 7, shareX = FALSE, shareY = FALSE)
 p
 ```
 
-HeatMaps {data-navmenu='Cases'} 
+SP {data-navmenu='Cases'} 
 ==========================================================================
 
 Column
 -----------------------------------------------------------------------
 ```{r, fig.width = 10, fig.height = 12}
-teste <- as.matrix(BrCasesPop)
-heatmap(teste, Colv = NA, Rowv = NA, scale="column")
+
+
+
+
+
+
+
+
+
+
+
+# m <- BrCasesPop+1  %>% log
+# m <- as.matrix(m)
+# 
+# 
+# p <- plot_ly(x=colnames(m), y=rownames(m), z = m, type = "heatmap") %>%
+#     layout(margin = list(l=120))
+# p
+# 
+# 
+# 
+# heatmap(m, Colv = NA, Rowv = NA, xlab="Date",ylab="States", main="Cases per capita")
 
 ```
 
