@@ -16,7 +16,8 @@ library(tidyverse)
 library(plotly)
 library(sidrar)
 library(xlsx)
-
+library(orca)
+library(processx)
 
 # Some color schemes: 
 
@@ -64,8 +65,8 @@ dias <- ceiling(difftime(Sys.Date(), "2020-01-22", units = "days")) #-1
 # Choose here the path to output png plots:
 ggpath  <- "C:/Users/Padulla/Documents/GitHub/corona_dash/"
 Here    <- Sys.Date()
-HereUSA <- Here - 0
-HereBR  <- Here - 0
+HereUSA <- Here - 1
+HereBR  <- Here - 1
 
 # loading stuff
 source("Functions.R")
@@ -273,6 +274,8 @@ lapply(colnames(dh)[2:21], function(x){
 names(plots) <- colnames(dz)[-c(1, length(dz))]
 p <- subplot(plots, nrows = 7, shareX = FALSE, shareY = FALSE)
 p
+
+#orca(p, file = "image.svg")
 ```
 
 

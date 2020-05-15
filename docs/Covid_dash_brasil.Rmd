@@ -1,0 +1,763 @@
+---
+title: "Covid-19: Brasil"
+output: 
+  flexdashboard::flex_dashboard:
+    css: style.css
+    orientation: rows
+    vertical_layout: scroll
+  rmarkdown:: github_document
+  html_document:
+    keep_md: true
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(tidyverse)
+library(plotly)
+library(sidrar)
+library(xlsx)
+
+
+# Some color schemes: 
+
+# hex msafra: #4c1211
+# rgb msafra: 761817
+plotlyColors <-   c('#740001',
+                    '#005b96',
+                    '#23272a',
+                    '#d3a625',
+                    '#008744',
+                    '#fb2e01',
+                    '#01cdfe',
+                    '#99aab5',
+                    '#ffc425',
+                    '#00b159',
+                    '#d11141',
+                    '#00aedb',
+                    '#777777',
+                    '#ffe28a',
+                    '#6fcb9f',
+                    '#0057e7',
+                    '#ae0001',
+                    '#05ffa1',
+                    '#b967ff',
+                    '#7289da',
+                    '#f37735',
+                    '#666547',
+                    '#d62d20',
+                    '#6497b1',
+                    '#b3cde0',
+                    '#ff4d00',
+                    '#66545e',
+                    '#a39193',
+                    '#aa6f73',
+                    '#eea990'
+                    )
+
+
+
+
+ 
+# Setting time span: Watch out the time of updating
+dias <- ceiling(difftime(Sys.Date(), "2020-01-22", units = "days")) #-1
+
+# Choose here the path to output png plots:
+ggpath  <- "C:/Users/Padulla/Documents/GitHub/corona_dash/"
+Here    <- Sys.Date()
+
+HereBR  <- Here - 0
+
+# loading stuff
+source("Functions.R")
+source("Brazil.R")
+
+
+```
+Main {data-navmenu='Cases'} 
+==========================================================================
+
+Column {.tabset}
+-----------------------------------------------------------------------
+
+### <b style = "color: #4c1112" > Comparative after 100 cases </b>
+```{r, fig.width = 10, fig.height = 6}
+states <- c("SP"
+           ,"RJ"
+           ,"CE"
+           ,"MG"
+           ,"RS"
+           ,"DF"
+           ,"PR"
+           ,"BA"
+           ,"AM"
+           ,"SC"
+           ,"RN"
+           ,"PE"
+           ,"ES"
+           ,"MA"
+           ,"GO"
+           ,"PA"
+           ,"MS"
+           ,"MT"
+           ,"AC"
+           ,"SE"
+           ,"AL"
+           ,"TO"
+           ,"RO"
+           ,"AP"
+           ,"PB"
+           ,"PI"
+           ,"RR"
+           )
+
+S_SE <- c("SP"
+           ,"RJ"
+           ,"MG"
+           ,"RS"
+           ,"PR"
+           ,"SC"
+           ,"ES"
+           )
+
+
+Norte <- c("AM"
+           ,"PA"
+           ,"AC"
+           ,"TO"
+           ,"RO"
+           ,"AP"
+           ,"RR"
+           )
+
+
+CO <- c("DF"
+        ,"GO"
+           ,"MS"
+           ,"MT"
+           )
+
+NE <- c("CE"
+         ,"BA"
+           ,"PE"
+           ,"MA"
+           ,"SE"
+           ,"AL"
+           ,"PB"
+           ,"PI"
+           ,"RR"
+           )
+
+
+plotN <- plotThis(BrCases, Norte, ytitle = "Confirmed Cases", xtitle = "Days from 100 Cases")
+plotNE <- plotThis(BrCases, NE, ytitle = "Confirmed Cases", xtitle = "Days from 100 Cases")
+plotS_SE <- plotThis(BrCases, S_SE, ytitle = "Confirmed Cases", xtitle = "Days from 100 Cases")
+plotCO <- plotThis(BrCases, CO, ytitle = "Confirmed Cases", xtitle = "Days from 100 Cases")
+
+
+plot <- plotThis(BrCases, states, ytitle = "Confirmed Cases", xtitle = "Days from 100 Cases")
+
+# fig <- subplot(plotN$plotly, plotNE$plotly,plotCO$plotly,plotS_SE$plotly, nrows = 2, shareX = TRUE, shareY = FALSE, titleX = T, titleY = T)
+# fig
+
+plot$plotly
+
+ggsave(paste0(ggpath, "5BRCases.png"))
+
+```
+
+### <b style = "color: #4c1112" > Comparative after 10 cases per 100.000 hab </b>
+```{r, fig.width = 10, fig.height = 6}
+states <- c("SP"
+           ,"RJ"
+           ,"CE"
+           ,"MG"
+           ,"RS"
+           ,"DF"
+           ,"PR"
+           ,"BA"
+           ,"AM"
+           ,"SC"
+           ,"RN"
+           ,"PE"
+           ,"ES"
+           ,"MA"
+           ,"GO"
+           ,"PA"
+           ,"MS"
+           ,"MT"
+           ,"AC"
+           ,"SE"
+           ,"AL"
+           ,"TO"
+           ,"RO"
+           ,"AP"
+           ,"PB"
+           ,"PI"
+           ,"RR"
+           )
+
+plot <- plotThis10(BrCasesPop, states, ytitle = "Confirmed Cases", xtitle = "Days from 10 Cases")
+plot$plotly
+ggsave(paste0(ggpath, "BRCasespop.png"))
+
+```
+
+Row {data-width=350, data-height=350}
+-----------------------------------------------------------------------
+
+### Total Cases
+```{r}
+printDT(BrCasesFormatted,
+        rownames(BrCasesFormatted)
+        )
+```
+
+### New Cases
+```{r}
+printDT(dife_c_br,
+        rownames(dife_c_br)
+        )
+```
+
+
+### Var. (%)
+```{r}
+printDT(porce_c_br / 100,
+        rownames(porce_c_br)
+       ) %>% DT::formatPercentage(1:5, 2)
+```
+
+
+Cases per day Graphs {data-navmenu='Cases'} 
+==========================================================================
+
+Column
+-----------------------------------------------------------------------
+
+### Cases per day
+```{r, fig.width = 10, fig.height = 12}
+dz <- 
+BrCases %>% 
+  
+  rownames_to_column(var = "NovaColuna") %>%
+       arrange_at(vars(last_col()), desc) %>%
+       select(NovaColuna, everything())  %>%
+      column_to_rownames("NovaColuna") %>%
+  
+  
+  t %>% 
+  as_tibble %>% 
+  mutate_all(~ . - lag(.)) %>% 
+  mutate(Dates = as.Date(colnames(BrCases), format = "%m/%d/%y") ) %>% 
+  select(Dates, everything()) %>% 
+  mutate_if(~ any(is.na(.)), ~ if_else(is.na(.), 0, .))
+
+
+
+
+dw <- 
+do.call(cbind, lapply(colnames(dz)[-1], function(x) TTR::SMA(dz[,x], 7))) %>% 
+  as_tibble %>% 
+  rename_all(~ paste0('M',colnames(dz)[-1])) %>% 
+  mutate_if(~ any(is.na(.)), ~ if_else(is.na(.), 0, .)) 
+
+dh <- 
+cbind(dz, dw) %>% 
+  as_tibble %>% 
+  filter(Dates >= as.Date("2020-03-20"))
+
+f2 <- list(family = 'Old Standard TT, serif', size = 14, color = ("#4c1112"))
+
+plots <- 
+lapply(colnames(dh)[2:29], function(x){ 
+                           expr   <- paste0("~", "`", x, "`")
+                           mexpr  <- paste0("~", "`", "M", x, "`")
+                           legm   <- paste0("Moving average of ", x)
+                           t <- dh[nrow(dh),x]
+                           tt <- BrCases[x,ncol(BrCases)]
+                           a <- list(
+                                      text = paste0(x," - Total Cases:",tt," - Last data:",t),
+                                      font = f2,
+                                      xref = "paper",
+                                      yref = "paper",
+                                      yanchor = "bottom",
+                                      xanchor = "center",
+                                      align = "center",
+                                      x = 0.5,
+                                      y = 1,
+                                      showarrow = FALSE
+                                    )
+                           plot_ly(dh, x = ~Dates) %>% 
+                             add_trace(y = as.formula(expr),  type = 'bar', color = I("firebrick4")) %>% 
+                             add_trace(y = as.formula(mexpr), type = 'scatter', mode = 'lines', color = I("black") ) %>% 
+                             layout(showlegend = FALSE, annotations = a)
+})
+names(plots) <- colnames(dz)[-c(1, length(dz))]
+p <- subplot(plots, nrows = 7, shareX = FALSE, shareY = FALSE)
+p
+```
+
+HeatMaps {data-navmenu='Cases'} 
+==========================================================================
+
+Column
+-----------------------------------------------------------------------
+```{r, fig.width = 10, fig.height = 12}
+teste <- as.matrix(BrCasesPop)
+heatmap(teste, Colv = NA, Rowv = NA, scale="column")
+
+```
+
+Doubling Time {data-navmenu='Cases'}
+====================================================================
+
+Column {.tabset}
+-----------------------------------------------------------------------
+
+### <b style = "color: #4c1112">  Time to double cases </b>
+```{r, fig.height = 6, fig.width = 10}
+countries <- c("SP"
+           ,"RJ"
+           ,"CE"
+           ,"MG"
+           ,"RS"
+           ,"DF"
+           ,"PR"
+           ,"BA"
+           ,"AM"
+           ,"SC"
+           ,"RN"
+           ,"PE"
+           ,"ES"
+           ,"MA"
+           ,"GO"
+           ,"PA"
+           ,"MS"
+           ,"MT"
+           ,"AC"
+           ,"SE"
+           ,"AL"
+           ,"TO"
+           ,"RO"
+           ,"AP"
+           ,"PB"
+           ,"PI"
+           ,"RR"
+           )
+
+doublingTime <- function(x) {
+  y <- x - dplyr::lag(x) 
+  x / y
+}
+
+
+Dates <- seq.Date(from = as.Date('2020-02-25'),
+                  to   = HereBR,
+                  by   = 'day')
+
+
+da <- 
+BrCases %>% 
+  t() %>% 
+  as_tibble() %>% 
+  select(all_of(countries)) %>% 
+  mutate_all(~ TTR::SMA(., 7)) %>% 
+  mutate_all(doublingTime) %>% 
+  mutate(Days = as.Date(Dates)) %>% 
+  filter(Days >= as.Date("2020-03-02"))
+
+gg <- ggplot(da, aes(x = Days)) 
+for (i in countries) {
+  gg <- gg + geom_line(aes_(y = as.name(i),  colour = i), na.rm = TRUE) +
+             geom_point(aes_(y = as.name(i), colour = i), na.rm = TRUE)
+}
+gg <- gg + labs(x = "Days", y = "Doubling Time")
+gg <- gg + theme(legend.position = 'bottom') +
+           scale_color_manual("", values = plotlyColors, breaks = countries)
+
+ggplotly(gg, height = 500, width = 1200) %>%
+  layout(legend = list(orientation = 'h', x = +0.05, y = -0.15))
+ggsave(paste0(ggpath, "DoublingTime.png"))
+```
+
+
+
+
+Main {data-navmenu='Deaths'} 
+==========================================================================
+
+Column {.tabset}
+-----------------------------------------------------------------------
+
+### <b style = "color: #4c1112" > Comparative after 100 deaths </b>
+```{r, fig.width = 10, fig.height = 6}
+states <- c("SP"
+           ,"RJ"
+           ,"CE"
+           ,"MG"
+           ,"RS"
+           ,"DF"
+           ,"PR"
+           ,"BA"
+           ,"AM"
+           ,"SC"
+           ,"RN"
+           ,"PE"
+           ,"ES"
+           ,"MA"
+           ,"GO"
+           ,"PA"
+           ,"MS"
+           ,"MT"
+           ,"AC"
+           ,"SE"
+           ,"AL"
+           ,"TO"
+           ,"RO"
+           ,"AP"
+           ,"PB"
+           ,"PI"
+           ,"RR"
+           )
+
+plot <- plotThis(BrDeaths, states, ytitle = "Confirmed Deaths", xtitle = "Days from 100 Deaths")
+plot$plotly
+ggsave(paste0(ggpath, "6BRDeaths.png"))
+
+
+
+
+
+```
+
+
+<!-- Column  -->
+<!-- ----------------------------------------------------------------------- -->
+### <b style = "color: #4c1112" > Comparative after 10 deaths per 1.000.000 hab </b>
+```{r, fig.width = 10, fig.height = 6}
+states <- c("SP"
+           ,"RJ"
+           ,"CE"
+           ,"MG"
+           ,"RS"
+           ,"DF"
+           ,"PR"
+           ,"BA"
+           ,"AM"
+           ,"SC"
+           ,"RN"
+           ,"PE"
+           ,"ES"
+           ,"MA"
+           ,"GO"
+           ,"PA"
+           ,"MS"
+           ,"MT"
+           ,"AC"
+           ,"SE"
+           ,"AL"
+           ,"TO"
+           ,"RO"
+           ,"AP"
+           ,"PB"
+           ,"PI"
+           ,"RR"
+           )
+
+plot <- plotThis10(BrDeathsPop, states, ytitle = "Confirmed Deaths", xtitle = "Days from 10 Deaths")
+plot$plotly
+ggsave(paste0(ggpath, "BRDeathspop.png"))
+```
+
+
+### <b style = "color: #4c1112" > Comparative Official and States </b>
+```{r, fig.width = 10, fig.height = 6}
+
+dmb1 <- BrDeaths    %>%   t %>%   as_tibble  %>% select ('Brasil') %>% rename(BrasilS=Brasil)
+dmb2 <- BrDeathsMS        %>% t  %>% as_tibble        %>% select ('Brasil') %>% rename(BrasilMS=Brasil)
+dmb3 <- BrDeaths_dif        %>% t  %>% as_tibble        %>% select ('Brasil') %>% rename(BrasilD=Brasil)
+
+
+dmb <- cbind(dmb1,dmb2)
+
+dmb <- dmb %>% 
+  as_tibble %>%        
+  #mutate_all(~ . - lag(.)) %>% 
+  mutate(Dates = as.Date(colnames(BrDeaths), format = "%m/%d/%y") ) %>%   select(Dates, everything())  %>% 
+  filter(Dates >= as.Date("2020-03-29"))
+
+dmb3 <- dmb3 %>% 
+  as_tibble %>%        
+  mutate(Dates = as.Date(colnames(BrDeaths), format = "%m/%d/%y") ) %>%   select(Dates, everything())  %>% 
+  filter(Dates >= as.Date("2020-03-29"))
+
+
+
+
+fig1 <- plot_ly(
+  x = dmb$Dates,
+  y = dmb$BrasilS,
+   name = 'States',
+  type = "bar",
+  color = I("firebrick4")
+) %>%
+layout(
+     title = "Official vs States",
+     xaxis = list(title = "Date",
+     categoryorder = "array",
+     categoryarray = ~dmb$Dates),
+     yaxis = list(title = "Deaths")
+)
+
+fig1 <- fig1 %>% add_trace(y = dmb$BrasilMS, name = 'Official',
+  color = I("dimgrey"))
+
+
+
+
+
+
+fig2 <- plot_ly(
+  x = dmb3$Dates,
+  y = dmb3$BrasilD,
+   name = 'States',
+  type = "bar",
+  color = I("dodgerblue4")
+) %>%
+layout(
+     title = "Difference (States-Official)",
+     xaxis = list(title = "Date",
+     categoryorder = "array",
+     categoryarray = ~dmb3$Dates),
+     yaxis = list(title = "Deaths")
+)
+
+
+
+
+
+
+
+p <- subplot(fig1, fig2,  nrows = 2, shareX = FALSE, shareY = FALSE)
+p
+
+
+
+
+
+```
+
+
+Row {data-width=350, data-height=350}
+-----------------------------------------------------------------------
+
+### Total Deaths
+```{r}
+printDT(BrDeathsFormatted,
+        rownames(BrDeathsFormatted)
+       )
+```
+
+
+### New Deaths
+```{r}
+printDT(dife_d_br,
+        rownames(dife_d_br)
+      )
+```
+
+
+### Var. (%)
+```{r}
+printDT(porce_d_br / 100,
+        rownames(porce_d_br)
+       ) %>% DT::formatPercentage(1:5, 2)
+```
+
+
+Deaths per day Graphs {data-navmenu='Deaths'} 
+==========================================================================
+
+Column
+-----------------------------------------------------------------------
+
+### Deaths per day
+```{r, fig.width = 10, fig.height = 12}
+dz <- 
+BrDeaths %>% 
+  
+  
+    rownames_to_column(var = "NovaColuna") %>%
+       arrange_at(vars(last_col()), desc) %>%
+       select(NovaColuna, everything())  %>%
+      column_to_rownames("NovaColuna") %>%
+  
+  t %>% 
+  as_tibble %>% 
+  mutate_all(~ . - lag(.)) %>% 
+  mutate(Dates = as.Date(colnames(BrDeaths), format = "%m/%d/%y") ) %>% 
+  select(Dates, everything()) %>% 
+  mutate_if(~ any(is.na(.)), ~ if_else(is.na(.), 0, .))
+
+dw <- 
+do.call(cbind, lapply(colnames(dz)[-1], function(x) TTR::SMA(dz[,x], 7))) %>% 
+  as_tibble %>% 
+  rename_all(~ paste0('M',colnames(dz)[-1])) %>% 
+  mutate_if(~ any(is.na(.)), ~ if_else(is.na(.), 0, .)) 
+
+dh <- 
+cbind(dz, dw) %>% 
+  as_tibble %>% 
+  filter(Dates >= as.Date("2020-03-20"))
+
+f2 <- list(family = 'Old Standard TT, serif', size = 14, color = ("#4c1112"))
+
+plots <- 
+lapply(colnames(dh)[2:29], function(x){ 
+                           expr   <- paste0("~", "`", x, "`")
+                           mexpr  <- paste0("~", "`", "M", x, "`")
+                           legm   <- paste0("Moving average of ", x)
+                           t <- dh[nrow(dh),x]
+                           tt <- BrDeaths[x,ncol(BrDeaths)]
+                           a <- list(
+                                      text = paste0(x," - Total Deaths:",tt," - Last data:",t),
+                                      font = f2,
+                                      xref = "paper",
+                                      yref = "paper",
+                                      yanchor = "bottom",
+                                      xanchor = "center",
+                                      align = "center",
+                                      x = 0.5,
+                                      y = 1,
+                                      showarrow = FALSE
+                                    )
+                           plot_ly(dh, x = ~Dates) %>% 
+                             add_trace(y = as.formula(expr),  type = 'bar', color = I("firebrick4")) %>% 
+                             add_trace(y = as.formula(mexpr), type = 'scatter', mode = 'lines', color = I("black") ) %>% 
+                             layout(showlegend = FALSE, annotations = a)
+})
+names(plots) <- colnames(dz)[-c(1, length(dz))]
+p <- subplot(plots, nrows = 7, shareX = FALSE, shareY = FALSE)
+p
+```
+
+
+
+
+
+Tests
+==========================================================================
+
+Column {.tabset}
+-----------------------------------------------------------------------
+
+### <b style = "color: #4c1112" > Tests </b>
+```{r, fig.width = 10, fig.height = 6}
+tg <- BrTests %>% 
+        tibble::rownames_to_column() %>% 
+        select(1, last_col()) %>% 
+        rename_all(~ c("States", "Tests")) %>% 
+        mutate_if(~ any(is.na(.)), ~ if_else(is.na(.), 0, .)) 
+tg <-tg[-c(28,29), ] 
+tg <- arrange(tg,desc(Tests))
+
+
+  
+fig <- plot_ly(
+  x = tg$States,
+  y = tg$Tests,
+  type = "bar",
+  color = I("Gray")
+) %>%
+layout(
+     title = "Total Tests",
+     xaxis = list(title = "States",
+     categoryorder = "array",
+     categoryarray = ~tg$States),
+     yaxis = list(title = "Tests")
+)
+
+fig
+
+```
+
+### <b style = "color: #4c1112" > Tests 100.000 hab </b>
+```{r, fig.width = 10, fig.height = 6}
+tg <- BrTestsP100k %>% 
+        tibble::rownames_to_column() %>% 
+        select(1, last_col()) %>% 
+        rename_all(~ c("States", "Tests")) %>% 
+        mutate_if(~ any(is.na(.)), ~ if_else(is.na(.), 0, .)) 
+tg <-tg[-c(28,29), ] 
+tg <- arrange(tg,desc(Tests))
+
+
+  
+fig <- plot_ly(
+  x = tg$States,
+  y = tg$Tests,
+  type = "bar",
+  color = I("firebrick4")
+) %>%
+layout(
+     title = "Total Tests per 100k hab.",
+     xaxis = list(title = "States",
+     categoryorder = "array",
+     categoryarray = ~tg$States),
+     yaxis = list(title = "Tests per 100k hab.")
+)
+
+fig
+
+```
+
+Row {data-width=350, data-height=350}
+-----------------------------------------------------------------------
+
+### Total Tests
+```{r}
+printDT(BrTestsFormatted,
+        rownames(BrTestsFormatted)
+        )
+```
+
+### New Tests
+```{r}
+printDT(dife_t_br,
+        rownames(dife_t_br)
+        )
+```
+
+
+### Tests per 100K hab. 
+```{r}
+printDT(BrTests100kFormatted,
+        rownames(BrTests100kFormatted)
+        )
+```
+
+
+Mortality 
+==========================================================================
+
+Column {.tabset}
+-----------------------------------------------------------------------
+
+### <b style = "color: #4c1112"> Mortality Rate </b>
+```{r, fig.height = 6, fig.width = 10}
+BRstates <- c("SP", "RJ", "RS", "PE", "AM", "AP")
+
+plotMortality(BrMortality, BRstates, "Brazil Mortality Rate by State")
+```
+
+### <b style = "color: #4c1112">  Daily variation of Mortality </b>
+```{r, fig.height = 6, fig.width = 10}
+dx <- 
+BrMortality %>% 
+  mutate_at(vars(-Dates), ~ . - lag(.)) %>% 
+  mutate_if(~ any(is.na(.)), ~ if_else(is.na(.), 0, .)) %>% 
+  mutate_at(vars(-Dates), ~ round(., 2))
+
+plotMortality(BrMortality, BRstates, "Brazil Mortality Rate Variation by State")
+```
+

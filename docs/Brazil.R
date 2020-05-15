@@ -1,5 +1,7 @@
 BRRepo          <- "https://raw.githubusercontent.com/wcota/covid19br/master/cases-brazil-states.csv"
 
+BRRepoCity      <- "https://raw.githubusercontent.com/wcota/covid19br/master/cases-brazil-cities-time.csv"
+
 BRpop           <- "http://api.sidra.ibge.gov.br/values/t/6579/p/2019/v/9324/n3/all/f/c/h/n"
 
 
@@ -8,6 +10,16 @@ BRpop           <- "http://api.sidra.ibge.gov.br/values/t/6579/p/2019/v/9324/n3/
 RawBr <- readr::read_csv(BRRepo,
                          col_types = paste0('D', 'ccc', strrep('d', 13))
                          )
+
+
+
+
+RawBrCity <- readr::read_csv(BRRepoCity,
+                         col_types = paste0('D', 'ccc', strrep('d', 8))
+)
+
+
+
 
 #BR Population
 RawBrPop <- get_sidra(6579, 
@@ -62,6 +74,21 @@ BrCases <- BrCases %>% rbind(
    filter(BrCases, rownames(BrCases) %in% NULL) %>% colSums
   )
 rownames(BrCases)[28:29] <- c("Brasil", "Demais")
+
+
+
+
+BrCasesCity <- RawBrCity %>% 
+  select(date, state,city,ibgeID, totalCases) %>% 
+  tidyr::spread(date, totalCases, fill = 0) 
+
+
+
+
+
+
+
+
 
 BrDeaths <- RawBr %>% 
   select(date, state, deaths) %>% 
