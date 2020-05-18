@@ -1,0 +1,1 @@
+python.exe C:\Users\Padulla\Documents\GitHub\corona_dash\docs\Python\PA.py

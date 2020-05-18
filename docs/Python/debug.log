@@ -3,3 +3,12 @@
 [0508/231218.345:ERROR:process_info.cc(359)] UncheckedAllocate
 [0508/231218.442:ERROR:filesystem_win.cc(148)] DeleteFile C:\Users\Padulla\AppData\Local\Temp\scoped_dir1696_682088477\Crashpad\reports\e8a0e439-5517-4c90-abba-20f105cca1bb.dmp: O arquivo já está sendo usado por outro processo. (0x20)
 [0508/231547.249:ERROR:process_info.cc(359)] UncheckedAllocate
+[0518/104958.356:ERROR:process_info.cc(359)] UncheckedAllocate
+[0518/105020.141:ERROR:process_reader_win.cc(123)] NtOpenThread: {Acesso Negado} Um processo solicitou acesso a um objeto, mas o direito de acesso não lhe foi concedido. (0xc0000022)
+[0518/105020.141:ERROR:exception_snapshot_win.cc(98)] thread ID 16724 not found in process
+[0518/105020.171:ERROR:process_reader_win.cc(123)] NtOpenThread: {Acesso Negado} Um processo solicitou acesso a um objeto, mas o direito de acesso não lhe foi concedido. (0xc0000022)
+[0518/105020.171:ERROR:exception_snapshot_win.cc(98)] thread ID 10224 not found in process
+[0518/105133.563:ERROR:process_info.cc(359)] UncheckedAllocate
+[0518/105138.295:ERROR:process_info.cc(359)] UncheckedAllocate
+[0518/105140.596:ERROR:process_info.cc(359)] UncheckedAllocate
+[0518/105204.269:ERROR:process_info.cc(359)] UncheckedAllocate
