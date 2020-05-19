@@ -827,7 +827,7 @@ lapply(colnames(dh)[2:58], function(x){
                            mexpr  <- paste0("~", "`", "M", x, "`")
                            legm   <- paste0("Moving average of ", x)
                            t <- dh[nrow(dh),x]
-                           tt <- dzz[nrow(dzz),x]
+                           tt <- dzs[nrow(dzz),x]
                            a <- list(
                                       text = paste0(x," - Total Deaths:",tt," - Last data:",t),
                                       font = f2,
