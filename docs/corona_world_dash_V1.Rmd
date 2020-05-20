@@ -246,7 +246,7 @@ cbind(dz, dw) %>%
   as_tibble %>% 
   filter(Dates >= as.Date("2020-03-01"))
 
-f2 <- list(family = 'Old Standard TT, serif', size = 14, color = ("#4c1112"))
+f2 <- list(family = 'Old Standard TT, serif', size = 16, color = ("#4c1112"))
 
 plots <- 
 lapply(colnames(dh)[2:21], function(x){ 
@@ -418,7 +418,7 @@ cbind(dz, dw) %>%
   as_tibble %>% 
   filter(Dates >= as.Date("2020-03-01"))
 
-f2 <- list(family = 'Old Standard TT, serif', size = 14, color = ("#4c1112"))
+f2 <- list(family = 'Old Standard TT, serif', size = 16, color = ("#4c1112"))
 
 plots <- 
 lapply(colnames(dh)[2:21], function(x){ 
@@ -533,7 +533,7 @@ Column
 -----------------------------------------------------------------------
 
 ### Cases per day
-```{r, fig.width = 10, fig.height = 15}
+```{r, fig.width = 5, fig.height = 30}
 cols_names <- USACodes %>% rbind("US") 
 dz <- 
   UsCases[-c(57), ]  %>%
@@ -580,7 +580,7 @@ cbind(dz, dw) %>%
   as_tibble %>%   
   filter(Dates >= as.Date("2020-03-01"))
 
-f2 <- list(family = 'Old Standard TT, serif', size = 14, color = ("#4c1112"))
+f2 <- list(family = 'Old Standard TT, serif', size = 16, color = ("#4c1112"))
 
 plots <- 
 lapply(colnames(dh)[2:58], function(x){ 
@@ -610,7 +610,7 @@ lapply(colnames(dh)[2:58], function(x){
 
 
 names(plots) <- colnames(dz)[-c(1, length(dz))]
-p <- subplot(plots, nrows = 10, shareX = FALSE, shareY = FALSE)
+p <- subplot(plots, nrows = 15, shareX = FALSE, shareY = FALSE)
 p
 ```
 
@@ -767,7 +767,7 @@ Column
 -----------------------------------------------------------------------
 
 ### Deaths per day
-```{r, fig.width = 10, fig.height = 15}
+```{r, fig.width = 10, fig.height = 30}
 cols_names <- USACodes %>% rbind("US") 
 dz <- 
   UsDeaths[-c(57), ]  %>%
@@ -819,7 +819,7 @@ cbind(dz, dw) %>%
   as_tibble %>%   
   filter(Dates >= as.Date("2020-03-01"))
 
-f2 <- list(family = 'Old Standard TT, serif', size = 14, color = ("#4c1112"))
+f2 <- list(family = 'Old Standard TT, serif', size = 16, color = ("#4c1112"))
 
 plots <- 
 lapply(colnames(dh)[2:58], function(x){ 
@@ -846,7 +846,7 @@ lapply(colnames(dh)[2:58], function(x){
                              layout(showlegend = FALSE, annotations = a)
 })
 names(plots) <- colnames(dz)[-c(1, length(dz))]
-p <- subplot(plots, nrows = 10, shareX = FALSE, shareY = FALSE)
+p <- subplot(plots, nrows = 15, shareX = FALSE, shareY = FALSE)
 p
 ```
 
@@ -1075,7 +1075,7 @@ cbind(dz, dw) %>%
   as_tibble %>% 
   filter(Dates >= as.Date("2020-03-20"))
 
-f2 <- list(family = 'Old Standard TT, serif', size = 14, color = ("#4c1112"))
+f2 <- list(family = 'Old Standard TT, serif', size = 16, color = ("#4c1112"))
 
 plots <- 
 lapply(colnames(dh)[2:29], function(x){ 
@@ -1406,7 +1406,7 @@ cbind(dz, dw) %>%
   as_tibble %>% 
   filter(Dates >= as.Date("2020-03-20"))
 
-f2 <- list(family = 'Old Standard TT, serif', size = 14, color = ("#4c1112"))
+f2 <- list(family = 'Old Standard TT, serif', size = 16, color = ("#4c1112"))
 
 plots <- 
 lapply(colnames(dh)[2:29], function(x){ 
