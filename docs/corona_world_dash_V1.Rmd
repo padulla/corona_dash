@@ -1581,7 +1581,7 @@ printDT(dife_c_sp,
 
 ### Var. (%) 
 ```{r}
-printDT(porce_c_sp,
+printDT(porce_c_sp/100,
         rownames(porce_c_sp)
         ) %>% DT::formatPercentage(1:5, 2)
 ```
@@ -1606,7 +1606,7 @@ printDT(dife_d_sp,
 
 ### Var. (%) 
 ```{r}
-printDT(porce_c_sp,
+printDT(porce_d_sp/100,
         rownames(porce_d_sp)
         ) %>% DT::formatPercentage(1:5, 2)
 ```
