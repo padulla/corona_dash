@@ -1557,13 +1557,29 @@ BrMortality %>%
 plotMortality(BrMortality, BRstates, "Brazil Mortality Rate Variation by State")
 ```
 
-Tabs {data-navmenu='Brasil - SP'} 
+Cases {data-navmenu='Brasil - SP'} 
 ==========================================================================
 
-Row
+Column {.tabset}
 -----------------------------------------------------------------------
 
+### <b style = "color: #4c1112" > Comparative after 100 cases </b>
+```{r, fig.width = 10, fig.height = 6}
 
+
+plot <- plotThis(SPCasesReg , rownames(SPCasesReg), ytitle = "Confirmed Cases", xtitle = "Days from 100 Cases")
+
+# fig <- subplot(plotN$plotly, plotNE$plotly,plotCO$plotly,plotS_SE$plotly, nrows = 2, shareX = TRUE, shareY = FALSE, titleX = T, titleY = T)
+# fig
+
+plot$plotly
+
+##ggsave(paste0(ggpath, "5BRCases.png"))
+
+```
+
+Row {data-width=350, data-height=350}
+-----------------------------------------------------------------------
 ### Total Cases
 ```{r}
 printDT(SPCasesFormatted,
@@ -1586,9 +1602,29 @@ printDT(porce_c_sp/100,
         ) %>% DT::formatPercentage(1:5, 2)
 ```
 
-Row
------------------------------------------------------------------------
+Deaths {data-navmenu='Brasil - SP'} 
+==========================================================================
 
+
+Column {.tabset}
+-----------------------------------------------------------------------
+### <b style = "color: #4c1112" > Comparative after 10 Deaths </b>
+```{r, fig.width = 10, fig.height = 6}
+
+
+plot <- plotThis10(SPDeathsReg , rownames(SPDeathsReg), ytitle = "Confirmed Deaths", xtitle = "Days from 10 Deaths")
+
+# fig <- subplot(plotN$plotly, plotNE$plotly,plotCO$plotly,plotS_SE$plotly, nrows = 2, shareX = TRUE, shareY = FALSE, titleX = T, titleY = T)
+# fig
+
+plot$plotly
+
+##ggsave(paste0(ggpath, "5BRCases.png"))
+
+```
+
+Row {data-width=350, data-height=350}
+-----------------------------------------------------------------------
 ### Total Deaths
 ```{r}
 printDT(SPDeathsFormatted,
