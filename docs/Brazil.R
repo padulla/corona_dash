@@ -96,13 +96,22 @@ SP_cases <-
 reg_names <- arrange(unique(SP_dic_reg[,2]),reg)
 
 
+CSP_cases <- 
+  BrCasesCity %>% 
+  filter(ibgeID=="3550308") %>% 
+  column_to_rownames("city") %>% 
+  select(-c("state","ibgeID")) %>% 
+  rename_all(function(x) format(as.Date(x), "%m/%d/%y"))
+
+
 
 SPCasesReg <- 
   do.call(rbind,SP_cases) %>% 
   as_tibble %>% 
   bind_cols(reg_names) %>% 
   column_to_rownames("reg") %>% 
-  rename_all(function(x) format(as.Date(x), "%m/%d/%y"))
+  rename_all(function(x) format(as.Date(x), "%m/%d/%y")) %>% 
+  rbind(CSP_cases)
   
 
 
@@ -124,6 +133,14 @@ SP_deaths <-
 
 reg_names <- arrange(unique(SP_dic_reg[,2]),reg)
 
+CSP_deaths <- 
+  BrDeathsCity %>% 
+  filter(ibgeID=="3550308") %>% 
+  column_to_rownames("city") %>% 
+  select(-c("state","ibgeID")) %>% 
+  rename_all(function(x) format(as.Date(x), "%m/%d/%y"))
+
+
 
 
 SPDeathsReg <- 
@@ -131,7 +148,8 @@ SPDeathsReg <-
   as_tibble %>% 
   bind_cols(reg_names) %>% 
   column_to_rownames("reg") %>% 
-  rename_all(function(x) format(as.Date(x), "%m/%d/%y"))
+  rename_all(function(x) format(as.Date(x), "%m/%d/%y"))%>% 
+  rbind(CSP_deaths)
 
 
 

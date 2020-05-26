@@ -317,7 +317,7 @@ gg <- gg + theme(legend.position = 'bottom') +
 
 ggplotly(gg, height = 500, width = 1200) %>%
   layout(legend = list(orientation = 'h', x = +0.05, y = -0.15))
-ggsave(paste0(ggpath, "DoublingTime.png"))
+##ggsave(paste0(ggpath, "DoublingTime.png"))
 ```
 
 
@@ -334,7 +334,7 @@ Column
 countries <- c("Italy", "Spain", "France", "Germany", "United Kingdom", "Netherlands")
 plots <- plotThis(WorldDeaths, countries, ytitle = "Confirmed Deaths", xtitle = "Days from 100 Deaths")
 plots$plotly
-ggsave(paste0(ggpath, "2EuropeDeaths.png"))
+##ggsave(paste0(ggpath, "2EuropeDeaths.png"))
 ```
 
 ### <b style = "color: #4c1112">  Europe: total deaths </b>
@@ -674,7 +674,7 @@ gg <- gg + theme(legend.position = 'bottom') +
 
 ggplotly(gg, height = 500, width = 1200) %>%
   layout(legend = list(orientation = 'h', x = +0.05, y = -0.15))
-ggsave(paste0(ggpath, "DoublingTime.png"))
+##ggsave(paste0(ggpath, "DoublingTime.png"))
 ```
 
 Hospitalized {data-navmenu='US'} 
@@ -716,7 +716,7 @@ abr    <- c("NY", "NJ", "MI", "CA", "MA", "FL", "WA", "TX")
 
 plot <- plotThis(UsCases, states, abr, ytitle = "Confirmed Cases", xtitle = "Days from 100 Cases")
 plot$plotly
-ggsave(paste0(ggpath, "4USADeaths.png"))
+##ggsave(paste0(ggpath, "4USADeaths.png"))
 ```
 
 ### <b style = "color: #4c1112">  USA: total deaths </b>
@@ -970,7 +970,7 @@ plot <- plotThis(BrCases, states, ytitle = "Confirmed Cases", xtitle = "Days fro
 
 plot$plotly
 
-ggsave(paste0(ggpath, "5BRCases.png"))
+##ggsave(paste0(ggpath, "5BRCases.png"))
 
 ```
 
@@ -1007,7 +1007,7 @@ states <- c("SP"
 
 plot <- plotThis10(BrCasesPop, states, ytitle = "Confirmed Cases", xtitle = "Days from 10 Cases")
 plot$plotly
-ggsave(paste0(ggpath, "BRCasespop.png"))
+##ggsave(paste0(ggpath, "BRCasespop.png"))
 
 ```
 
@@ -1177,7 +1177,7 @@ gg <- gg + theme(legend.position = 'bottom') +
 
 ggplotly(gg, height = 500, width = 1200) %>%
   layout(legend = list(orientation = 'h', x = +0.05, y = -0.15))
-ggsave(paste0(ggpath, "DoublingTime.png"))
+##ggsave(paste0(ggpath, "DoublingTime.png"))
 ```
 
 
@@ -1222,7 +1222,7 @@ states <- c("SP"
 
 plot <- plotThis(BrDeaths, states, ytitle = "Confirmed Deaths", xtitle = "Days from 100 Deaths")
 plot$plotly
-ggsave(paste0(ggpath, "6BRDeaths.png"))
+##ggsave(paste0(ggpath, "6BRDeaths.png"))
 
 ```
 
@@ -1262,7 +1262,7 @@ states <- c("SP"
 
 plot <- plotThis10(BrDeathsPop, states, ytitle = "Confirmed Deaths", xtitle = "Days from 10 Deaths")
 plot$plotly
-ggsave(paste0(ggpath, "BRDeathspop.png"))
+##ggsave(paste0(ggpath, "BRDeathspop.png"))
 ```
 
 
@@ -1557,7 +1557,7 @@ BrMortality %>%
 plotMortality(BrMortality, BRstates, "Brazil Mortality Rate Variation by State")
 ```
 
-SP {data-navmenu='Brasil'} 
+Tabs {data-navmenu='Brasil - SP'} 
 ==========================================================================
 
 Row
@@ -1611,9 +1611,63 @@ printDT(porce_d_sp/100,
         ) %>% DT::formatPercentage(1:5, 2)
 ```
 
-SP Cases per day {data-navmenu='Brasil'} 
+
+Doubling Time {data-navmenu='Brasil - SP'}
+====================================================================
+
+Column {.tabset}
+-----------------------------------------------------------------------
+
+### <b style = "color: #4c1112">  Time to double cases </b>
+```{r, fig.height = 6, fig.width = 10}
+
+doublingTime <- function(x) {
+  y <- x - dplyr::lag(x) 
+  x / y
+}
+
+
+Dates <- seq.Date(from = as.Date('2020-02-25'),
+                  to   = HereBR,
+                  by   = 'day')
+
+
+da <- 
+SPCasesReg %>% 
+  t() %>% 
+  as_tibble() %>% 
+  mutate_all(~ TTR::SMA(., 7)) %>% 
+  mutate_all(doublingTime) %>% 
+  mutate(Days = as.Date(Dates)) %>% 
+  filter(Days >= as.Date("2020-03-01"))
+
+
+regs_sp <- rownames(SPCasesReg)
+
+gg <- ggplot(da, aes(x = Days)) 
+for (i in regs_sp) {
+  gg <- gg + geom_line(aes_(y = as.name(i),  colour = i), na.rm = TRUE) +
+             geom_point(aes_(y = as.name(i), colour = i), na.rm = TRUE)
+}
+gg <- gg + labs(x = "Days", y = "Doubling Time")
+gg <- gg + theme(legend.position = 'bottom') +
+           scale_color_manual("", values = plotlyColors, breaks = regs_sp)
+
+ggplotly(gg, height = 500, width = 1200) %>%
+  layout(legend = list(orientation = 'h', x = +0.05, y = -0.15))
+##ggsave(paste0(ggpath, "DoublingTime.png"))
+```
+
+
+
+
+
+
+
+SP Cases per day {data-navmenu='Brasil - SP'} 
 ==========================================================================
 
+### Cases per day
 ```{r, fig.width = 10, fig.height = 12}
 dz <- 
 SPCasesReg %>% 
@@ -1674,9 +1728,10 @@ p
 ```
 
 
-SP Deaths per day {data-navmenu='Brasil'} 
+SP Deaths per day {data-navmenu='Brasil - SP'} 
 ==========================================================================
 
+### Deaths per day
 ```{r, fig.width = 10, fig.height = 12}
 dz <- 
 SPDeathsReg %>% 
@@ -1735,8 +1790,6 @@ names(plots) <- colnames(dz)[-c(1, length(dz))]
 p <- subplot(plots, nrows = 7, shareX = FALSE, shareY = FALSE)
 p
 ```
-
-
 
 
 
@@ -1837,7 +1890,7 @@ plot$ggplot +
   annotate('text', x = 55, y = d0f[n,2,drop=T] + 0.5e6, label = "Doubles every 4 days", color = "#CD0C0E") +
   geom_line(d0f, mapping = aes(y = V3), linetype = 'dashed', color = "#CD0C0E") +
   annotate('text', x = 55, y = d0f[n,3,drop=T] + 0.1e5, label = "Doubles every 7 days", color = "#CD0C0E") 
-ggsave(paste0(ggpath,"7CasesExp.png"))
+##ggsave(paste0(ggpath,"7CasesExp.png"))
 ```
 
 ### <b style = "color: #4c1112">  Deaths relation with exponential growth </b>
@@ -1931,7 +1984,7 @@ plot$ggplot +
   annotate('text', x = 55, y = d0f[n,2,drop=T] + 0.5e6, label = "Doubles every 4 days", color = "#CD0C0E") +
   geom_line(d0f, mapping = aes(y = V3), linetype = 'dashed', color = "#CD0C0E") +
   annotate('text', x = 55, y = d0f[n,3,drop=T] + 0.1e5, label = "Doubles every 7 days", color = "#CD0C0E") 
-ggsave(paste0(ggpath,"8DeathsExp.png"))
+##ggsave(paste0(ggpath,"8DeathsExp.png"))
 ```
 
 Doubling Time {data-navmenu='Figures'}
@@ -1979,7 +2032,7 @@ gg <- gg + theme(legend.position = 'bottom') +
 
 ggplotly(gg, height = 500, width = 1200) %>%
   layout(legend = list(orientation = 'h', x = +0.05, y = -0.15))
-ggsave(paste0(ggpath, "DoublingTime.png"))
+##ggsave(paste0(ggpath, "DoublingTime.png"))
 ```
 
 Total Cases After Lockdown {data-navmenu='Figures'}
