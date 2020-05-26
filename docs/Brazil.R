@@ -28,8 +28,11 @@ RawBrPop <- get_sidra(6579,
                       geo = "State" )
 
 
+SP_dic_reg <- read_delim(file="C:\\Users\\Padulla\\Documents\\GitHub\\corona_dash\\docs\\dic_regs.csv",delim=";") 
 
 excel_base <- RawBr %>% select(date,country,state,city,newCases,totalCases,deaths)
+
+
 write.xlsx(excel_base, 'C:\\Users\\Padulla\\Documents\\GitHub\\corona_dash\\docs\\excel_base.xlsx')
 
 #========================================================================================================
@@ -82,11 +85,53 @@ BrCasesCity <- RawBrCity %>%
   select(date, state,city,ibgeID, totalCases) %>% 
   tidyr::spread(date, totalCases, fill = 0) 
 
+SP_cases <- 
+  BrCasesCity %>% 
+  filter(state=="SP") %>% 
+  left_join(SP_dic_reg,by="ibgeID")%>% 
+  group_by(reg) %>% 
+  select(-c("state","city","ibgeID","reg"))  %>% 
+  group_map(~ colSums(.x)) 
+  
+reg_names <- arrange(unique(SP_dic_reg[,2]),reg)
+
+
+
+SPCasesReg <- 
+  do.call(rbind,SP_cases) %>% 
+  as_tibble %>% 
+  bind_cols(reg_names) %>% 
+  column_to_rownames("reg") %>% 
+  rename_all(function(x) format(as.Date(x), "%m/%d/%y"))
+  
 
 
 
 
+####
 
+BrDeathsCity <- RawBrCity %>% 
+  select(date, state,city,ibgeID, deaths) %>% 
+  tidyr::spread(date, deaths, fill = 0) 
+
+SP_deaths <- 
+  BrDeathsCity %>% 
+  filter(state=="SP") %>% 
+  left_join(SP_dic_reg,by="ibgeID")%>% 
+  group_by(reg) %>% 
+  select(-c("state","city","ibgeID","reg"))  %>% 
+  group_map(~ colSums(.x)) 
+
+reg_names <- arrange(unique(SP_dic_reg[,2]),reg)
+
+
+
+SPDeathsReg <- 
+  do.call(rbind,SP_deaths) %>% 
+  as_tibble %>% 
+  bind_cols(reg_names) %>% 
+  column_to_rownames("reg") %>% 
+  rename_all(function(x) format(as.Date(x), "%m/%d/%y"))
 
 
 
@@ -242,8 +287,15 @@ dife_t100k_br        <- difference(BrTestsP100k)[SelectedBR, ] %>% select(last_c
 porce_t100k_br       <- percentage(BrTestsP100k)[SelectedBR, ] %>% select(last_col(4:0))
 
 
+# SP Cases
+SPCasesFormatted <- SPCasesReg %>% select(last_col(4:0))
+dife_c_sp        <- difference(SPCasesReg)%>% select(last_col(4:0))
+porce_c_sp       <- percentage(SPCasesReg) %>% select(last_col(4:0))
 
-
+# SP Deaths
+SPDeathsFormatted <- SPDeathsReg %>% select(last_col(4:0))
+dife_d_sp        <- difference(SPDeathsReg)%>% select(last_col(4:0))
+porce_d_sp       <- percentage(SPDeathsReg) %>% select(last_col(4:0))
 
 
 
