@@ -16,6 +16,13 @@ library(tidyverse)
 library(plotly)
 library(sidrar)
 library(xlsx)
+library(dplyr)
+library(leaflet)
+
+
+
+
+
 
 
 # Some color schemes: 
@@ -73,11 +80,64 @@ source("Brazil.R")
 
 
 ```
+
 Main {data-navmenu='Cases'} 
 ==========================================================================
 
-Column {.tabset}
+Column 
 -----------------------------------------------------------------------
+
+### <b style = "color: #4c1112" > Cases Map </b>
+```{r, fig.width = 10, fig.height = 6}
+
+BrEstados <- geojsonio::geojson_read("C:/Users/Padulla/Documents/GitHub/corona_dash/GEOjson/brazil-states.geojson", what = "sp")
+
+BrEstados@data <- BrEstados@data %>% tibble:: add_column(BrCasesDia) 
+
+
+bins <- c(100, 200, 400, 800, 1000, 1500, 2500, 4000,5000,10000,15000,20000,25000,30000,40000, Inf)
+pal <- colorBin("Blues", domain = BrEstados@data$BrCasesDia$totalCases, bins = bins)
+
+
+
+
+m <- leaflet(BrEstados) %>%
+  setView(-50, -16, 3.5) %>% addTiles()
+
+
+
+labels <- sprintf(
+  "<strong>%s</strong><br/>%g people",
+  BrEstados@data$name, BrEstados@data$BrCasesDia$totalCases
+) %>% lapply(htmltools::HTML)
+
+
+
+
+
+
+m <- m %>% addPolygons(
+  fillColor = ~pal(BrEstados@data$BrCasesDia$totalCases),
+  weight = 2,
+  opacity = 1,
+  color = "white",
+  dashArray = "5",
+  fillOpacity = 2,
+  highlight = highlightOptions(  weight = 5,    color = "#666",    dashArray = "",    fillOpacity = 0.7,    bringToFront = TRUE),
+  label = labels,
+  labelOptions = labelOptions(
+    style = list("font-weight" = "normal", padding = "3px 8px"),
+    textsize = "15px",
+    direction = "auto")) %>%
+  addLegend(pal = pal, values = ~density, opacity = 0.7, title = "Total Cases",
+    position = "bottomright" )
+
+m
+
+
+
+```
+
 
 ### <b style = "color: #4c1112" > Comparative after 100 cases </b>
 ```{r, fig.width = 10, fig.height = 6}
@@ -202,7 +262,9 @@ ggsave(paste0(ggpath, "BRCasespop.png"))
 
 ```
 
-Row {data-width=350, data-height=350}
+
+
+Column {data-width=350, data-height=350}
 -----------------------------------------------------------------------
 
 ### Total Cases

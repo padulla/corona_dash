@@ -4,6 +4,8 @@ BRRepoCity      <- "https://raw.githubusercontent.com/wcota/covid19br/master/cas
 
 BRpop           <- "http://api.sidra.ibge.gov.br/values/t/6579/p/2019/v/9324/n3/all/f/c/h/n"
 
+BRDIARepo       <- "https://raw.githubusercontent.com/wcota/covid19br/master/cases-brazil-total.csv"
+
 
 # Fetching Main databases -----------------------------------------------------
 # BR
@@ -34,6 +36,9 @@ excel_base <- RawBr %>% select(date,country,state,city,newCases,totalCases,death
 
 
 write.xlsx(excel_base, 'C:\\Users\\Padulla\\Documents\\GitHub\\corona_dash\\docs\\excel_base.xlsx')
+
+
+
 
 #========================================================================================================
 # Brasil
@@ -96,6 +101,7 @@ SP_cases <-
 reg_names <- arrange(unique(SP_dic_reg[,2]),reg)
 
 
+
 CSP_cases <- 
   BrCasesCity %>% 
   filter(ibgeID=="3550308") %>% 
@@ -112,6 +118,25 @@ SPCasesReg <-
   column_to_rownames("reg") %>% 
   rename_all(function(x) format(as.Date(x), "%m/%d/%y")) %>% 
   rbind(CSP_cases)
+
+
+
+
+
+
+
+SPCasesMap <- BrCasesCity %>% 
+  filter(state=="SP") %>% 
+  select(-c("state","city")) %>% 
+  column_to_rownames("ibgeID") %>% 
+  rename_all(function(x) format(as.Date(x), "%m/%d/%y")) %>% 
+  select(ncol(SPCasesReg)) %>% 
+  rownames_to_column("CD_MUN")
+
+
+
+
+
   
 
 
@@ -265,6 +290,11 @@ BrDeathsPop <- (BrDeathsLb /BrPop)*1000000
 
 
 
+RawBrDia <- readr::read_csv(BRDIARepo)
+
+BrCasesDia <- RawBrDia %>%  select(state, totalCases)
+BrCasesDia<-slice(BrCasesDia, 2:28)
+BrCasesDia <- BrCasesDia %>%   tibble::column_to_rownames(var = "state")
 
 
 

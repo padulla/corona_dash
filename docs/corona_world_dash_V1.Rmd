@@ -73,7 +73,7 @@ source("Functions.R")
 source("World.R")
 source("USA.R")
 source("Brazil.R")
-source("export_plotly2SVG.R")
+
 
 # Reading country codes for map plot. 
 WorldCodes <- read_csv(file = "../worldCodes.csv"
@@ -1557,6 +1557,9 @@ BrMortality %>%
 plotMortality(BrMortality, BRstates, "Brazil Mortality Rate Variation by State")
 ```
 
+
+
+
 Cases {data-navmenu='Brasil - SP'} 
 ==========================================================================
 
@@ -1826,6 +1829,7 @@ names(plots) <- colnames(dz)[-c(1, length(dz))]
 p <- subplot(plots, nrows = 7, shareX = FALSE, shareY = FALSE)
 p
 ```
+
 
 
 
