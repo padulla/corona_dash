@@ -261,7 +261,7 @@ plotMap <- function(dataFrame, place, plotTitle, proj = "Equirectangular"){
       z = ~log10(CASES + 1),
       type="choropleth",
       colorscale    = "Viridis",
-      reversescale  = TRUE,
+      reversescale  = FALSE,
       showscale     = FALSE,
       hovertemplate = paste("Cases: %{customdata} <extra>%{text}</extra>"),
       text = ~COUNTRY, locations = ~CODE, marker = list(line = l)
