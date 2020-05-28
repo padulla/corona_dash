@@ -1031,7 +1031,7 @@ mutate_all(~ round(.x,1))  %>%
 rownames_to_column() %>%
 pivot_longer(-rowname) %>%
 pivot_wider(names_from=rowname, values_from=value) %>%
-rename_all(~ c("RAs", format(seq.Date(from=as.Date("2020-02-25"),to=Sys.Date(),by="days"),"%d/%m/%y"))) %>%
+rename_all(~ c("RAs", format(seq.Date(from=as.Date("2020-02-25"),to=Sys.Date()-1,by="days"),"%d/%m/%y"))) %>%
 select("RAs",last_col(50:0))
 
 m <-  TABELA_R_eff %>%
