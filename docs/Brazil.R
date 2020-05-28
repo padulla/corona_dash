@@ -23,6 +23,7 @@ RawBrCity <- readr::read_csv(BRRepoCity,
 
 
 
+
 #BR Population
 RawBrPop <- get_sidra(6579, 
                       variable = 9324,
@@ -175,6 +176,17 @@ SPDeathsReg <-
   column_to_rownames("reg") %>% 
   rename_all(function(x) format(as.Date(x), "%m/%d/%y"))%>% 
   rbind(CSP_deaths)
+
+
+
+
+
+
+write.xlsx(SPCasesReg , 'C:\\Users\\Padulla\\Documents\\GitHub\\corona_dash\\docs\\excel_sp.xlsx', sheetName="SPCasesReg ")
+write.xlsx(SPDeathsReg, 'C:\\Users\\Padulla\\Documents\\GitHub\\corona_dash\\docs\\excel_sp.xlsx', sheetName="SPDeathsReg",append=TRUE)
+
+
+
 
 
 
