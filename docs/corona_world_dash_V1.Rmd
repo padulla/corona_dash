@@ -94,6 +94,7 @@ Row {data-width = 800, data-height = 100}
 ### World Cases {.no-title}
 ```{r, fig.width = 10, fig.height = 7}
 # MAGIC TIME! Joinining dataframes by country and filling the NA with 0
+
 dg <- WorldCases %>% 
         tibble::rownames_to_column() %>% 
         select(1, last_col()) %>% 
