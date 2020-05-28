@@ -72,7 +72,7 @@ dias <- ceiling(difftime(Sys.Date(), "2020-01-22", units = "days")) #-1
 ggpath  <- "C:/Users/Padulla/Documents/GitHub/corona_dash/"
 Here    <- Sys.Date()
 
-HereBR  <- Here - 1
+HereBR  <- Here - 0
 
 # loading stuff
 source("Functions.R")
@@ -273,7 +273,6 @@ printDT(BrCasesFormatted,
         rownames(BrCasesFormatted)
         )
 ```
-
 
 ### New Cases
 ```{r}
@@ -694,6 +693,7 @@ p
 
 
 
+
 Tests
 ==========================================================================
 
@@ -1018,8 +1018,7 @@ p
 
 Taxa de Novos Casos {data-navmenu='SP'}
 ==========================================================================
-
-Column
+Column 
 -----------------------------------------------------------------------
 ### Taxa de Novos Casos
 ```{r, fig.width = 10, fig.height = 6}
@@ -1035,6 +1034,7 @@ rename_all(~ c("RAs", format(seq.Date(from=as.Date("2020-02-25"),to=Sys.Date(),b
 select("RAs",last_col(50:0))
 
 m <-  TABELA_R_eff %>%
+    filter(row_number() != 5) %>%
     column_to_rownames("RAs") %>%
   as.matrix()
 
@@ -1059,10 +1059,13 @@ Deaths per day {data-navmenu='SP'}
 ```{r, fig.width = 10, fig.height = 12}
 dz <- 
 SPDeathsReg %>% 
-  rownames_to_column(var = "NovaColuna") %>%
-  arrange_at(vars(last_col()), desc) %>%
-  select(NovaColuna, everything())  %>%
-  column_to_rownames("NovaColuna") %>%
+  
+  
+    rownames_to_column(var = "NovaColuna") %>%
+       arrange_at(vars(last_col()), desc) %>%
+       select(NovaColuna, everything())  %>%
+      column_to_rownames("NovaColuna") %>%
+  
   t %>% 
   as_tibble %>% 
   mutate_all(~ . - lag(.)) %>% 
@@ -1076,16 +1079,6 @@ do.call(cbind, lapply(colnames(dz)[-1], function(x) TTR::SMA(dz[,x], 7))) %>%
   rename_all(~ paste0('M',colnames(dz)[-1])) %>% 
   mutate_if(~ any(is.na(.)), ~ if_else(is.na(.), 0, .)) 
 
-dd <- dw %>%
-mutate_all(~ .x/lag(.x,7)) %>%
-rename_all(~ paste0('D',colnames(dz)[-1])) %>%  
-mutate_if(~ any(is.infinite(.x)),~ replace(.x,is.infinite(.x),0)) %>%
-mutate_if(~ any(is.na(.x)),~ replace(.x,is.na(.x),0))
-
-
-
-
-
 dh <- 
 cbind(dz, dw) %>% 
   as_tibble %>% 
@@ -1093,13 +1086,10 @@ cbind(dz, dw) %>%
 
 f2 <- list(family = 'Old Standard TT, serif', size = 16, color = ("#4c1112"))
 
-
-
 plots <- 
 lapply(colnames(dh)[2:18], function(x){ 
                            expr   <- paste0("~", "`", x, "`")
                            mexpr  <- paste0("~", "`", "M", x, "`")
-                           #dexpr  <- paste0("~", "`", "D", x, "`")
                            legm   <- paste0("Moving average of ", x)
                            t <- dh[nrow(dh),x]
                            tt <- SPDeathsReg[x,ncol(SPDeathsReg)]
@@ -1117,11 +1107,10 @@ lapply(colnames(dh)[2:18], function(x){
                                     )
                            plot_ly(dh, x = ~Dates) %>% 
                              add_trace(y = as.formula(expr),  type = 'bar', color = I("firebrick4")) %>% 
-                             add_trace(y = as.formula(mexpr), type = 'scatter', mode = 'lines', color = I("black")) %>% 
-                             #add_trace(y = as.formula(dexpr), type = 'scatter', mode = 'lines', color = I("red") , name = 'TX Óbito', yaxis = "y2" )%>% 
+                             add_trace(y = as.formula(mexpr), type = 'scatter', mode = 'lines', color = I("black") ) %>% 
                              layout(showlegend = FALSE, annotations = a)
 })
-#names(plots) <- colnames(dz)[-c(1, length(dz))]
+names(plots) <- colnames(dz)[-c(1, length(dz))]
 p <- subplot(plots, nrows = 7, shareX = FALSE, shareY = FALSE)
 p
 ```
@@ -1129,12 +1118,10 @@ p
 
 Taxa de Obitos {data-navmenu='SP'}
 ==========================================================================
-
-Column
+Column 
 -----------------------------------------------------------------------
 ### Taxa de Obitos
 ```{r, fig.width = 10, fig.height = 6}
-
 TABELA_R_eff <- dw %>%
 mutate_all(~ .x/lag(.x,7)) %>%
 mutate_if(~ any(is.infinite(.x)),~ replace(.x,is.infinite(.x),0)) %>%
@@ -1143,13 +1130,13 @@ mutate_all(~ round(.x,1))  %>%
 rownames_to_column() %>%
 pivot_longer(-rowname) %>%
 pivot_wider(names_from=rowname, values_from=value) %>%
-rename_all(~ c("RAs", format(seq.Date(from=as.Date("2020-02-25"),to=Sys.Date() -1,by="days"),"%d/%m/%y"))) %>%
+rename_all(~ c("RAs", format(seq.Date(from=as.Date("2020-02-25"),to=Sys.Date(),by="days"),"%d/%m/%y"))) %>%
 select("RAs",last_col(50:0))
 
 m <-  TABELA_R_eff %>%
-  column_to_rownames("RAs") %>%
-  as.matrix() 
-
+    filter(row_number() != 4) %>%
+    column_to_rownames("RAs") %>%
+  as.matrix()
 
 colorScale <- data.frame(z=c(0,0.17,0.17,0.33,0.33,0.66,0.66,1),col=c("#008000","#008000","#FFFF00","#FFFF00","#ffa500", "#ffa500", "#FF0000", "#FF0000"))
 colorScale$col <- as.character(colorScale$col)
@@ -1157,9 +1144,8 @@ colorScale$col <- as.character(colorScale$col)
 
 
 p <- plot_ly(x=colnames(m), y=rownames(m), z = m, zmin=0 , zmax=3, zsmooth=FALSE, ygap =0.5,xgap =0.5, colorscale=colorScale, type = "heatmap")
-
-
 p
+
 
 ```
 

@@ -17,7 +17,7 @@ RawBr <- readr::read_csv(BRRepo,
 
 
 RawBrCity <- readr::read_csv(BRRepoCity,
-                         col_types = paste0('D', 'ccc', strrep('d', 8),'c')
+                         col_types = paste0('D', 'ccc', strrep('d', 8))
 )
 
 

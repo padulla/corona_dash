@@ -65,8 +65,8 @@ dias <- ceiling(difftime(Sys.Date(), "2020-01-22", units = "days")) #-1
 # Choose here the path to output png plots:
 ggpath  <- "C:/Users/Padulla/Documents/GitHub/corona_dash/"
 Here    <- Sys.Date()
-HereUSA <- Here - 1
-HereBR  <- Here - 1
+HereUSA <- Here - 0
+HereBR  <- Here - 0
 
 # loading stuff
 source("Functions.R")
@@ -1765,37 +1765,37 @@ p
 ```
 
 
-SP Taxa de Novos Casos {data-navmenu='Brasil - SP'}
-==========================================================================
-### Taxa de Novos Casos
-```{r}
-TABELA_R_eff <- dw %>%
-mutate_all(~ .x/lag(.x,7)) %>%
-mutate_if(~ any(is.infinite(.x)),~ replace(.x,is.infinite(.x),0)) %>%
-mutate_if(~ any(is.na(.x)),~ replace(.x,is.na(.x),0)) %>%
-mutate_all(~ round(.x,1))  %>%
-rownames_to_column() %>%
-pivot_longer(-rowname) %>%
-pivot_wider(names_from=rowname, values_from=value) %>%
-rename_all(~ c("RAs", format(seq.Date(from=as.Date("2020-02-25"),to=Sys.Date()-1,by="days"),"%d/%m/%y"))) %>%
-select("RAs",last_col(50:0))
+<!-- SP Taxa de Novos Casos {data-navmenu='Brasil - SP'}  -->
+<!-- ========================================================================== -->
+<!-- ### Taxa de Novos Casos -->
+<!-- ```{r} -->
+<!-- TABELA_R_eff <- dw %>%  -->
+<!-- mutate_all(~ .x/lag(.x,7)) %>%  -->
+<!-- mutate_if(~ any(is.infinite(.x)),~ replace(.x,is.infinite(.x),0)) %>%  -->
+<!-- mutate_if(~ any(is.na(.x)),~ replace(.x,is.na(.x),0)) %>%  -->
+<!-- mutate_all(~ round(.x,1))  %>%  -->
+<!-- rownames_to_column() %>%   -->
+<!-- pivot_longer(-rowname) %>%  -->
+<!-- pivot_wider(names_from=rowname, values_from=value) %>%  -->
+<!-- rename_all(~ c("RAs", format(seq.Date(from=as.Date("2020-02-25"),to=Sys.Date(),by="days"),"%d/%m/%y"))) %>%  -->
+<!-- select("RAs",last_col(50:0)) -->
 
-m <-  TABELA_R_eff %>%
-    filter(row_number() != 5) %>%
-    column_to_rownames("RAs") %>%
+<!-- m <-  TABELA_R_eff %>%  -->
+<!--     filter(row_number() != 5) %>%  -->
+<!--     column_to_rownames("RAs") %>% -->
 
-  as.matrix()
+<!--   as.matrix() -->
 
-colorScale <- data.frame(z=c(0,0.33,0.33,0.66,0.66,1),col=c("#008000","#008000","#FFFF00","#FFFF00", "#FF0000", "#FF0000"))
-colorScale$col <- as.character(colorScale$col)
-
-
-
-p <- plot_ly(x=colnames(m), y=rownames(m), z = m, zmin=0,zmax=3, zsmooth=FALSE, ygap =0.5,xgap =0.5, colorscale=colorScale, type = "heatmap")
-p
+<!-- colorScale <- data.frame(z=c(0,0.33,0.33,0.66,0.66,1),col=c("#008000","#008000","#FFFF00","#FFFF00", "#FF0000", "#FF0000")) -->
+<!-- colorScale$col <- as.character(colorScale$col) -->
 
 
-```
+
+<!-- p <- plot_ly(x=colnames(m), y=rownames(m), z = m, zmin=0,zmax=3, zsmooth=FALSE, ygap =0.5,xgap =0.5, colorscale=colorScale, type = "heatmap") -->
+<!-- p -->
+
+
+<!-- ``` -->
 
 
 
@@ -1864,37 +1864,37 @@ p
 ```
 
 
-SP Taxa de Óbitos {data-navmenu='Brasil - SP'}
-==========================================================================
-### Taxa de Óbitos
-```{r}
-TABELA_R_eff <- dw %>%
-mutate_all(~ .x/lag(.x,7)) %>%
-mutate_if(~ any(is.infinite(.x)),~ replace(.x,is.infinite(.x),0)) %>%
-mutate_if(~ any(is.na(.x)),~ replace(.x,is.na(.x),0)) %>%
-mutate_all(~ round(.x,1))  %>%
-rownames_to_column() %>%
-pivot_longer(-rowname) %>%
-pivot_wider(names_from=rowname, values_from=value) %>%
-rename_all(~ c("RAs", format(seq.Date(from=as.Date("2020-02-25"),to=Sys.Date()-1,by="days"),"%d/%m/%y"))) %>%
-select("RAs",last_col(50:0))
+<!-- SP Taxa de Óbitos {data-navmenu='Brasil - SP'}  -->
+<!-- ========================================================================== -->
+<!-- ### Taxa de Óbitos -->
+<!-- ```{r} -->
+<!-- TABELA_R_eff <- dw %>%  -->
+<!-- mutate_all(~ .x/lag(.x,7)) %>%  -->
+<!-- mutate_if(~ any(is.infinite(.x)),~ replace(.x,is.infinite(.x),0)) %>%  -->
+<!-- mutate_if(~ any(is.na(.x)),~ replace(.x,is.na(.x),0)) %>%  -->
+<!-- mutate_all(~ round(.x,1))  %>%  -->
+<!-- rownames_to_column() %>%   -->
+<!-- pivot_longer(-rowname) %>%  -->
+<!-- pivot_wider(names_from=rowname, values_from=value) %>%  -->
+<!-- rename_all(~ c("RAs", format(seq.Date(from=as.Date("2020-02-25"),to=Sys.Date(),by="days"),"%d/%m/%y"))) %>%  -->
+<!-- select("RAs",last_col(50:0)) -->
 
-m <-  TABELA_R_eff %>%
-    filter(row_number() != 4) %>%
-    column_to_rownames("RAs") %>%
+<!-- m <-  TABELA_R_eff %>%  -->
+<!--     filter(row_number() != 4) %>%  -->
+<!--     column_to_rownames("RAs") %>% -->
 
-  as.matrix()
+<!--   as.matrix() -->
 
-colorScale <- data.frame(z=c(0,0.17,0.17,0.33,0.33,0.66,0.66,1),col=c("#008000","#008000","#FFFF00","#FFFF00","#ffa500", "#ffa500", "#FF0000", "#FF0000"))
-colorScale$col <- as.character(colorScale$col)
-
-
-
-p <- plot_ly(x=colnames(m), y=rownames(m), z = m, zmin=0 , zmax=3, zsmooth=FALSE, ygap =0.5,xgap =0.5, colorscale=colorScale, type = "heatmap")
-p
+<!-- colorScale <- data.frame(z=c(0,0.17,0.17,0.33,0.33,0.66,0.66,1),col=c("#008000","#008000","#FFFF00","#FFFF00","#ffa500", "#ffa500", "#FF0000", "#FF0000")) -->
+<!-- colorScale$col <- as.character(colorScale$col) -->
 
 
-```
+
+<!-- p <- plot_ly(x=colnames(m), y=rownames(m), z = m, zmin=0 , zmax=3, zsmooth=FALSE, ygap =0.5,xgap =0.5, colorscale=colorScale, type = "heatmap") -->
+<!-- p -->
+
+
+<!-- ``` -->
 
 
 
