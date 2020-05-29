@@ -17,13 +17,15 @@ data=datetime.date.today().strftime('%d/%m/%Y')
 driver = webdriver.Chrome('F:/chromedriver')  # Optional argument, if not specified will search path.
 
 driver.get('https://www.covid-19.pa.gov.br/#/');
-time.sleep(3) # Let the user actually see something!
-leito_clinico_total = driver.find_elements_by_xpath('//*[@id="q-app"]/div/div/div[6]/div[2]/div/div/div/div/div[2]/div/div/div/table/tbody/tr[1]/td[2]/span')[0]
-leito_clinico_disp = driver.find_elements_by_xpath('//*[@id="q-app"]/div/div/div[6]/div[2]/div/div/div/div/div[2]/div/div/div/table/tbody/tr[1]/td[3]/span')[0]
-leito_clinico_ocup  = driver.find_elements_by_xpath('//*[@id="q-app"]/div/div/div[6]/div[2]/div/div/div/div/div[2]/div/div/div/table/tbody/tr[1]/td[4]/span')[0]
-leito_uti_total = driver.find_elements_by_xpath('//*[@id="q-app"]/div/div/div[6]/div[2]/div/div/div/div/div[2]/div/div/div/table/tbody/tr[3]/td[2]/span')[0]
-leito_uti_disp = driver.find_elements_by_xpath('//*[@id="q-app"]/div/div/div[6]/div[2]/div/div/div/div/div[2]/div/div/div/table/tbody/tr[3]/td[3]/span')[0]
-leito_uti_ocup = driver.find_elements_by_xpath('//*[@id="q-app"]/div/div/div[6]/div[2]/div/div/div/div/div[2]/div/div/div/table/tbody/tr[3]/td[4]/span')[0]
+time.sleep(3) # Let the user actually see something! 
+driver.execute_script("window.scrollTo(0, 4200)") 
+time.sleep(10) # Let the user actually see something!
+leito_clinico_total = driver.find_elements_by_xpath('//*[@id="q-app"]/div/div/div[8]/div[2]/div/div/div/div/div[2]/div[2]/div/div/table/tbody/tr[1]/td[2]/span')[0]
+leito_clinico_disp = driver.find_elements_by_xpath('//*[@id="q-app"]/div/div/div[8]/div[2]/div/div/div/div/div[2]/div[2]/div/div/table/tbody/tr[1]/td[3]/span')[0]
+leito_clinico_ocup  = driver.find_elements_by_xpath('//*[@id="q-app"]/div/div/div[8]/div[2]/div/div/div/div/div[2]/div[2]/div/div/table/tbody/tr[1]/td[4]/span')[0]
+leito_uti_total = driver.find_elements_by_xpath('//*[@id="q-app"]/div/div/div[8]/div[2]/div/div/div/div/div[2]/div[2]/div/div/table/tbody/tr[3]/td[2]/span')[0]
+leito_uti_disp = driver.find_elements_by_xpath('//*[@id="q-app"]/div/div/div[8]/div[2]/div/div/div/div/div[2]/div[2]/div/div/table/tbody/tr[3]/td[3]/span')[0]
+leito_uti_ocup = driver.find_elements_by_xpath('//*[@id="q-app"]/div/div/div[8]/div[2]/div/div/div/div/div[2]/div[2]/div/div/table/tbody/tr[3]/td[4]/span')[0]
 
 
 leito_clinico_total = int(leito_clinico_total.text)
@@ -55,6 +57,7 @@ sheet_1 .cell(row = row, column = 6).value = dados[5]
 sheet_1 .cell(row = row, column = 7).value = dados[6]
 
 wb.save(filename=diretorio+'PA.xlsx')
+
 
 
 
