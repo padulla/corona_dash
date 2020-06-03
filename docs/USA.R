@@ -3,7 +3,7 @@ USRepo          <- "https://raw.githubusercontent.com/COVID19Tracking/covid-trac
 
 # US
 RawUs <- readr::read_csv(USRepo,
-                         col_types = paste0('ic', strrep('i', 10), strrep('c', 3), 'T', strrep('i', 2),'T',strrep('i', 9),'c',strrep('i', 6))
+                         col_types = paste0('cc', strrep('i', 10), strrep('c', 2), 'c','c', strrep('i', 2),'T',strrep('i', 9),'c',strrep('i', 6))
                         )
 
 #========================================================================================================
@@ -49,12 +49,16 @@ SelectedUS <- c("US"
                ,"Maryland"
                ,"Others")
 
+RawUs$date <- format(as.Date(RawUs$date, format='%Y%m%d'))
+
+
 UsCases <- RawUs %>% 
-  select(positive, state, dateChecked) %>% 
-  arrange(dateChecked) %>% 
-  tidyr::spread(dateChecked, positive, fill = 0) %>% 
+  select(positive, state, date) %>% 
+  arrange(date) %>% 
+  tidyr::spread(date, positive, fill = 0) %>% 
   rename_at(vars(-1), function(x) format(as.Date(x), "%m/%d/%y")) %>% 
   tibble::column_to_rownames("state")
+  
 
 UsCases <- UsCases %>% rbind(
     filter(UsCases, !(rownames(UsCases) %in% USstates)) %>% colSums
@@ -66,9 +70,9 @@ UsCases <- UsCases %>% rbind(
 rownames(UsCases)[57:58] <- c("Others", "US")
 
 UsDeaths <- RawUs %>% 
-  select(death, state, dateChecked) %>% 
-  arrange(dateChecked) %>% 
-  tidyr::spread(dateChecked, death, fill = 0) %>% 
+  select(death, state, date) %>% 
+  arrange(date) %>% 
+  tidyr::spread(date, death, fill = 0) %>% 
   rename_at(vars(-1), function(x) format(as.Date(x), "%m/%d/%y")) %>% 
   tibble::column_to_rownames("state")
 
@@ -85,9 +89,9 @@ rownames(UsDeaths)[57:58] <- c("Others", "US")
 
 
 UsHosp <- RawUs %>% 
-  select(hospitalized, state, dateChecked) %>% 
-  arrange(dateChecked) %>% 
-  tidyr::spread(dateChecked, hospitalized, fill = 0) %>% 
+  select(hospitalized, state, date) %>% 
+  arrange(date) %>% 
+  tidyr::spread(date, hospitalized, fill = 0) %>% 
   rename_at(vars(-1), function(x) format(as.Date(x), "%m/%d/%y")) %>% 
   tibble::column_to_rownames("state")
 
