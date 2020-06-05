@@ -6,6 +6,11 @@ RawUs <- readr::read_csv(USRepo,
                          col_types = paste0('cc', strrep('i', 10), strrep('c', 2), 'c','c', strrep('i', 2),'T',strrep('i', 9),'c',strrep('i', 6))
                         )
 
+
+DataReabertUS   <-  read.xlsx("C:\\Users\\Padulla\\Documents\\GitHub\\corona_dash\\docs\\DataReopenUS.xlsx", sheetName='data',check.names=FALSE)
+DataReabertUS[DataReabertUS==0]<-as.character("2020-03-01") 
+DataReabertUS %>% mutate_all(as.character)
+
 #========================================================================================================
 # USA
 

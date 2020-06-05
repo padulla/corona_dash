@@ -6,6 +6,10 @@ BRpop           <- "http://api.sidra.ibge.gov.br/values/t/6579/p/2019/v/9324/n3/
 
 BRDIARepo       <- "https://raw.githubusercontent.com/wcota/covid19br/master/cases-brazil-total.csv"
 
+DataReabertBR   <-  read.xlsx("C:\\Users\\Padulla\\Documents\\GitHub\\corona_dash\\docs\\data_reabertura_br.xlsx", sheetName='data')
+DataReabertBR[DataReabertBR==0]<-as.character("2020-03-20") 
+DataReabertBR %>% mutate_all(as.character)
+
 
 # Fetching Main databases -----------------------------------------------------
 # BR
@@ -373,7 +377,6 @@ BrMortality <- (BrDeaths / BrCases) %>%
                  as_tibble() %>% 
                  add_column(Dates) %>% 
                  rename_at(vars(-Dates), ~ rownames(BrCases))
-
 
 
 

@@ -66,7 +66,7 @@ dias <- ceiling(difftime(Sys.Date(), "2020-01-22", units = "days")) #-1
 ggpath  <- "C:/Users/Padulla/Documents/GitHub/corona_dash/"
 Here    <- Sys.Date()
 HereUSA <- Here - 1
-HereBR  <- Here - 1
+HereBR  <- Here - 0
 
 # loading stuff
 source("Functions.R")
@@ -590,7 +590,10 @@ lapply(colnames(dh)[2:58], function(x){
                            legm   <- paste0("Moving average of ", x)
                            t <- dh[nrow(dh),x]
                           tt <- dzz[nrow(dzz),x]
-                           a <- list(
+                           maximum <- max(dh[,x])
+                           data_reab <- DataReabertUS[1,x]
+
+                          a <- list(
                                       text = paste0(x," - Total Cases:",tt," - Last data:",t),
                                       font = f2,
                                       xref = "paper",
@@ -605,6 +608,7 @@ lapply(colnames(dh)[2:58], function(x){
                            plot_ly(dh, x = ~Dates) %>% 
                              add_trace(y = as.formula(expr),  type = 'bar', color = I("firebrick4")) %>% 
                              add_trace(y = as.formula(mexpr), type = 'scatter', mode = 'lines', color = I("black") ) %>% 
+                            add_segments(x = data_reab, xend = data_reab, y = 0, yend = maximum, color=I("red")) %>% 
                              layout(showlegend = FALSE, annotations = a)
 })
 
@@ -829,6 +833,8 @@ lapply(colnames(dh)[2:58], function(x){
                            legm   <- paste0("Moving average of ", x)
                            t <- dh[nrow(dh),x]
                            tt <- dzs[nrow(dzz),x]
+                           maximum <- max(dh[,x])
+                           data_reab <- DataReabertUS[1,x]
                            a <- list(
                                       text = paste0(x," - Total Deaths:",tt," - Last data:",t),
                                       font = f2,
@@ -844,6 +850,7 @@ lapply(colnames(dh)[2:58], function(x){
                            plot_ly(dh, x = ~Dates) %>% 
                              add_trace(y = as.formula(expr),  type = 'bar', color = I("firebrick4")) %>% 
                              add_trace(y = as.formula(mexpr), type = 'scatter', mode = 'lines', color = I("black") ) %>% 
+                             add_segments(x = data_reab, xend = data_reab, y = 0, yend = maximum, color=I("red")) %>% 
                              layout(showlegend = FALSE, annotations = a)
 })
 names(plots) <- colnames(dz)[-c(1, length(dz))]
@@ -1069,7 +1076,13 @@ dw <-
 do.call(cbind, lapply(colnames(dz)[-1], function(x) TTR::SMA(dz[,x], 7))) %>% 
   as_tibble %>% 
   rename_all(~ paste0('M',colnames(dz)[-1])) %>% 
-  mutate_if(~ any(is.na(.)), ~ if_else(is.na(.), 0, .)) 
+  mutate_if(~ any(is.na(.)), ~ if_else(is.na(.), 0, .))
+
+
+
+
+
+
 
 dh <- 
 cbind(dz, dw) %>% 
@@ -1084,6 +1097,8 @@ lapply(colnames(dh)[2:29], function(x){
                            mexpr  <- paste0("~", "`", "M", x, "`")
                            legm   <- paste0("Moving average of ", x)
                            t <- dh[nrow(dh),x]
+                           maximum <- max(dh[,x])
+                           data_reab <- DataReabertBR[1,x]
                            tt <- BrCases[x,ncol(BrCases)]
                            a <- list(
                                       text = paste0(x," - Total Cases:",tt," - Last data:",t),
@@ -1100,7 +1115,9 @@ lapply(colnames(dh)[2:29], function(x){
                            plot_ly(dh, x = ~Dates) %>% 
                              add_trace(y = as.formula(expr),  type = 'bar', color = I("firebrick4")) %>% 
                              add_trace(y = as.formula(mexpr), type = 'scatter', mode = 'lines', color = I("black") ) %>% 
+                              add_segments(x = data_reab, xend = data_reab, y = 0, yend = maximum, color=I("red")) %>% 
                              layout(showlegend = FALSE, annotations = a)
+                            
 })
 names(plots) <- colnames(dz)[-c(1, length(dz))]
 p <- subplot(plots, nrows = 7, shareX = FALSE, shareY = FALSE)
@@ -1416,6 +1433,8 @@ lapply(colnames(dh)[2:29], function(x){
                            legm   <- paste0("Moving average of ", x)
                            t <- dh[nrow(dh),x]
                            tt <- BrDeaths[x,ncol(BrDeaths)]
+                           maximum <- max(dh[,x])
+                           data_reab <- DataReabertBR[1,x]
                            a <- list(
                                       text = paste0(x," - Total Deaths:",tt," - Last data:",t),
                                       font = f2,
@@ -1430,7 +1449,8 @@ lapply(colnames(dh)[2:29], function(x){
                                     )
                            plot_ly(dh, x = ~Dates) %>% 
                              add_trace(y = as.formula(expr),  type = 'bar', color = I("firebrick4")) %>% 
-                             add_trace(y = as.formula(mexpr), type = 'scatter', mode = 'lines', color = I("black") ) %>% 
+                             add_trace(y = as.formula(mexpr), type = 'scatter', mode = 'lines', color = I("black") ) %>%
+                             add_segments(x = data_reab, xend = data_reab, y = 0, yend = maximum, color=I("red")) %>% 
                              layout(showlegend = FALSE, annotations = a)
 })
 names(plots) <- colnames(dz)[-c(1, length(dz))]
@@ -1477,6 +1497,8 @@ lapply(colnames(dh)[2:29], function(x){
                            legm   <- paste0("Moving average of ", x)
                            t <- dh[nrow(dh),x]
                            tt <- BrDeathsMS[x,ncol(BrDeathsMS)]
+                           maximum <- max(dh[,x])
+                           data_reab <- DataReabertBR[1,x]
                            a <- list(
                                       text = paste0(x," - Total Deaths:",tt," - Last data:",t),
                                       font = f2,
@@ -1491,19 +1513,14 @@ lapply(colnames(dh)[2:29], function(x){
                                     )
                            plot_ly(dh, x = ~Dates) %>% 
                              add_trace(y = as.formula(expr),  type = 'bar', color = I("firebrick4")) %>% 
-                             add_trace(y = as.formula(mexpr), type = 'scatter', mode = 'lines', color = I("black") ) %>% 
+                             add_trace(y = as.formula(mexpr), type = 'scatter', mode = 'lines', color = I("black") ) %>%
+                             add_segments(x = data_reab, xend = data_reab, y = 0, yend = maximum, color=I("red")) %>% 
                              layout(showlegend = FALSE, annotations = a)
 })
 names(plots) <- colnames(dz)[-c(1, length(dz))]
 p <- subplot(plots, nrows = 7, shareX = FALSE, shareY = FALSE)
 p
 ```
-
-
-
-
-
-
 
 
 
