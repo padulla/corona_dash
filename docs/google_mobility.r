@@ -160,6 +160,12 @@ write.xlsx(BdBrParks_f, 'C:\\Users\\Padulla\\Documents\\GitHub\\corona_dash\\doc
 write.xlsx(BdBrTransit_f, 'C:\\Users\\Padulla\\Documents\\GitHub\\corona_dash\\docs\\excel_base_google.xlsx', sheetName="BdBrTransit_f",append=TRUE)
 write.xlsx(BdBrWork_f, 'C:\\Users\\Padulla\\Documents\\GitHub\\corona_dash\\docs\\excel_base_google.xlsx', sheetName="BdBrWork_f",append=TRUE)
 write.xlsx(BdBrResidential_f, 'C:\\Users\\Padulla\\Documents\\GitHub\\corona_dash\\docs\\excel_base_google.xlsx', sheetName="BdBrResidential_f",append=TRUE)
+write.xlsx(BdBrRetail, 'C:\\Users\\Padulla\\Documents\\GitHub\\corona_dash\\docs\\excel_base_google.xlsx', sheetName="BdBrRetail")
+
+
+
+
+
 
 
 

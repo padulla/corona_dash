@@ -25,3 +25,11 @@
 [0529/074412.276:ERROR:exception_snapshot_win.cc(98)] thread ID 17376 not found in process
 [0529/074412.306:ERROR:process_reader_win.cc(123)] NtOpenThread: {Acesso Negado} Um processo solicitou acesso a um objeto, mas o direito de acesso não lhe foi concedido. (0xc0000022)
 [0529/074412.306:ERROR:exception_snapshot_win.cc(98)] thread ID 3204 not found in process
+[0605/170626.482:ERROR:process_info.cc(359)] UncheckedAllocate
+[0605/170626.509:ERROR:http_transport_win.cc(276)] WinHttpSendRequest: A operação foi concluída com êxito. (0x0)
+[0605/170639.724:ERROR:process_info.cc(359)] UncheckedAllocate
+[0605/170641.342:ERROR:process_info.cc(359)] UncheckedAllocate
+[0605/170641.357:ERROR:process_info.cc(359)] UncheckedAllocate
+[0605/170642.816:ERROR:process_info.cc(359)] UncheckedAllocate
+[0605/171000.207:ERROR:process_info.cc(359)] UncheckedAllocate
+[0605/171002.233:ERROR:process_info.cc(359)] UncheckedAllocate

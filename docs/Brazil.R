@@ -11,6 +11,10 @@ DataReabertBR[DataReabertBR==0]<-as.character("2020-03-20")
 DataReabertBR %>% mutate_all(as.character)
 
 
+
+
+
+
 # Fetching Main databases -----------------------------------------------------
 # BR
 RawBr <- readr::read_csv(BRRepo,
@@ -218,6 +222,8 @@ BrDeathsMS <- BrDeathsMS %>% rbind(
 rownames(BrDeathsMS)[28:29] <- c("Brasil", "Demais")
 
 BrDeaths_dif <- BrDeaths-BrDeathsMS
+
+
 
 
 
