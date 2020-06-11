@@ -1,0 +1,329 @@
+#
+# There is insufficient memory for the Java Runtime Environment to continue.
+# Native memory allocation (mmap) failed to map 268435456 bytes for Failed to commit area from 0x00000000e0000000 to 0x00000000f0000000 of length 268435456.
+# Possible reasons:
+#   The system is out of physical RAM or swap space
+#   The process is running with CompressedOops enabled, and the Java Heap may be blocking the growth of the native heap
+# Possible solutions:
+#   Reduce memory load on the system
+#   Increase physical memory or swap space
+#   Check if swap backing store is full
+#   Decrease Java heap size (-Xmx/-Xms)
+#   Decrease number of Java threads
+#   Decrease Java thread stack sizes (-Xss)
+#   Set larger code cache with -XX:ReservedCodeCacheSize=
+# This output file may be truncated or incomplete.
+#
+#  Out of Memory Error (t:/workspace/open/src/hotspot/os/windows/os_windows.cpp:3269), pid=9860, tid=17184
+#
+# JRE version:  (11.0.1+13) (build )
+# Java VM: Java HotSpot(TM) 64-Bit Server VM (11.0.1+13-LTS, mixed mode, aot, sharing, tiered, compressed oops, g1 gc, windows-amd64)
+# No core dump will be written. Minidumps are not enabled by default on client versions of Windows
+#
+
+---------------  S U M M A R Y ------------
+
+Command Line: -Dr.arch=/x64 -Xmx512m -Xrs 
+
+Host: Intel(R) Core(TM) i5-4590 CPU @ 3.30GHz, 4 cores, 15G,  Windows 10 , 64 bit Build 18362 (10.0.18362.778)
+Time: Thu Jun 11 08:43:54 2020 Hora oficial do Brasil elapsed time: 0 seconds (0d 0h 0m 0s)
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x000000001dbb2800):  JavaThread "Unknown thread" [_thread_in_vm, id=17184, stack(0x0000000000420000,0x0000000004420000)]
+
+Stack: [0x0000000000420000,0x0000000004420000]
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+V  [jvm.dll+0x63c21a]
+V  [jvm.dll+0x7797df]
+V  [jvm.dll+0x77adca]
+V  [jvm.dll+0x77b483]
+V  [jvm.dll+0x2627f8]
+V  [jvm.dll+0x6396ca]
+V  [jvm.dll+0x62dfa5]
+V  [jvm.dll+0x31699c]
+V  [jvm.dll+0x316822]
+V  [jvm.dll+0x31c096]
+V  [jvm.dll+0x36842f]
+V  [jvm.dll+0x367e50]
+V  [jvm.dll+0x2f38b8]
+V  [jvm.dll+0x2f4a16]
+V  [jvm.dll+0x752da7]
+V  [jvm.dll+0x7544ef]
+V  [jvm.dll+0x375269]
+V  [jvm.dll+0x7394a9]
+V  [jvm.dll+0x3e467d]
+V  [jvm.dll+0x3e6951]
+C  [rJava.dll+0x70e2]
+C  [R.dll+0xa5fe2]
+C  [R.dll+0xf2e69]
+C  [R.dll+0x101be1]
+C  [R.dll+0x103698]
+C  [R.dll+0x10471f]
+C  [R.dll+0xf87ff]
+C  [R.dll+0x101be1]
+C  [R.dll+0x103698]
+C  [R.dll+0x10471f]
+C  [R.dll+0xf87ff]
+C  [R.dll+0x101be1]
+C  [R.dll+0x103698]
+C  [R.dll+0x10471f]
+C  [R.dll+0xf87ff]
+C  [R.dll+0x101be1]
+C  [R.dll+0x10228c]
+C  [R.dll+0x102b2a]
+C  [R.dll+0xf6352]
+C  [R.dll+0x101be1]
+C  [R.dll+0x10228c]
+C  [R.dll+0x102b2a]
+C  [R.dll+0xf6352]
+C  [R.dll+0x101be1]
+C  [R.dll+0x10228c]
+C  [R.dll+0x102b2a]
+C  [R.dll+0xf6352]
+C  [R.dll+0x101be1]
+C  [R.dll+0x10228c]
+C  [R.dll+0x102b2a]
+C  [R.dll+0xf6352]
+C  [R.dll+0x101be1]
+C  [R.dll+0x103698]
+C  [R.dll+0x10471f]
+C  [R.dll+0xf87ff]
+C  [R.dll+0x101be1]
+C  [R.dll+0x103698]
+C  [R.dll+0x10471f]
+C  [R.dll+0xf87ff]
+C  [R.dll+0x101be1]
+C  [R.dll+0x103698]
+C  [R.dll+0x10471f]
+C  [R.dll+0xf87ff]
+C  [R.dll+0x101be1]
+C  [R.dll+0x103698]
+C  [R.dll+0x10471f]
+C  [R.dll+0xf87ff]
+C  [R.dll+0x101be1]
+C  [R.dll+0x103698]
+C  [R.dll+0x10471f]
+C  [R.dll+0xf87ff]
+C  [R.dll+0x101be1]
+C  [R.dll+0x103698]
+C  [R.dll+0x10471f]
+C  [R.dll+0xf87ff]
+C  [R.dll+0x101be1]
+C  [R.dll+0x10228c]
+C  [R.dll+0x102b2a]
+C  [R.dll+0xf6352]
+C  [R.dll+0x101be1]
+C  [R.dll+0x10228c]
+C  [R.dll+0x102b2a]
+C  [R.dll+0xf6352]
+C  [R.dll+0x101be1]
+C  [R.dll+0x10228c]
+C  [R.dll+0x102b2a]
+C  [R.dll+0xf6352]
+C  [R.dll+0x101be1]
+C  [R.dll+0x10228c]
+C  [R.dll+0x102b2a]
+C  [R.dll+0xf6352]
+C  [R.dll+0x101be1]
+C  [R.dll+0x103698]
+C  [R.dll+0x10471f]
+C  [R.dll+0xf87ff]
+C  [R.dll+0x101be1]
+C  [R.dll+0x103698]
+C  [R.dll+0x10471f]
+C  [R.dll+0xf87ff]
+...<more frames>...
+
+
+---------------  P R O C E S S  ---------------
+
+Threads class SMR info:
+_java_thread_list=0x00000000045eb730, length=0, elements={
+}
+
+Java Threads: ( => current thread )
+
+Other Threads:
+  0x000000001dbc7800 GCTaskThread "GC Thread#0" [stack: 0x0000000034f60000,0x0000000038f60000] [id=8904]
+  0x000000001dbd6000 ConcurrentGCThread "G1 Main Marker" [stack: 0x000000003a160000,0x000000003e160000] [id=16740]
+  0x000000001dbd8000 ConcurrentGCThread "G1 Conc#0" [stack: 0x000000003e160000,0x0000000042160000] [id=14092]
+
+[error occurred during error reporting (printing all threads), id 0xc0000005, EXCEPTION_ACCESS_VIOLATION (0xc0000005) at pc=0x00007ffe5b992137]
+
+VM state:not at safepoint (not fully initialized)
+
+VM Mutex/Monitor currently owned by a thread:  ([mutex/lock_event])
+[0x000000001dbaf0a0] Heap_lock - owner thread: 0x000000001dbb2800
+
+Heap address: 0x00000000e0000000, size: 512 MB, Compressed Oops mode: Non-zero based: 0x00000000e0000000
+Narrow klass base: 0x0000000000000000, Narrow klass shift: 0
+
+GC Heap History (0 events):
+No events
+
+Deoptimization events (0 events):
+No events
+
+Classes redefined (0 events):
+No events
+
+Internal exceptions (0 events):
+No events
+
+Events (0 events):
+No events
+
+
+Dynamic libraries:
+0x0000000000400000 - 0x000000000041c000 	C:\PROGRA~1\R\R-36~1.3\bin\x64\Rterm.exe
+0x00007ffec6d00000 - 0x00007ffec6ef0000 	C:\Windows\SYSTEM32\ntdll.dll
+0x00007ffec59e0000 - 0x00007ffec5a92000 	C:\Windows\System32\KERNEL32.DLL
+0x00007ffec3f00000 - 0x00007ffec41a4000 	C:\Windows\System32\KERNELBASE.dll
+0x00007ffec6c20000 - 0x00007ffec6cbe000 	C:\Windows\System32\msvcrt.dll
+0x00007ffec68c0000 - 0x00007ffec6a54000 	C:\Windows\System32\USER32.dll
+0x00007ffec3d30000 - 0x00007ffec3d51000 	C:\Windows\System32\win32u.dll
+0x00007ffec4ef0000 - 0x00007ffec4f16000 	C:\Windows\System32\GDI32.dll
+0x00007ffec4c10000 - 0x00007ffec4da4000 	C:\Windows\System32\gdi32full.dll
+0x00007ffec3c90000 - 0x00007ffec3d2e000 	C:\Windows\System32\msvcp_win.dll
+0x00007ffec41b0000 - 0x00007ffec42aa000 	C:\Windows\System32\ucrtbase.dll
+0x0000000063540000 - 0x00000000635a1000 	C:\PROGRA~1\R\R-36~1.3\bin\x64\Rgraphapp.dll
+0x000000006c700000 - 0x000000006e5a4000 	C:\PROGRA~1\R\R-36~1.3\bin\x64\R.dll
+0x00007ffec6810000 - 0x00007ffec68b3000 	C:\Windows\System32\ADVAPI32.dll
+0x00007ffec5c70000 - 0x00007ffec5d07000 	C:\Windows\System32\sechost.dll
+0x0000000064e80000 - 0x0000000064ed3000 	C:\PROGRA~1\R\R-36~1.3\bin\x64\Rblas.dll
+0x00007ffec5d90000 - 0x00007ffec5eb0000 	C:\Windows\System32\RPCRT4.dll
+0x00007ffec5eb0000 - 0x00007ffec5f80000 	C:\Windows\System32\comdlg32.dll
+0x00007ffec5000000 - 0x00007ffec56e4000 	C:\Windows\System32\SHELL32.dll
+0x00007ffeb6af0000 - 0x00007ffeb6d74000 	C:\Windows\WinSxS\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.18362.836_none_e6c4b943130f18ed\COMCTL32.dll
+0x00007ffec3d60000 - 0x00007ffec3daa000 	C:\Windows\System32\cfgmgr32.dll
+0x00007ffec6460000 - 0x00007ffec6796000 	C:\Windows\System32\combase.dll
+0x00007ffec58c0000 - 0x00007ffec5969000 	C:\Windows\System32\shcore.dll
+0x00007ffec4b90000 - 0x00007ffec4c10000 	C:\Windows\System32\bcryptPrimitives.dll
+0x00007ffec4330000 - 0x00007ffec4aae000 	C:\Windows\System32\windows.storage.dll
+0x00007ffec5b90000 - 0x00007ffec5be2000 	C:\Windows\System32\SHLWAPI.dll
+0x00007ffec3c40000 - 0x00007ffec3c63000 	C:\Windows\System32\profapi.dll
+0x00007ffec3bf0000 - 0x00007ffec3c3a000 	C:\Windows\System32\powrprof.dll
+0x00007ffec5b50000 - 0x00007ffec5b7e000 	C:\Windows\System32\IMM32.dll
+0x00007ffec3bc0000 - 0x00007ffec3bd0000 	C:\Windows\System32\UMPDC.dll
+0x00007ffec3c70000 - 0x00007ffec3c81000 	C:\Windows\System32\kernel.appcore.dll
+0x00007ffec4310000 - 0x00007ffec4327000 	C:\Windows\System32\cryptsp.dll
+0x00007ffeb6d80000 - 0x00007ffeb6d87000 	C:\Windows\SYSTEM32\MSIMG32.dll
+0x00007ffebb770000 - 0x00007ffebb77a000 	C:\Windows\SYSTEM32\VERSION.dll
+0x00000000641c0000 - 0x00000000641d6000 	C:\PROGRA~1\R\R-36~1.3\bin\x64\Riconv.dll
+0x00007ffec1b60000 - 0x00007ffec1b84000 	C:\Windows\SYSTEM32\WINMM.dll
+0x00007ffec1b30000 - 0x00007ffec1b5d000 	C:\Windows\SYSTEM32\WINMMBASE.dll
+0x00007ffec1f30000 - 0x00007ffec1fc9000 	C:\Windows\system32\uxtheme.dll
+0x00007ffec6ac0000 - 0x00007ffec6c17000 	C:\Windows\System32\ole32.dll
+0x00007ffec4f30000 - 0x00007ffec4ff4000 	C:\Windows\System32\OLEAUT32.dll
+0x00007ffec03e0000 - 0x00007ffec04d0000 	C:\Windows\SYSTEM32\PROPSYS.dll
+0x0000000064a40000 - 0x0000000064a54000 	C:\Program Files\R\R-3.6.3\library\methods\libs\x64\methods.dll
+0x000000006e5c0000 - 0x000000006e5ed000 	C:\Program Files\R\R-3.6.3\library\utils\libs\x64\utils.dll
+0x000000006fc80000 - 0x000000006fdaa000 	C:\Program Files\R\R-3.6.3\library\grDevices\libs\x64\grDevices.dll
+0x0000000063740000 - 0x0000000063792000 	C:\Program Files\R\R-3.6.3\library\graphics\libs\x64\graphics.dll
+0x0000000071100000 - 0x00000000711a9000 	C:\Program Files\R\R-3.6.3\library\stats\libs\x64\stats.dll
+0x0000000015510000 - 0x00000000157d4000 	C:\PROGRA~1\R\R-36~1.3\bin\x64\Rlapack.dll
+0x000000006c500000 - 0x000000006c51f000 	C:\Users\Padulla\Documents\R\win-library\3.6\digest\libs\x64\digest.dll
+0x00007ffec3ab0000 - 0x00007ffec3adf000 	C:\Windows\SYSTEM32\SspiCli.dll
+0x0000000015de0000 - 0x0000000015e06000 	C:\Users\Padulla\Documents\R\win-library\3.6\rlang\libs\x64\rlang.dll
+0x000000006abc0000 - 0x000000006acc7000 	C:\Users\Padulla\Documents\R\win-library\3.6\Rcpp\libs\x64\Rcpp.dll
+0x0000000065340000 - 0x00000000653ff000 	C:\Users\Padulla\Documents\R\win-library\3.6\htmltools\libs\x64\htmltools.dll
+0x0000000016a90000 - 0x0000000016ab0000 	C:\Program Files\R\R-3.6.3\library\tools\libs\x64\tools.dll
+0x000000006b480000 - 0x000000006b4b3000 	C:\Users\Padulla\Documents\R\win-library\3.6\yaml\libs\x64\yaml.dll
+0x00000000640c0000 - 0x00000000640e2000 	C:\Users\Padulla\Documents\R\win-library\3.6\jsonlite\libs\x64\jsonlite.dll
+0x000000006bd40000 - 0x000000006c1eb000 	C:\Users\Padulla\Documents\R\win-library\3.6\stringi\libs\x64\stringi.dll
+0x0000000063400000 - 0x000000006340e000 	C:\Users\Padulla\Documents\R\win-library\3.6\glue\libs\x64\glue.dll
+0x0000000062ac0000 - 0x0000000062acd000 	C:\Users\Padulla\Documents\R\win-library\3.6\ellipsis\libs\x64\ellipsis.dll
+0x0000000068140000 - 0x0000000068182000 	C:\Users\Padulla\Documents\R\win-library\3.6\vctrs\libs\x64\vctrs.dll
+0x0000000061c00000 - 0x0000000061c0e000 	C:\Users\Padulla\Documents\R\win-library\3.6\tibble\libs\x64\tibble.dll
+0x0000000065b40000 - 0x0000000065b53000 	C:\Users\Padulla\Documents\R\win-library\3.6\purrr\libs\x64\purrr.dll
+0x0000000019b50000 - 0x0000000019dbb000 	C:\Users\Padulla\Documents\R\win-library\3.6\dplyr\libs\x64\dplyr.dll
+0x000000006ea80000 - 0x000000006eaaa000 	C:\Program Files\R\R-3.6.3\library\grid\libs\x64\grid.dll
+0x0000000019dc0000 - 0x0000000019dcf000 	C:\Users\Padulla\Documents\R\win-library\3.6\lattice\libs\x64\lattice.dll
+0x000000006b1c0000 - 0x000000006b1dd000 	C:\Users\Padulla\Documents\R\win-library\3.6\nlme\libs\x64\nlme.dll
+0x000000006a8c0000 - 0x000000006a98c000 	C:\Users\Padulla\Documents\R\win-library\3.6\tidyr\libs\x64\tidyr.dll
+0x0000000069540000 - 0x000000006954d000 	C:\Users\Padulla\Documents\R\win-library\3.6\backports\libs\x64\backports.dll
+0x00000000657c0000 - 0x00000000657d7000 	C:\Users\Padulla\Documents\R\win-library\3.6\colorspace\libs\x64\colorspace.dll
+0x0000000067540000 - 0x0000000067655000 	C:\Users\Padulla\Documents\R\win-library\3.6\haven\libs\x64\haven.dll
+0x0000000062d40000 - 0x0000000062e1c000 	C:\Users\Padulla\Documents\R\win-library\3.6\lubridate\libs\x64\lubridate.dll
+0x0000000062840000 - 0x0000000062981000 	C:\Users\Padulla\Documents\R\win-library\3.6\readr\libs\x64\readr.dll
+0x000000001a3f0000 - 0x000000001a3fd000 	C:\Users\Padulla\Documents\R\win-library\3.6\readr\libs\x64\librcon.lib
+0x000000001a400000 - 0x000000001a503000 	C:\Users\Padulla\Documents\R\win-library\3.6\readxl\libs\x64\readxl.dll
+0x000000006fac0000 - 0x000000006fb81000 	C:\Users\Padulla\Documents\R\win-library\3.6\fs\libs\x64\fs.dll
+0x00007ffec4f20000 - 0x00007ffec4f28000 	C:\Windows\System32\PSAPI.DLL
+0x00007ffec67a0000 - 0x00007ffec680f000 	C:\Windows\System32\WS2_32.dll
+0x00007ffec30e0000 - 0x00007ffec311a000 	C:\Windows\SYSTEM32\IPHLPAPI.DLL
+0x00007ffec3ae0000 - 0x00007ffec3b05000 	C:\Windows\SYSTEM32\USERENV.dll
+0x0000000069d00000 - 0x0000000069fb0000 	C:\Users\Padulla\Documents\R\win-library\3.6\xml2\libs\x64\xml2.dll
+0x00000000625c0000 - 0x00000000625dc000 	C:\Users\Padulla\Documents\R\win-library\3.6\fansi\libs\x64\fansi.dll
+0x0000000069300000 - 0x000000006939f000 	C:\Users\Padulla\Documents\R\win-library\3.6\data.table\libs\x64\datatable.dll
+0x00000000629c0000 - 0x00000000629ce000 	C:\Users\Padulla\Documents\R\win-library\3.6\lazyeval\libs\x64\lazyeval.dll
+0x0000000064080000 - 0x0000000064096000 	C:\Users\Padulla\Documents\R\win-library\3.6\rJava\libs\x64\rJava.dll
+0x00007ffe5b690000 - 0x00007ffe5c1d2000 	C:\Program Files\Java\jdk-11.0.1\bin\server\jvm.dll
+0x00007ffec0550000 - 0x00007ffec0566000 	C:\Windows\SYSTEM32\VCRUNTIME140.dll
+0x00007ffeb0250000 - 0x00007ffeb0259000 	C:\Windows\SYSTEM32\WSOCK32.dll
+0x00007ffea5110000 - 0x00007ffea5121000 	C:\Program Files\Java\jdk-11.0.1\bin\verify.dll
+0x00007ffeb4ff0000 - 0x00007ffeb51e4000 	C:\Windows\SYSTEM32\DBGHELP.DLL
+0x00007ffeb0650000 - 0x00007ffeb067a000 	C:\Windows\SYSTEM32\dbgcore.DLL
+0x00007ffea4e40000 - 0x00007ffea4e69000 	C:\Program Files\Java\jdk-11.0.1\bin\java.dll
+0x00007ffea4ff0000 - 0x00007ffea5006000 	C:\Program Files\Java\jdk-11.0.1\bin\zip.dll
+0x00007ffea5360000 - 0x00007ffea536a000 	C:\Program Files\Java\jdk-11.0.1\bin\jimage.dll
+
+dbghelp: loaded successfully - version: 4.0.5 - missing functions: none
+symbol engine: initialized successfully - sym options: 0x614 - pdb path: .;C:\PROGRA~1\R\R-36~1.3\bin\x64;C:\Windows\SYSTEM32;C:\Windows\WinSxS\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.18362.836_none_e6c4b943130f18ed;C:\Program Files\R\R-3.6.3\library\methods\libs\x64;C:\Program Files\R\R-3.6.3\library\utils\libs\x64;C:\Program Files\R\R-3.6.3\library\grDevices\libs\x64;C:\Program Files\R\R-3.6.3\library\graphics\libs\x64;C:\Program Files\R\R-3.6.3\library\stats\libs\x64;C:\Users\Padulla\Documents\R\win-library\3.6\digest\libs\x64;C:\Users\Padulla\Documents\R\win-library\3.6\rlang\libs\x64;C:\Users\Padulla\Documents\R\win-library\3.6\Rcpp\libs\x64;C:\Users\Padulla\Documents\R\win-library\3.6\htmltools\libs\x64;C:\Program Files\R\R-3.6.3\library\tools\libs\x64;C:\Users\Padulla\Documents\R\win-library\3.6\yaml\libs\x64;C:\Users\Padulla\Documents\R\win-library\3.6\jsonlite\libs\x64;C:\Users\Padulla\Documents\R\win-library\3.6\stringi\libs\x64;C:\Users\Padulla\Documents\R\win-library\3.6\glue\libs\x64;C:\Users\Padulla\Documents\R\win-library\3.6\ellipsis\libs\x64;C:\Users\Padulla\Documents\R\win-library\3.6\vctrs\libs\x64;C:\Users\Padulla\Documents\R\win-library\3.6\tibble\libs\x64;C:\Users\Padulla\Documents\R\win-library\3.6\purrr\libs\x64;C:\Users\Padulla\Documents\R\win-library\3.6\dplyr\libs\x64;C:\Program Files\R\R-3.6.3\library\grid\libs\x64;C:\Users\Padulla\Documents\R\win-library\3.6\lattice\libs\x64;C:\Users\Padulla\Documents\R\win-library\3.6\nlme\libs\x64;C:\Users\Padulla\Documents\R\win-library\3.6\tidyr\libs\x64;C:\Users\Padulla\Documents\R\win-library\3.6\backports\libs\x64;C:\Users\Padulla\Documents\R\win-library\3.6\colorspace\libs\x64;C:\Users\Padulla\Documents\R\win-library\3.6\haven\libs\x64;C:\Users\Padulla\Documents\R\win-library\3.6\lubridate\libs\x64;C:\Users\Padulla\Documents\R\win-library\3.6\readr\libs\x64;C:\Users\Padulla\Documents\R\win-library\3.6\readxl\libs\x64;C:\Users\Padulla\Documents\R\win-library\3.6\fs\libs\x64;C:\Users\Padulla\Documents\R\win-library\3.6\xml2\libs\x64;C:\Users\Padulla\Documents\R\win-library\3.6\fansi\libs\x64;C:\Users\Padulla\Documents\R\win-library\3.6\data.table\libs\x64;C:\Users\Padulla\Documents\R\win-library\3.6\lazyeval\libs\x64;C:\Users\Padulla\Documents\R\win-library\3.6\rJava\libs\x64;C:\Program Files\Java\jdk-11.0.1\bin\server;C:\Program Files\Java\jdk-11.0.1\bin
+
+VM Arguments:
+jvm_args: -Dr.arch=/x64 -Xmx512m -Xrs 
+java_command: <unknown>
+java_class_path (initial): C:/Users/Padulla/Documents/R/win-library/3.6/rJava/java/boot
+Launcher Type: generic
+
+[Global flags]
+     intx CICompilerCount                          = 3                                         {product} {ergonomic}
+     uint ConcGCThreads                            = 1                                         {product} {ergonomic}
+     uint G1ConcRefinementThreads                  = 4                                         {product} {ergonomic}
+   size_t G1HeapRegionSize                         = 1048576                                   {product} {ergonomic}
+    uintx GCDrainStackTargetSize                   = 64                                        {product} {ergonomic}
+   size_t InitialHeapSize                          = 268435456                                 {product} {ergonomic}
+   size_t MarkStackSize                            = 4194304                                   {product} {ergonomic}
+   size_t MaxHeapSize                              = 536870912                                 {product} {command line}
+   size_t MinHeapDeltaBytes                        = 1048576                                   {product} {ergonomic}
+    uintx NonNMethodCodeHeapSize                   = 5830092                                {pd product} {ergonomic}
+    uintx NonProfiledCodeHeapSize                  = 122914074                              {pd product} {ergonomic}
+    uintx ProfiledCodeHeapSize                     = 122914074                              {pd product} {ergonomic}
+     bool ReduceSignalUsage                        = true                                      {product} {command line}
+    uintx ReservedCodeCacheSize                    = 251658240                              {pd product} {ergonomic}
+     bool SegmentedCodeCache                       = true                                      {product} {ergonomic}
+     bool UseCompressedClassPointers               = true                                 {lp64_product} {ergonomic}
+     bool UseCompressedOops                        = true                                 {lp64_product} {ergonomic}
+     bool UseG1GC                                  = true                                      {product} {ergonomic}
+     bool UseLargePagesIndividualAllocation        = false                                  {pd product} {ergonomic}
+
+Logging:
+Log output configuration:
+ #0: stdout all=warning uptime,level,tags
+ #1: stderr all=off uptime,level,tags
+
+Environment Variables:
+PATH=C:\Program Files\R\R-3.6.3\bin\x64;C:\ProgramData\Oracle\Java\javapath;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\ATI Technologies\ATI.ACE\Core-Static;C:\Users\Padulla\bin;C:\Program Files\R\R-3.4.2\bin;C:\Windows\System32\OpenSSH\;C:\Program Files\Git\cmd;C:\Program Files\dotnet\;C:\Program Files\MATLAB\R2015b\bin;C:\Program Files\MiKTeX 2.9\miktex\bin\x64\;C:\Users\Padulla\AppData\Local\Programs\Python\Python37\Scripts\;C:\Users\Padulla\AppData\Local\Programs\Python\Python37\;C:\Users\Padulla\AppData\Local\Microsoft\WindowsApps;C:\Users\Padulla\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\PyCharm Community Edition 2019.3\bin;C:\Users\Padulla\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\Padulla\AppData\Roaming\Python\Python37\Scripts;C:\Users\Padulla\AppData\Local\GitHubDesktop\bin;C:\Program Files\RStudio\bin\rpostback;C:\Program Files\RStudio\bin\postback
+USERNAME=Padulla
+DISPLAY=:0
+OS=Windows_NT
+PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 60 Stepping 3, GenuineIntel
+
+
+
+---------------  S Y S T E M  ---------------
+
+OS: Windows 10 , 64 bit Build 18362 (10.0.18362.778)
+
+CPU:total 4 (initial active 4) (4 cores per cpu, 1 threads per core) family 6 model 60 stepping 3, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, avx2, aes, clmul, erms, lzcnt, tsc, tscinvbit, bmi1, bmi2, fma
+
+Memory: 4k page, system-wide physical 16302M (3057M free)
+TotalPageFile size 16342M (AvailPageFile size 196M)
+current process WorkingSet (physical memory assigned to process): 168M, peak: 168M
+current process commit charge ("private bytes"): 231M, peak: 487M
+
+vm_info: Java HotSpot(TM) 64-Bit Server VM (11.0.1+13-LTS) for windows-amd64 JRE (11.0.1+13-LTS), built on Oct  6 2018 13:20:16 by "mach5one" with MS VC++ 15.5 (VS2017)
+
+END.

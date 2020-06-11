@@ -10,6 +10,10 @@ percentage <- function(x) {
     return(this)
 }
 
+
+
+
+
 printDT <- function(x, selectedRows) {
     toPrint <- x[selectedRows,] %>% select(last_col(0:4)) 
     this <- DT::datatable(toPrint, 
