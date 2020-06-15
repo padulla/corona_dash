@@ -14,7 +14,7 @@ RepoGoogle <- "https://www.gstatic.com/covid19/mobility/Global_Mobility_Report.c
 
 
 RawGoogle <- readr::read_csv(RepoGoogle,
-                             col_types = paste0('cccc','D',  strrep('d', 6))
+                             col_types = paste0('cccccc','D',  strrep('d', 6))
 )
 
 
@@ -22,7 +22,7 @@ BdBr <- filter(RawGoogle, country_region_code=="BR")
 
 
 
-BrPesosPib <-read.xlsx(file = "C:/Users/Padulla/Documents/GitHub/corona_dash/docs/pesos_pib.xlsx"
+BrPesosPib <-read.xlsx(file = "C:/Users/leandro/Documents/GitHub/corona_dash/docs/pesos_pib.xlsx"
                    , sheetName = "base"
                    ) 
 
@@ -32,7 +32,7 @@ BrPesosPib <-read.xlsx(file = "C:/Users/Padulla/Documents/GitHub/corona_dash/doc
 
 
 
-BrCodes <-read_csv(file = "C:/Users/Padulla/Documents/GitHub/corona_dash/Br_dic_states.csv"
+BrCodes <-read_csv(file = "C:/Users/leandro/Documents/GitHub/corona_dash/Br_dic_states.csv"
                     ,col_names = TRUE
                     ,col_types = 'cc')
 
@@ -75,7 +75,7 @@ SelectedBR <- c("Brasil"
 
 
 BdBrRetail <- BdBr %>% 
-  replace_na(list(sub_region_1 = "Brasil")) %>%
+  replace_na(list(sub_region_1 = "Brazil")) %>%
   left_join(BrCodes) %>%
   select(date, Short, retail_and_recreation_percent_change_from_baseline) %>%
   tidyr::spread(date,retail_and_recreation_percent_change_from_baseline, fill = 0) %>%
@@ -85,7 +85,7 @@ BdBrRetail <- BdBr %>%
 
 
 BdBrGrocery <- BdBr %>% 
-  replace_na(list(sub_region_1 = "Brasil")) %>%
+  replace_na(list(sub_region_1 = "Brazil")) %>%
   left_join(BrCodes) %>%
   select(date, Short, grocery_and_pharmacy_percent_change_from_baseline) %>%
   tidyr::spread(date,grocery_and_pharmacy_percent_change_from_baseline, fill = 0) %>%
@@ -93,7 +93,7 @@ BdBrGrocery <- BdBr %>%
   rename_all(function(x) format(as.Date(x), "%m/%d/%y"))
 
 BdBrParks <- BdBr %>% 
-  replace_na(list(sub_region_1 = "Brasil")) %>%
+  replace_na(list(sub_region_1 = "Brazil")) %>%
   left_join(BrCodes) %>%
   select(date, Short, parks_percent_change_from_baseline) %>%
   tidyr::spread(date,parks_percent_change_from_baseline, fill = 0) %>%
@@ -101,7 +101,7 @@ BdBrParks <- BdBr %>%
   rename_all(function(x) format(as.Date(x), "%m/%d/%y"))
 
 BdBrTransit <- BdBr %>% 
-  replace_na(list(sub_region_1 = "Brasil")) %>%
+  replace_na(list(sub_region_1 = "Brazil")) %>%
   left_join(BrCodes) %>%
   select(date, Short, transit_stations_percent_change_from_baseline) %>%
   tidyr::spread(date,transit_stations_percent_change_from_baseline, fill = 0) %>%
@@ -109,7 +109,7 @@ BdBrTransit <- BdBr %>%
   rename_all(function(x) format(as.Date(x), "%m/%d/%y"))
 
 BdBrWork <- BdBr %>% 
-  replace_na(list(sub_region_1 = "Brasil")) %>%
+  replace_na(list(sub_region_1 = "Brazil")) %>%
   left_join(BrCodes) %>%
   select(date, Short, workplaces_percent_change_from_baseline) %>%
   tidyr::spread(date,workplaces_percent_change_from_baseline, fill = 0) %>%
@@ -117,7 +117,7 @@ BdBrWork <- BdBr %>%
   rename_all(function(x) format(as.Date(x), "%m/%d/%y"))
 
 BdBrResidential <- BdBr %>% 
-  replace_na(list(sub_region_1 = "Brasil")) %>%
+  replace_na(list(sub_region_1 = "Brazil")) %>%
   left_join(BrCodes) %>%
   select(date, Short, residential_percent_change_from_baseline) %>%
   tidyr::spread(date,residential_percent_change_from_baseline, fill = 0) %>%
@@ -154,13 +154,13 @@ list2env(df_gg2, globalenv())
 
 
 
-write.xlsx(BdBrRetail_f, 'C:\\Users\\Padulla\\Documents\\GitHub\\corona_dash\\docs\\excel_base_google.xlsx', sheetName="BdBrRetail_f")
-write.xlsx(BdBrGrocery_f, 'C:\\Users\\Padulla\\Documents\\GitHub\\corona_dash\\docs\\excel_base_google.xlsx', sheetName="BdBrGrocery_f",append=TRUE)
-write.xlsx(BdBrParks_f, 'C:\\Users\\Padulla\\Documents\\GitHub\\corona_dash\\docs\\excel_base_google.xlsx', sheetName="BdBrParks_f",append=TRUE)
-write.xlsx(BdBrTransit_f, 'C:\\Users\\Padulla\\Documents\\GitHub\\corona_dash\\docs\\excel_base_google.xlsx', sheetName="BdBrTransit_f",append=TRUE)
-write.xlsx(BdBrWork_f, 'C:\\Users\\Padulla\\Documents\\GitHub\\corona_dash\\docs\\excel_base_google.xlsx', sheetName="BdBrWork_f",append=TRUE)
-write.xlsx(BdBrResidential_f, 'C:\\Users\\Padulla\\Documents\\GitHub\\corona_dash\\docs\\excel_base_google.xlsx', sheetName="BdBrResidential_f",append=TRUE)
-write.xlsx(BdBrRetail, 'C:\\Users\\Padulla\\Documents\\GitHub\\corona_dash\\docs\\excel_base_google.xlsx', sheetName="BdBrRetail",append=TRUE)
+write.xlsx(BdBrRetail_f, 'C:\\Users\\leandro\\Documents\\GitHub\\corona_dash\\docs\\excel_base_google.xlsx', sheetName="BdBrRetail_f")
+write.xlsx(BdBrGrocery_f, 'C:\\Users\\leandro\\Documents\\GitHub\\corona_dash\\docs\\excel_base_google.xlsx', sheetName="BdBrGrocery_f",append=TRUE)
+write.xlsx(BdBrParks_f, 'C:\\Users\\leandro\\Documents\\GitHub\\corona_dash\\docs\\excel_base_google.xlsx', sheetName="BdBrParks_f",append=TRUE)
+write.xlsx(BdBrTransit_f, 'C:\\Users\\leandro\\Documents\\GitHub\\corona_dash\\docs\\excel_base_google.xlsx', sheetName="BdBrTransit_f",append=TRUE)
+write.xlsx(BdBrWork_f, 'C:\\Users\\leandro\\Documents\\GitHub\\corona_dash\\docs\\excel_base_google.xlsx', sheetName="BdBrWork_f",append=TRUE)
+write.xlsx(BdBrResidential_f, 'C:\\Users\\leandro\\Documents\\GitHub\\corona_dash\\docs\\excel_base_google.xlsx', sheetName="BdBrResidential_f",append=TRUE)
+write.xlsx(BdBrRetail, 'C:\\Users\\leandro\\Documents\\GitHub\\corona_dash\\docs\\excel_base_google.xlsx', sheetName="BdBrRetail",append=TRUE)
 
 
 
