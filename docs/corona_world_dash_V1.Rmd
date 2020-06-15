@@ -65,8 +65,8 @@ dias <- ceiling(difftime(Sys.Date(), "2020-01-22", units = "days")) #-1
 # Choose here the path to output png plots:
 ggpath  <- "C:/Users/Padulla/Documents/GitHub/corona_dash/"
 Here    <- Sys.Date()
-HereUSA <- Here - 1
-HereBR  <- Here - 1
+HereUSA <- Here - 0
+HereBR  <- Here - 0
 
 # loading stuff
 source("Functions.R")
@@ -620,65 +620,65 @@ p
 ```
 
 
-HeatMaP Cases {data-navmenu='US'}
-====================================================================
+<!-- HeatMaP Cases {data-navmenu='US'} -->
+<!-- ==================================================================== -->
 
 
 
-### Moving Average of 7 days (Var. %)
-```{r, fig.width = 10, fig.height = 12}
-df1 <- dz
-  
-  
-  
-# BrCases %>%
-#   rownames_to_column(var = "NovaColuna") %>%
-#   arrange_at(vars(last_col()), desc) %>%
-#   select(NovaColuna, everything())  %>%
-#   column_to_rownames("NovaColuna") %>%
-#   t %>%
-#   as_tibble %>%
-#   mutate_all(~ . - lag(.)) %>%
-#   mutate(Dates = as.Date(colnames(BrCases), format = "%m/%d/%y") ) %>%
-#   select(Dates, everything()) %>%
-#   mutate_if(~ any(is.na(.)), ~ if_else(is.na(.), 0, .))
-
-
-estadosDF1 <- colnames(df1)[-1] 
-
-
-df2 <-
-  do.call(cbind, lapply(colnames(df1)[-1], function(x) TTR::SMA(df1[,x], 7))) %>%
-  as_tibble %>%
-  mutate_if(~ any(is.na(.)), ~ if_else(is.na(.), 0, .)) %>%
-  mutate_all(., function(x) pct_change = (x/lag(x,n=7) - 1) * 100) %>%
-  mutate_if(~ any(is.na(.)), ~ if_else(is.na(.), 0, .)) %>%
-  t %>%
-  as_tibble %>%
-  mutate_all(., function(x) as.numeric(x)) %>%
-  round(2) %>%
-  cbind(estadosDF1) %>% 
-  as_tibble
+<!-- ### Moving Average of 7 days (Var. %) -->
+<!-- ```{r, fig.width = 10, fig.height = 12} -->
+<!-- df1 <- dz -->
 
 
 
-colnames(df2) <- Dates
-
-names(df2)[length(names(df2))]<-"space" 
-
-
-m <- df2[1:28,] %>%  
-  column_to_rownames("space") %>% select(last_col(15:0)) %>% rownames_to_column() %>%   arrange_at(vars(last_col())) %>%  column_to_rownames("rowname") %>%  as.matrix()
- 
-
- 
- 
- 
- p <- plot_ly(x=colnames(m), y=rownames(m), z = m, zmin=-50,zmax=100, zsmooth=FALSE, ygap =0.25,xgap =0.25, colorscale = "reds", type = "heatmap") #%>% add_annotations(text=m)
- p
+<!-- # BrCases %>% -->
+<!-- #   rownames_to_column(var = "NovaColuna") %>% -->
+<!-- #   arrange_at(vars(last_col()), desc) %>% -->
+<!-- #   select(NovaColuna, everything())  %>% -->
+<!-- #   column_to_rownames("NovaColuna") %>% -->
+<!-- #   t %>% -->
+<!-- #   as_tibble %>% -->
+<!-- #   mutate_all(~ . - lag(.)) %>% -->
+<!-- #   mutate(Dates = as.Date(colnames(BrCases), format = "%m/%d/%y") ) %>% -->
+<!-- #   select(Dates, everything()) %>% -->
+<!-- #   mutate_if(~ any(is.na(.)), ~ if_else(is.na(.), 0, .)) -->
 
 
-```
+<!-- estadosDF1 <- colnames(df1)[-1]  -->
+
+
+<!-- df2 <- -->
+<!--   do.call(cbind, lapply(colnames(df1)[-1], function(x) TTR::SMA(df1[,x], 7))) %>% -->
+<!--   as_tibble %>% -->
+<!--   mutate_if(~ any(is.na(.)), ~ if_else(is.na(.), 0, .)) %>% -->
+<!--   mutate_all(., function(x) pct_change = (x/lag(x,n=7) - 1) * 100) %>% -->
+<!--   mutate_if(~ any(is.na(.)), ~ if_else(is.na(.), 0, .)) %>% -->
+<!--   t %>% -->
+<!--   as_tibble %>% -->
+<!--   mutate_all(., function(x) as.numeric(x)) %>% -->
+<!--   round(2) %>% -->
+<!--   cbind(estadosDF1) %>%  -->
+<!--   as_tibble -->
+
+
+
+<!-- colnames(df2) <- Dates -->
+
+<!-- names(df2)[length(names(df2))]<-"space"  -->
+
+
+<!-- m <- df2[1:28,] %>%   -->
+<!--   column_to_rownames("space") %>% select(last_col(15:0)) %>% rownames_to_column() %>%   arrange_at(vars(last_col())) %>%  column_to_rownames("rowname") %>%  as.matrix() -->
+
+
+
+
+
+<!--  p <- plot_ly(x=colnames(m), y=rownames(m), z = m, zmin=-50,zmax=100, zsmooth=FALSE, ygap =0.25,xgap =0.25, colorscale = "reds", type = "heatmap") #%>% add_annotations(text=m) -->
+<!--  p -->
+
+
+<!-- ``` -->
 
 
 
