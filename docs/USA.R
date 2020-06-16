@@ -7,7 +7,7 @@ RawUs <- readr::read_csv(USRepo,
                         )
 
 
-DataReabertUS   <-  read.xlsx("C:\\Users\\Padulla\\Documents\\GitHub\\corona_dash\\docs\\DataReopenUS.xlsx", sheetName='data',check.names=FALSE)
+DataReabertUS   <-  read.xlsx("C:\\Users\\leandro\\Documents\\GitHub\\corona_dash\\docs\\DataReopenUS.xlsx", sheetName='data',check.names=FALSE)
 DataReabertUS[DataReabertUS==0]<-as.character("2020-03-01") 
 DataReabertUS %>% mutate_all(as.character)
 
