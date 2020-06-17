@@ -4,7 +4,7 @@ USRepo          <- "https://raw.githubusercontent.com/COVID19Tracking/covid-trac
 # US
 RawUs <- readr::read_csv(USRepo,
                          col_types = paste0('cc', strrep('i', 10), strrep('c', 2), 'c','c', strrep('i', 2),'T',strrep('i', 9),'c',strrep('i', 6))
-                        )
+)
 
 
 
