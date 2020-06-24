@@ -67,8 +67,12 @@ dias <- ceiling(difftime(Sys.Date(), "2020-01-22", units = "days")) #-1
 ggpath  <- "C:/Users/leandro/Documents/GitHub/corona_dash/"
 Here    <- Sys.Date()
 HereUSA <- Here - 1
+<<<<<<< Updated upstream
 HereBR  <- Here - 1
 
+=======
+HereBR  <- Here - 0
+>>>>>>> Stashed changes
 
 # loading stuff
 source("Functions.R")
