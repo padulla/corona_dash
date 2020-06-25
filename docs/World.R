@@ -5,12 +5,12 @@ WorldRepoDeaths <- "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/ma
 
 # World Cases
 RawWorldCases <- readr::read_csv(WorldRepoCases, 
-                                 col_types = paste0('cc', strrep('d', dias + 2))
+                                 col_types = paste0('cc', strrep('d', dias + 1))
                                 ) 
 
 # World Deaths
 RawWorldDeaths <- readr::read_csv(WorldRepoDeaths, 
-                                  col_types = paste0('cc', strrep('d', dias + 2))
+                                  col_types = paste0('cc', strrep('d', dias + 1))
                                  ) 
 
 
@@ -109,7 +109,7 @@ porce_d <- percentage(WorldDeaths)
 
 # World Mortality
 DatesWorld <- seq.Date(from       = as.Date('2020-01-22'),
-                       length.out = dias,
+                       length.out = dias-1,
                        by         = 'day')
 
 WorldMortality <- (WorldDeaths / WorldCases) %>%
