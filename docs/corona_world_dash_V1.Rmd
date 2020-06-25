@@ -63,7 +63,7 @@ plotlyColors <-   c('#740001',
 dias <- ceiling(difftime(Sys.Date(), "2020-01-22", units = "days")) #-1
 
 # Choose here the path to output png plots:
-ggpath  <- "C:/Users/Padulla/Documents/GitHub/corona_dash/"
+ggpath  <- "C:/Users/leandro/Documents/GitHub/corona_dash/"
 Here    <- Sys.Date()
 HereUSA <- Here - 1
 HereBR  <- Here - 1

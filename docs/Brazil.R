@@ -6,7 +6,7 @@ BRpop           <- "http://api.sidra.ibge.gov.br/values/t/6579/p/2019/v/9324/n3/
 
 BRDIARepo       <- "https://raw.githubusercontent.com/wcota/covid19br/master/cases-brazil-total.csv"
 
-DataReabertBR   <-  read.xlsx("C:\\Users\\Padulla\\Documents\\GitHub\\corona_dash\\docs\\data_reabertura_br.xlsx", sheetName='data')
+DataReabertBR   <-  read.xlsx("C:\\Users\\leandro\\Documents\\GitHub\\corona_dash\\docs\\data_reabertura_br.xlsx", sheetName='data')
 DataReabertBR[DataReabertBR==0]<-as.character("2020-03-20") 
 DataReabertBR %>% mutate_all(as.character)
 
@@ -15,28 +15,30 @@ DataReabertBR %>% mutate_all(as.character)
 
 
 
-# Fetching Main databases -----------------------------------------------------
-# BR
-# RawBr <- readr::read_csv(BRRepo,
-#                          col_types = paste0('D', 'ccc', strrep('d', 13))
-#                          )
+#Fetching Main databases -----------------------------------------------------
+
+#BR
+
+RawBr <- readr::read_csv(BRRepo,
+                         col_types = paste0('d','D', 'ccc', strrep('d', 13))
+                         )
 
 
 
 
-RawBr <- readr::read_delim(BRRepo, delim=","
-)
+#RawBr <- readr::read_delim(BRRepo, delim=","
+#)
 
 
-# 
-# 
-# RawBrCity <- readr::read_csv(BRRepoCity,
-#                          col_types = paste0('D', 'ccc', strrep('d', 8),'c')
-# )
+ 
+ 
+ RawBrCity <- readr::read_csv(BRRepoCity,
+                          col_types = paste0('d' ,'D', 'ccc', strrep('d', 8),'c')
+ )
 
 
-RawBrCity <- readr::read_delim(BRRepoCity , delim=","
-)
+#RawBrCity <- readr::read_delim(BRRepoCity , delim=","
+#)
 
 
 
@@ -48,12 +50,12 @@ RawBrPop <- get_sidra(6579,
                       geo = "State" )
 
 
-SP_dic_reg <- read_delim(file="C:\\Users\\Padulla\\Documents\\GitHub\\corona_dash\\docs\\dic_regs.csv",delim=";") 
+SP_dic_reg <- read_delim(file="C:\\Users\\leandro\\Documents\\GitHub\\corona_dash\\docs\\dic_regs.csv",delim=";") 
 
 excel_base <- RawBr %>% select(date,country,state,city,newCases,totalCases,deaths)
 
 
-write.xlsx(excel_base, 'C:\\Users\\Padulla\\Documents\\GitHub\\corona_dash\\docs\\excel_base.xlsx')
+write.xlsx(excel_base, 'C:\\Users\\leandro\\Documents\\GitHub\\corona_dash\\docs\\excel_base.xlsx')
 
 
 
@@ -199,8 +201,8 @@ SPDeathsReg <-
 
 
 
-write.xlsx(SPCasesReg , 'C:\\Users\\Padulla\\Documents\\GitHub\\corona_dash\\docs\\excel_sp.xlsx', sheetName="SPCasesReg ")
-write.xlsx(SPDeathsReg, 'C:\\Users\\Padulla\\Documents\\GitHub\\corona_dash\\docs\\excel_sp.xlsx', sheetName="SPDeathsReg",append=TRUE)
+write.xlsx(SPCasesReg , 'C:\\Users\\leandro\\Documents\\GitHub\\corona_dash\\docs\\excel_sp.xlsx', sheetName="SPCasesReg ")
+write.xlsx(SPDeathsReg, 'C:\\Users\\leandro\\Documents\\GitHub\\corona_dash\\docs\\excel_sp.xlsx', sheetName="SPDeathsReg",append=TRUE)
 
 
 
