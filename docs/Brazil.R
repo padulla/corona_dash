@@ -273,7 +273,7 @@ BrDeathsLb <-BrDeaths[-c(28, 29), ]
 N = ncol(RawBrPop)
 BrPop <- RawBrPop %>% 
            rename_all(~ letters[1:N]) %>% 
-           select(c, k) %>% 
+           select(a, i) %>% 
            rename_all(~ c("Estado", "Pop")) %>% 
            arrange(Estado)
 
