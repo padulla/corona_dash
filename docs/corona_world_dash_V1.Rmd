@@ -579,7 +579,7 @@ do.call(cbind, lapply(colnames(dz)[-1], function(x) TTR::SMA(dz[,x], 7))) %>%
 dh <- 
 cbind(dz, dw) %>% 
   as_tibble %>%   
-  filter(Dates >= as.Date("2020-03-01"))
+  filter(Dates >= as.Date("2020-04-01"))
 
 f2 <- list(family = 'Old Standard TT, serif', size = 16, color = ("#4c1112"))
 
@@ -608,7 +608,7 @@ lapply(colnames(dh)[2:58], function(x){
                            plot_ly(dh, x = ~Dates) %>% 
                              add_trace(y = as.formula(expr),  type = 'bar', color = I("firebrick4")) %>% 
                              add_trace(y = as.formula(mexpr), type = 'scatter', mode = 'lines', color = I("black") ) %>% 
-                            add_segments(x = data_reab, xend = data_reab, y = 0, yend = maximum, color=I("red")) %>% 
+                           # add_segments(x = data_reab, xend = data_reab, y = 0, yend = maximum, color=I("red")) %>% 
                              layout(showlegend = FALSE, annotations = a)
 })
 
@@ -673,7 +673,7 @@ do.call(cbind, lapply(colnames(dz)[-1], function(x) TTR::SMA(dz[,x], 7))) %>%
 dh <- 
 cbind(dz, dw) %>% 
   as_tibble %>%   
-  filter(Dates >= as.Date("2020-03-01"))
+  filter(Dates >= as.Date("2020-04-01"))
 
 f2 <- list(family = 'Old Standard TT, serif', size = 16, color = ("#4c1112"))
 
@@ -702,7 +702,7 @@ lapply(colnames(dh)[2:58], function(x){
                            plot_ly(dh, x = ~Dates) %>% 
                              add_trace(y = as.formula(expr),  type = 'bar', color = I("firebrick4")) %>% 
                              add_trace(y = as.formula(mexpr), type = 'scatter', mode = 'lines', color = I("black") ) %>% 
-                            add_segments(x = data_reab, xend = data_reab, y = 0, yend = maximum, color=I("red")) %>% 
+                           # add_segments(x = data_reab, xend = data_reab, y = 0, yend = maximum, color=I("red")) %>% 
                              layout(showlegend = FALSE, annotations = a)
 })
 
@@ -1001,7 +1001,7 @@ do.call(cbind, lapply(colnames(dz)[-1], function(x) TTR::SMA(dz[,x], 7))) %>%
 dh <- 
 cbind(dz, dw) %>% 
   as_tibble %>%   
-  filter(Dates >= as.Date("2020-03-01"))
+  filter(Dates >= as.Date("2020-04-01"))
 
 f2 <- list(family = 'Old Standard TT, serif', size = 16, color = ("#4c1112"))
 
@@ -1029,7 +1029,7 @@ lapply(colnames(dh)[2:58], function(x){
                            plot_ly(dh, x = ~Dates) %>% 
                              add_trace(y = as.formula(expr),  type = 'bar', color = I("firebrick4")) %>% 
                              add_trace(y = as.formula(mexpr), type = 'scatter', mode = 'lines', color = I("black") ) %>% 
-                             add_segments(x = data_reab, xend = data_reab, y = 0, yend = maximum, color=I("red")) %>% 
+                            # add_segments(x = data_reab, xend = data_reab, y = 0, yend = maximum, color=I("red")) %>% 
                              layout(showlegend = FALSE, annotations = a)
 })
 names(plots) <- colnames(dz)[-c(1, length(dz))]
@@ -1263,7 +1263,7 @@ do.call(cbind, lapply(colnames(dz)[-1], function(x) TTR::SMA(dz[,x], 7))) %>%
 dh <- 
 cbind(dz, dw) %>% 
   as_tibble %>% 
-  filter(Dates >= as.Date("2020-03-20"))
+  filter(Dates >= as.Date("2020-04-20"))
 
 f2 <- list(family = 'Old Standard TT, serif', size = 16, color = ("#4c1112"))
 
@@ -1291,7 +1291,7 @@ lapply(colnames(dh)[2:29], function(x){
                            plot_ly(dh, x = ~Dates) %>% 
                              add_trace(y = as.formula(expr),  type = 'bar', color = I("firebrick4")) %>% 
                              add_trace(y = as.formula(mexpr), type = 'scatter', mode = 'lines', color = I("black") ) %>% 
-                              add_segments(x = data_reab, xend = data_reab, y = 0, yend = maximum, color=I("red")) %>% 
+                              #add_segments(x = data_reab, xend = data_reab, y = 0, yend = maximum, color=I("red")) %>% 
                              layout(showlegend = FALSE, annotations = a)
                             
 })
@@ -1663,7 +1663,7 @@ do.call(cbind, lapply(colnames(dz)[-1], function(x) TTR::SMA(dz[,x], 7))) %>%
 dh <- 
 cbind(dz, dw) %>% 
   as_tibble %>% 
-  filter(Dates >= as.Date("2020-03-20"))
+  filter(Dates >= as.Date("2020-04-20"))
 
 f2 <- list(family = 'Old Standard TT, serif', size = 16, color = ("#4c1112"))
 
@@ -1691,7 +1691,7 @@ lapply(colnames(dh)[2:29], function(x){
                            plot_ly(dh, x = ~Dates) %>% 
                              add_trace(y = as.formula(expr),  type = 'bar', color = I("firebrick4")) %>% 
                              add_trace(y = as.formula(mexpr), type = 'scatter', mode = 'lines', color = I("black") ) %>%
-                             add_segments(x = data_reab, xend = data_reab, y = 0, yend = maximum, color=I("red")) %>% 
+                             #add_segments(x = data_reab, xend = data_reab, y = 0, yend = maximum, color=I("red")) %>% 
                              layout(showlegend = FALSE, annotations = a)
 })
 names(plots) <- colnames(dz)[-c(1, length(dz))]
