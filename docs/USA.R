@@ -104,9 +104,9 @@ rownames(UsDeaths)[57:58] <- c("Others", "US")
 
 
 UsHosp <- RawUs %>% 
-  select(hospitalized, state, date) %>% 
+  select(hospitalizedCurrently, state, date) %>% 
   arrange(date) %>% 
-  tidyr::spread(date, hospitalized, fill = 0) %>% 
+  tidyr::spread(date, hospitalizedCurrently, fill = 0) %>% 
   rename_at(vars(-1), function(x) format(as.Date(x), "%m/%d/%y")) %>% 
   tibble::column_to_rownames("state")
 

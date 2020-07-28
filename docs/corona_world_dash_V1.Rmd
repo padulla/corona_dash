@@ -627,7 +627,7 @@ Hospitalized per day Graphs {data-navmenu='US'}
 Column
 -----------------------------------------------------------------------
 
-### Cases per day
+### Hospitalized per day
 ```{r, fig.width = 5, fig.height = 30}
 cols_names <- USACodes %>% rbind("US") 
 dz <- 
@@ -673,7 +673,7 @@ do.call(cbind, lapply(colnames(dz)[-1], function(x) TTR::SMA(dz[,x], 7))) %>%
 dh <- 
 cbind(dz, dw) %>% 
   as_tibble %>%   
-  filter(Dates >= as.Date("2020-04-01"))
+  filter(Dates >= as.Date("2020-06-01"))
 
 f2 <- list(family = 'Old Standard TT, serif', size = 16, color = ("#4c1112"))
 
