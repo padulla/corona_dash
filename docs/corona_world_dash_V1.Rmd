@@ -73,6 +73,7 @@ source("Functions.R")
 source("World.R")
 source("USA.R")
 source("Brazil.R")
+source("google_mobility.R")
 
 
 # Reading country codes for map plot. 
@@ -254,10 +255,10 @@ lapply(colnames(dh)[2:21], function(x){
                            expr   <- paste0("~", "`", x, "`")
                            mexpr  <- paste0("~", "`", "M", x, "`")
                            legm   <- paste0("Moving average of ", x)
-                          t <- dh[nrow(dh),x]
+                          t <- dh[nrow(dh),paste0("M",x)]
                           tt <- WorldCases[x,ncol(WorldCases)]
                            a <- list(
-                                      text = paste0(x," - Total Cases:",tt," - Last data:",t),
+                                      text = paste0(x," - Total Cases:",tt," - MA7D:", round(t, 0)),
                                       font = f2,
                                       xref = "paper",
                                       yref = "paper",
@@ -426,10 +427,10 @@ lapply(colnames(dh)[2:21], function(x){
                            expr   <- paste0("~", "`", x, "`")
                            mexpr  <- paste0("~", "`", "M", x, "`")
                            legm   <- paste0("Moving average of ", x)
-                           t <- dh[nrow(dh),x]
+                           t <- dh[nrow(dh),paste0("M",x)]
                            tt <- WorldDeaths[x,ncol(WorldDeaths)]
                            a <- list(
-                                      text = paste0(x," - Total Deaths:",tt," - Last data:",t),
+                                      text = paste0(x," - Total Deaths:",tt," - MA7D:",round(t,0)),
                                       font = f2,
                                       xref = "paper",
                                       yref = "paper",
@@ -588,13 +589,13 @@ lapply(colnames(dh)[2:58], function(x){
                            expr   <- paste0("~", "`", x, "`")
                            mexpr  <- paste0("~", "`", "M", x, "`")
                            legm   <- paste0("Moving average of ", x)
-                           t <- dh[nrow(dh),x]
+                           t <- dh[nrow(dh),paste0("M",x)]
                           tt <- dzz[nrow(dzz),x]
                            maximum <- max(dh[,x])
                            data_reab <- DataReabertUS[1,x]
 
                           a <- list(
-                                      text = paste0(x," - Total Cases:",tt," - Last data:",t),
+                                      text = paste0(x," - Total Cases:",tt," - MA7D:",round(t,0)),
                                       font = f2,
                                       xref = "paper",
                                       yref = "paper",
@@ -682,13 +683,13 @@ lapply(colnames(dh)[2:58], function(x){
                            expr   <- paste0("~", "`", x, "`")
                            mexpr  <- paste0("~", "`", "M", x, "`")
                            legm   <- paste0("Moving average of ", x)
-                           t <- dh[nrow(dh),x]
+                           t <- dh[nrow(dh),paste0("M",x)]
                           tt <- dzz[nrow(dzz),x]
                            maximum <- max(dh[,x])
                            data_reab <- DataReabertUS[1,x]
 
                           a <- list(
-                                      text = paste0(x," - Hospitalized:",tt," - Last data:",t),
+                                      text = paste0(x," - Hospitalized:",tt," - MA7D:",round(t,0)),
                                       font = f2,
                                       xref = "paper",
                                       yref = "paper",
@@ -1010,12 +1011,12 @@ lapply(colnames(dh)[2:58], function(x){
                            expr   <- paste0("~", "`", x, "`")
                            mexpr  <- paste0("~", "`", "M", x, "`")
                            legm   <- paste0("Moving average of ", x)
-                           t <- dh[nrow(dh),x]
+                           t <- dh[nrow(dh),paste0("M",x)]
                            tt <- dzs[nrow(dzz),x]
                            maximum <- max(dh[,x])
                            data_reab <- DataReabertUS[1,x]
                            a <- list(
-                                      text = paste0(x," - Total Deaths:",tt," - Last data:",t),
+                                      text = paste0(x," - Total Deaths:",tt," - MA7D:",round(t,0)),
                                       font = f2,
                                       xref = "paper",
                                       yref = "paper",
@@ -1272,12 +1273,12 @@ lapply(colnames(dh)[2:29], function(x){
                            expr   <- paste0("~", "`", x, "`")
                            mexpr  <- paste0("~", "`", "M", x, "`")
                            legm   <- paste0("Moving average of ", x)
-                           t <- dh[nrow(dh),x]
+                           t <- dh[nrow(dh),paste0("M",x)]
                            maximum <- max(dh[,x])
                            data_reab <- DataReabertBR[1,x]
                            tt <- BrCases[x,ncol(BrCases)]
                            a <- list(
-                                      text = paste0(x," - Total Cases:",tt," - Last data:",t),
+                                      text = paste0(x," - Total Cases:",tt," - MA7D:",round(t,0)),
                                       font = f2,
                                       xref = "paper",
                                       yref = "paper",
@@ -1672,12 +1673,12 @@ lapply(colnames(dh)[2:29], function(x){
                            expr   <- paste0("~", "`", x, "`")
                            mexpr  <- paste0("~", "`", "M", x, "`")
                            legm   <- paste0("Moving average of ", x)
-                           t <- dh[nrow(dh),x]
+                           t <- dh[nrow(dh),paste0("M",x)]
                            tt <- BrDeaths[x,ncol(BrDeaths)]
                            maximum <- max(dh[,x])
                            data_reab <- DataReabertBR[1,x]
                            a <- list(
-                                      text = paste0(x," - Total Deaths:",tt," - Last data:",t),
+                                      text = paste0(x," - Total Deaths:",tt," - MA7D:",round(t,0)),
                                       font = f2,
                                       xref = "paper",
                                       yref = "paper",
@@ -1756,12 +1757,12 @@ lapply(colnames(dh)[2:29], function(x){
                            expr   <- paste0("~", "`", x, "`")
                            mexpr  <- paste0("~", "`", "M", x, "`")
                            legm   <- paste0("Moving average of ", x)
-                           t <- dh[nrow(dh),x]
+                           t <- dh[nrow(dh),paste0("M",x)]
                            tt <- BrDeathsMS[x,ncol(BrDeathsMS)]
                            maximum <- max(dh[,x])
                            data_reab <- DataReabertBR[1,x]
                            a <- list(
-                                      text = paste0(x," - Total Deaths:",tt," - Last data:",t),
+                                      text = paste0(x," - Total Deaths:",tt," - MA7D:",round(t,0)),
                                       font = f2,
                                       xref = "paper",
                                       yref = "paper",
@@ -2087,10 +2088,10 @@ lapply(colnames(dh)[2:18], function(x){
                            expr   <- paste0("~", "`", x, "`")
                            mexpr  <- paste0("~", "`", "M", x, "`")
                            legm   <- paste0("Moving average of ", x)
-                           t <- dh[nrow(dh),x]
+                           t <- dh[nrow(dh),paste0("M",x)]
                            tt <- SPCasesReg[x,ncol(SPCasesReg)]
                            a <- list(
-                                      text = paste0(x," - Total Cases:",tt," - Last data:",t),
+                                      text = paste0(x," - Total Cases:",tt," - MA7D:",round(t,0)),
                                       font = f2,
                                       xref = "paper",
                                       yref = "paper",
@@ -2157,10 +2158,10 @@ lapply(colnames(dh)[2:18], function(x){
                            expr   <- paste0("~", "`", x, "`")
                            mexpr  <- paste0("~", "`", "M", x, "`")
                            legm   <- paste0("Moving average of ", x)
-                           t <- dh[nrow(dh),x]
+                           t <- dh[nrow(dh),paste0("M",x)]
                            tt <- SPDeathsReg[x,ncol(SPDeathsReg)]
                            a <- list(
-                                      text = paste0(x," - Total Deaths:",tt," - Last data:",t),
+                                      text = paste0(x," - Total Deaths:",tt," - MA7D:",round(t,0)),
                                       font = f2,
                                       xref = "paper",
                                       yref = "paper",
@@ -2254,6 +2255,150 @@ p
 
 
 
+
+Google - Countries {data-navmenu='Mobility'}
+====================================================================
+
+Column
+-----------------------------------------------------------------------
+
+
+```{r}
+
+# Workplace
+
+plot <-plot_ly(workplace_com_mm7d, x = ~date) %>% 
+                             add_trace(y = ~BR, name="BR", type = 'scatter', mode= 'lines', line = list(color = 'rgb(241, 196, 15)', width = 2))%>% 
+                             add_trace(y = ~US, name="US",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(196, 57, 43)', width = 2)) %>%
+                             add_trace(y = ~DE, name="GE",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(0, 0, 0)', width = 2))%>%
+                              add_trace(y = ~FR, name="FR",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(29, 105, 239)', width = 2))%>%
+                              add_trace(y = ~ES, name="SP",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(156, 100, 12)', width = 2))%>%
+                              add_trace(y = ~IT, name="IT",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(25, 111, 61)', width = 2))%>%
+                              add_trace(y = ~GB, name="UK",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(118, 68, 138)', width = 2))%>%
+                              add_trace(y = ~AU, name="AU",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(241, 14, 245)', width = 2))%>%
+                              add_trace(y = ~NO, name="NO",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(81, 90, 90)', width = 2))                              
+workplace <- plot %>% layout(title = "Workplace")
+######
+
+# residential
+
+plot <-plot_ly(residential_com_mm7d, x = ~date) %>% 
+                             add_trace(y = ~BR, name="BR", type = 'scatter', mode= 'lines', line = list(color = 'rgb(241, 196, 15)', width = 2))%>% 
+                             add_trace(y = ~US, name="US",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(196, 57, 43)', width = 2)) %>%
+                             add_trace(y = ~DE, name="GE",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(0, 0, 0)', width = 2))%>%
+                              add_trace(y = ~FR, name="FR",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(29, 105, 239)', width = 2))%>%
+                              add_trace(y = ~ES, name="SP",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(156, 100, 12)', width = 2))%>%
+                              add_trace(y = ~IT, name="IT",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(25, 111, 61)', width = 2))%>%
+                              add_trace(y = ~GB, name="UK",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(118, 68, 138)', width = 2))%>%
+                              add_trace(y = ~AU, name="AU",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(241, 14, 245)', width = 2))%>%
+                              add_trace(y = ~NO, name="NO",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(81, 90, 90)', width = 2))                              
+residential <- plot %>% layout(title = "Residential")
+
+
+#######
+
+# Retail
+
+plot <-plot_ly(retail_com_mm7d, x = ~date) %>% 
+                             add_trace(y = ~BR, name="BR", type = 'scatter', mode= 'lines', line = list(color = 'rgb(241, 196, 15)', width = 2))%>% 
+                             add_trace(y = ~US, name="US",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(196, 57, 43)', width = 2)) %>%
+                             add_trace(y = ~DE, name="GE",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(0, 0, 0)', width = 2))%>%
+                              add_trace(y = ~FR, name="FR",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(29, 105, 239)', width = 2))%>%
+                              add_trace(y = ~ES, name="SP",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(156, 100, 12)', width = 2))%>%
+                              add_trace(y = ~IT, name="IT",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(25, 111, 61)', width = 2))%>%
+                              add_trace(y = ~GB, name="UK",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(118, 68, 138)', width = 2))%>%
+                              add_trace(y = ~AU, name="AU",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(241, 14, 245)', width = 2))%>%
+                              add_trace(y = ~NO, name="NO",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(81, 90, 90)', width = 2))                              
+retail <- plot %>% layout(title = "Retail and Recreation")
+
+
+#######
+
+
+# grocery
+
+plot <-plot_ly(grocery_com_mm7d, x = ~date) %>% 
+                             add_trace(y = ~BR, name="BR", type = 'scatter', mode= 'lines', line = list(color = 'rgb(241, 196, 15)', width = 2))%>% 
+                             add_trace(y = ~US, name="US",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(196, 57, 43)', width = 2)) %>%
+                             add_trace(y = ~DE, name="GE",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(0, 0, 0)', width = 2))%>%
+                              add_trace(y = ~FR, name="FR",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(29, 105, 239)', width = 2))%>%
+                              add_trace(y = ~ES, name="SP",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(156, 100, 12)', width = 2))%>%
+                              add_trace(y = ~IT, name="IT",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(25, 111, 61)', width = 2))%>%
+                              add_trace(y = ~GB, name="UK",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(118, 68, 138)', width = 2))%>%
+                              add_trace(y = ~AU, name="AU",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(241, 14, 245)', width = 2))%>%
+                              add_trace(y = ~NO, name="NO",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(81, 90, 90)', width = 2))                              
+grocery <- plot %>% layout(title = "Grocery and Pharmacy")
+
+
+#######
+
+
+# transit
+
+plot <-plot_ly(transit_com_mm7d, x = ~date) %>% 
+                             add_trace(y = ~BR, name="BR", type = 'scatter', mode= 'lines', line = list(color = 'rgb(241, 196, 15)', width = 2))%>% 
+                             add_trace(y = ~US, name="US",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(196, 57, 43)', width = 2)) %>%
+                             add_trace(y = ~DE, name="GE",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(0, 0, 0)', width = 2))%>%
+                              add_trace(y = ~FR, name="FR",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(29, 105, 239)', width = 2))%>%
+                              add_trace(y = ~ES, name="SP",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(156, 100, 12)', width = 2))%>%
+                              add_trace(y = ~IT, name="IT",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(25, 111, 61)', width = 2))%>%
+                              add_trace(y = ~GB, name="UK",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(118, 68, 138)', width = 2))%>%
+                              add_trace(y = ~AU, name="AU",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(241, 14, 245)', width = 2))%>%
+                              add_trace(y = ~NO, name="NO",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(81, 90, 90)', width = 2))                              
+transit <- plot %>% layout(title = "Transit Stations")
+
+
+#######
+
+# parks
+
+plot <-plot_ly(parks_com_mm7d, x = ~date) %>% 
+                             add_trace(y = ~BR, name="BR", type = 'scatter', mode= 'lines', line = list(color = 'rgb(241, 196, 15)', width = 2))%>% 
+                             add_trace(y = ~US, name="US",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(196, 57, 43)', width = 2)) %>%
+                             add_trace(y = ~DE, name="GE",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(0, 0, 0)', width = 2))%>%
+                              add_trace(y = ~FR, name="FR",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(29, 105, 239)', width = 2))%>%
+                              add_trace(y = ~ES, name="SP",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(156, 100, 12)', width = 2))%>%
+                              add_trace(y = ~IT, name="IT",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(25, 111, 61)', width = 2))%>%
+                              add_trace(y = ~GB, name="UK",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(118, 68, 138)', width = 2))%>%
+                              add_trace(y = ~AU, name="AU",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(241, 14, 245)', width = 2))%>%
+                              add_trace(y = ~NO, name="NO",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(81, 90, 90)', width = 2))                              
+parks <- plot %>% layout(title = "Parks")
+
+
+#######
+
+workplace
+```
+
+
+
+```{r}
+residential
+```
+
+Column
+-----------------------------------------------------------------------
+
+```{r}
+retail
+```
+
+```{r}
+grocery
+
+```
+
+Column
+-----------------------------------------------------------------------
+
+```{r}
+transit
+```
+
+```{r}
+parks
+
+```
 
 
 
