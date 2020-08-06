@@ -2273,7 +2273,7 @@ plot <-plot_ly(workplace_com_mm7d, x = ~date) %>%
                              add_trace(y = ~DE, name="GE",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(0, 0, 0)', width = 2))%>%
                               add_trace(y = ~FR, name="FR",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(29, 105, 239)', width = 2))%>%
                               add_trace(y = ~ES, name="SP",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(156, 100, 12)', width = 2))%>%
-                              add_trace(y = ~IT, name="IT",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(25, 111, 61)', width = 2))%>%
+                              add_trace(y = ~IT, name="IT",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(42, 252, 0)', width = 2))%>%
                               add_trace(y = ~GB, name="UK",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(118, 68, 138)', width = 2))%>%
                               add_trace(y = ~AU, name="AU",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(241, 14, 245)', width = 2))%>%
                               add_trace(y = ~NO, name="NO",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(81, 90, 90)', width = 2))                              
@@ -2288,7 +2288,7 @@ plot <-plot_ly(residential_com_mm7d, x = ~date) %>%
                              add_trace(y = ~DE, name="GE",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(0, 0, 0)', width = 2))%>%
                               add_trace(y = ~FR, name="FR",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(29, 105, 239)', width = 2))%>%
                               add_trace(y = ~ES, name="SP",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(156, 100, 12)', width = 2))%>%
-                              add_trace(y = ~IT, name="IT",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(25, 111, 61)', width = 2))%>%
+                              add_trace(y = ~IT, name="IT",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(42, 252, 0)', width = 2))%>%
                               add_trace(y = ~GB, name="UK",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(118, 68, 138)', width = 2))%>%
                               add_trace(y = ~AU, name="AU",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(241, 14, 245)', width = 2))%>%
                               add_trace(y = ~NO, name="NO",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(81, 90, 90)', width = 2))                              
@@ -2305,7 +2305,7 @@ plot <-plot_ly(retail_com_mm7d, x = ~date) %>%
                              add_trace(y = ~DE, name="GE",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(0, 0, 0)', width = 2))%>%
                               add_trace(y = ~FR, name="FR",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(29, 105, 239)', width = 2))%>%
                               add_trace(y = ~ES, name="SP",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(156, 100, 12)', width = 2))%>%
-                              add_trace(y = ~IT, name="IT",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(25, 111, 61)', width = 2))%>%
+                              add_trace(y = ~IT, name="IT",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(42, 252, 0)', width = 2))%>%
                               add_trace(y = ~GB, name="UK",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(118, 68, 138)', width = 2))%>%
                               add_trace(y = ~AU, name="AU",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(241, 14, 245)', width = 2))%>%
                               add_trace(y = ~NO, name="NO",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(81, 90, 90)', width = 2))                              
@@ -2323,7 +2323,7 @@ plot <-plot_ly(grocery_com_mm7d, x = ~date) %>%
                              add_trace(y = ~DE, name="GE",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(0, 0, 0)', width = 2))%>%
                               add_trace(y = ~FR, name="FR",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(29, 105, 239)', width = 2))%>%
                               add_trace(y = ~ES, name="SP",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(156, 100, 12)', width = 2))%>%
-                              add_trace(y = ~IT, name="IT",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(25, 111, 61)', width = 2))%>%
+                              add_trace(y = ~IT, name="IT",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(42, 252, 0)', width = 2))%>%
                               add_trace(y = ~GB, name="UK",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(118, 68, 138)', width = 2))%>%
                               add_trace(y = ~AU, name="AU",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(241, 14, 245)', width = 2))%>%
                               add_trace(y = ~NO, name="NO",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(81, 90, 90)', width = 2))                              
@@ -2341,7 +2341,7 @@ plot <-plot_ly(transit_com_mm7d, x = ~date) %>%
                              add_trace(y = ~DE, name="GE",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(0, 0, 0)', width = 2))%>%
                               add_trace(y = ~FR, name="FR",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(29, 105, 239)', width = 2))%>%
                               add_trace(y = ~ES, name="SP",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(156, 100, 12)', width = 2))%>%
-                              add_trace(y = ~IT, name="IT",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(25, 111, 61)', width = 2))%>%
+                              add_trace(y = ~IT, name="IT",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(42, 252, 0)', width = 2))%>%
                               add_trace(y = ~GB, name="UK",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(118, 68, 138)', width = 2))%>%
                               add_trace(y = ~AU, name="AU",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(241, 14, 245)', width = 2))%>%
                               add_trace(y = ~NO, name="NO",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(81, 90, 90)', width = 2))                              
@@ -2358,7 +2358,7 @@ plot <-plot_ly(parks_com_mm7d, x = ~date) %>%
                              add_trace(y = ~DE, name="GE",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(0, 0, 0)', width = 2))%>%
                               add_trace(y = ~FR, name="FR",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(29, 105, 239)', width = 2))%>%
                               add_trace(y = ~ES, name="SP",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(156, 100, 12)', width = 2))%>%
-                              add_trace(y = ~IT, name="IT",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(25, 111, 61)', width = 2))%>%
+                              add_trace(y = ~IT, name="IT",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(42, 252, 0)', width = 2))%>%
                               add_trace(y = ~GB, name="UK",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(118, 68, 138)', width = 2))%>%
                               add_trace(y = ~AU, name="AU",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(241, 14, 245)', width = 2))%>%
                               add_trace(y = ~NO, name="NO",  type = 'scatter', mode= 'lines', line = list(color = 'rgb(81, 90, 90)', width = 2))                              

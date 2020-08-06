@@ -296,17 +296,17 @@ residential_com_mm7d <-  cbind(BdBR['date'],residential_com_mm7d)
 
 
 
-# 
-# 
-# 
-# 
-# 
-# 
-# 
-# # fazer os fráficos individual para eua
-# 
-# 
-# 
+
+
+
+
+
+
+
+# fazer os fráficos individual para eua
+
+
+
 # 
 # 
 # 
@@ -316,7 +316,7 @@ residential_com_mm7d <-  cbind(BdBR['date'],residential_com_mm7d)
 # 
 # BrPesosPib <-read.xlsx(file = "C:/Users/leandro/Documents/GitHub/corona_dash/docs/pesos_pib.xlsx"
 #                    , sheetName = "base"
-#                    ) 
+#                    )
 # 
 # 
 # 
@@ -366,54 +366,54 @@ residential_com_mm7d <-  cbind(BdBR['date'],residential_com_mm7d)
 # 
 # 
 # 
-# BdBrRetail <- BdBr %>% 
+# BdBrRetail <- BdBr %>%
 #   replace_na(list(sub_region_1 = "Brazil")) %>%
 #   left_join(BrCodes) %>%
 #   select(date, Short, retail_and_recreation_percent_change_from_baseline) %>%
 #   tidyr::spread(date,retail_and_recreation_percent_change_from_baseline, fill = 0) %>%
-#   tibble::column_to_rownames(var = "Short") %>% 
+#   tibble::column_to_rownames(var = "Short") %>%
 #   rename_all(function(x) format(as.Date(x), "%m/%d/%y"))
-#   
 # 
 # 
-# BdBrGrocery <- BdBr %>% 
+# 
+# BdBrGrocery <- BdBr %>%
 #   replace_na(list(sub_region_1 = "Brazil")) %>%
 #   left_join(BrCodes) %>%
 #   select(date, Short, grocery_and_pharmacy_percent_change_from_baseline) %>%
 #   tidyr::spread(date,grocery_and_pharmacy_percent_change_from_baseline, fill = 0) %>%
-#   tibble::column_to_rownames(var = "Short") %>% 
+#   tibble::column_to_rownames(var = "Short") %>%
 #   rename_all(function(x) format(as.Date(x), "%m/%d/%y"))
 # 
-# BdBrParks <- BdBr %>% 
+# BdBrParks <- BdBr %>%
 #   replace_na(list(sub_region_1 = "Brazil")) %>%
 #   left_join(BrCodes) %>%
 #   select(date, Short, parks_percent_change_from_baseline) %>%
 #   tidyr::spread(date,parks_percent_change_from_baseline, fill = 0) %>%
-#   tibble::column_to_rownames(var = "Short") %>% 
+#   tibble::column_to_rownames(var = "Short") %>%
 #   rename_all(function(x) format(as.Date(x), "%m/%d/%y"))
 # 
-# BdBrTransit <- BdBr %>% 
+# BdBrTransit <- BdBr %>%
 #   replace_na(list(sub_region_1 = "Brazil")) %>%
 #   left_join(BrCodes) %>%
 #   select(date, Short, transit_stations_percent_change_from_baseline) %>%
 #   tidyr::spread(date,transit_stations_percent_change_from_baseline, fill = 0) %>%
-#   tibble::column_to_rownames(var = "Short") %>% 
+#   tibble::column_to_rownames(var = "Short") %>%
 #   rename_all(function(x) format(as.Date(x), "%m/%d/%y"))
 # 
-# BdBrWork <- BdBr %>% 
+# BdBrWork <- BdBr %>%
 #   replace_na(list(sub_region_1 = "Brazil")) %>%
 #   left_join(BrCodes) %>%
 #   select(date, Short, workplaces_percent_change_from_baseline) %>%
 #   tidyr::spread(date,workplaces_percent_change_from_baseline, fill = 0) %>%
-#   tibble::column_to_rownames(var = "Short") %>% 
+#   tibble::column_to_rownames(var = "Short") %>%
 #   rename_all(function(x) format(as.Date(x), "%m/%d/%y"))
 # 
-# BdBrResidential <- BdBr %>% 
+# BdBrResidential <- BdBr %>%
 #   replace_na(list(sub_region_1 = "Brazil")) %>%
 #   left_join(BrCodes) %>%
 #   select(date, Short, residential_percent_change_from_baseline) %>%
 #   tidyr::spread(date,residential_percent_change_from_baseline, fill = 0) %>%
-#   tibble::column_to_rownames(var = "Short") %>% 
+#   tibble::column_to_rownames(var = "Short") %>%
 #   rename_all(function(x) format(as.Date(x), "%m/%d/%y"))
 # 
 # 
@@ -421,22 +421,22 @@ residential_com_mm7d <-  cbind(BdBR['date'],residential_com_mm7d)
 # 
 # 
 # df_gg2 <- map(lista_gg,~ {
-#   y <- .x %>% 
-#   rownames_to_column(var="States") %>% 
-#   mutate_at(vars("States"),as.factor) %>% 
-#   left_join(BrPesosPib,by="States") %>% 
-#   mutate_at(vars(-c("part.","States")),~ part. * .x) %>% 
-#   filter(States!="BR") 
+#   y <- .x %>%
+#   rownames_to_column(var="States") %>%
+#   mutate_at(vars("States"),as.factor) %>%
+#   left_join(BrPesosPib,by="States") %>%
+#   mutate_at(vars(-c("part.","States")),~ part. * .x) %>%
+#   filter(States!="BR")
 # 
 # soma_linhas <- y %>%
-#   select(-c("States","part.")) %>% 
+#   select(-c("States","part.")) %>%
 #   colSums %>%
 #   setNames(colnames(y)[-c(1,length(y))])
 # 
 # 
-# z <- bind_rows(y,soma_linhas) %>% 
-#   replace_na(list(States="BR")) %>% 
-#   select(-"part.") %>% 
+# z <- bind_rows(y,soma_linhas) %>%
+#   replace_na(list(States="BR")) %>%
+#   select(-"part.") %>%
 #   column_to_rownames("States")
 # }
 # ) %>% setNames(c("BdBrRetail_f","BdBrGrocery_f","BdBrParks_f","BdBrTransit_f","BdBrWork_f","BdBrResidential_f"))
@@ -457,7 +457,7 @@ residential_com_mm7d <-  cbind(BdBR['date'],residential_com_mm7d)
 # 
 # 
 # 
-# 
+# write.csv(BdBrRetail, 'C:\\Users\\leandro\\Documents\\GitHub\\corona_dash\\docs\\excel_base_google_teste.csv')
 # 
 # 
 # 
@@ -468,7 +468,6 @@ residential_com_mm7d <-  cbind(BdBR['date'],residential_com_mm7d)
 #  p
 # 
 # 
-
-
-
- 
+# 
+# 
+# 
