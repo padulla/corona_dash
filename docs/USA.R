@@ -9,7 +9,7 @@ RawUs <- readr::read_csv(USRepo,
 
 
 
-excel_us <- RawUs %>% select(date, state, positive, negative, pending, hospitalizedCurrently, hospitalizedCumulative, inIcuCurrently, recovered, death, totalTestResults)
+excel_us <- RawUs %>% select(date, state, positive, negative, pending, hospitalizedCurrently, hospitalizedCumulative, inIcuCurrently, recovered, death, totalTestsViral)
 
 write.xlsx(excel_us, 'C:\\Users\\leandro\\Documents\\GitHub\\corona_dash\\docs\\excel_base_us.xlsx')
 
