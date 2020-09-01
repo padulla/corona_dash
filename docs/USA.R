@@ -11,13 +11,13 @@ RawUs <- readr::read_csv(USRepo,
 
 excel_us <- RawUs %>% select(date, state, positive, negative, pending, hospitalizedCurrently, hospitalizedCumulative, inIcuCurrently, recovered, death, totalTestsViral)
 
-write.xlsx(excel_us, 'C:\\Users\\leandro\\Documents\\GitHub\\corona_dash\\docs\\excel_base_us.xlsx')
+write.xlsx(excel_us, 'C:/Users/leandro/Documents/GitHub/corona_dash/docs/excel_base_us.xlsx')
 
 
 
 
 
-DataReabertUS   <-  read.xlsx("C:\\Users\\leandro\\Documents\\GitHub\\corona_dash\\docs\\DataReopenUS.xlsx", sheetName='data',check.names=FALSE)
+DataReabertUS   <-  read.xlsx("C:/Users/leandro/Documents/GitHub/corona_dash/docs/DataReopenUS.xlsx", sheetName='data',check.names=FALSE)
 DataReabertUS[DataReabertUS==0]<-as.character("2020-03-01") 
 DataReabertUS %>% mutate_all(as.character)
 

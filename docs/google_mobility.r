@@ -311,7 +311,7 @@ residential_com_mm7d <-  cbind(BdBR['date'],residential_com_mm7d)
 
 
 
-write.csv(BdUS, 'T:\\ECONOMIA\\Corona\\excel_base_google.csv')
+write.csv(BdUS, 'T:/ECONOMIA/Corona/excel_base_google.csv')
 
 
 BrPesosPib <-read.xlsx(file = "C:/Users/leandro/Documents/GitHub/corona_dash/docs/pesos_pib.xlsx"
@@ -452,18 +452,18 @@ list2env(df_gg2, globalenv())
 
 
 
-write.xlsx(BdBrRetail_f, 'C:\\Users\\leandro\\Documents\\GitHub\\corona_dash\\docs\\excel_base_google.xlsx', sheetName="BdBrRetail_f")
-write.xlsx(BdBrGrocery_f, 'C:\\Users\\leandro\\Documents\\GitHub\\corona_dash\\docs\\excel_base_google.xlsx', sheetName="BdBrGrocery_f",append=TRUE)
-write.xlsx(BdBrParks_f, 'C:\\Users\\leandro\\Documents\\GitHub\\corona_dash\\docs\\excel_base_google.xlsx', sheetName="BdBrParks_f",append=TRUE)
-write.xlsx(BdBrTransit_f, 'C:\\Users\\leandro\\Documents\\GitHub\\corona_dash\\docs\\excel_base_google.xlsx', sheetName="BdBrTransit_f",append=TRUE)
-write.xlsx(BdBrWork_f, 'C:\\Users\\leandro\\Documents\\GitHub\\corona_dash\\docs\\excel_base_google.xlsx', sheetName="BdBrWork_f",append=TRUE)
-write.xlsx(BdBrResidential_f, 'C:\\Users\\leandro\\Documents\\GitHub\\corona_dash\\docs\\excel_base_google.xlsx', sheetName="BdBrResidential_f",append=TRUE)
-write.xlsx(BdBrRetail, 'C:\\Users\\leandro\\Documents\\GitHub\\corona_dash\\docs\\excel_base_google.xlsx', sheetName="BdBrRetail",append=TRUE)
+write.xlsx(BdBrRetail_f, 'C:/Users/leandro/Documents/GitHub/corona_dash/docs/excel_base_google.xlsx', sheetName="BdBrRetail_f")
+write.xlsx(BdBrGrocery_f, 'C:/Users/leandro/Documents/GitHub/corona_dash/docs/excel_base_google.xlsx', sheetName="BdBrGrocery_f",append=TRUE)
+write.xlsx(BdBrParks_f, 'C:/Users/leandro/Documents/GitHub/corona_dash/docs/excel_base_google.xlsx', sheetName="BdBrParks_f",append=TRUE)
+write.xlsx(BdBrTransit_f, 'C:/Users/leandro/Documents/GitHub/corona_dash/docs/excel_base_google.xlsx', sheetName="BdBrTransit_f",append=TRUE)
+write.xlsx(BdBrWork_f, 'C:/Users/leandro/Documents/GitHub/corona_dash/docs/excel_base_google.xlsx', sheetName="BdBrWork_f",append=TRUE)
+write.xlsx(BdBrResidential_f, 'C:/Users/leandro/Documents/GitHub/corona_dash/docs/excel_base_google.xlsx', sheetName="BdBrResidential_f",append=TRUE)
+write.xlsx(BdBrRetail, 'C:/Users/leandro/Documents/GitHub/corona_dash/docs/excel_base_google.xlsx', sheetName="BdBrRetail",append=TRUE)
 
 
 
 
-#write.csv(BdBrRetail, 'C:\\Users\\leandro\\Documents\\GitHub\\corona_dash\\docs\\excel_base_google_teste.csv')
+#write.csv(BdBrRetail, 'C:/Users/leandro/Documents/GitHub/corona_dash/docs/excel_base_google_teste.csv')
 
 
 

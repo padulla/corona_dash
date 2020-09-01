@@ -6,7 +6,7 @@ BRpop           <- "http://api.sidra.ibge.gov.br/values/t/6579/p/2019/v/9324/n3/
 
 BRDIARepo       <- "https://raw.githubusercontent.com/wcota/covid19br/master/cases-brazil-total.csv"
 
-DataReabertBR   <-  read.xlsx("C:\\Users\\leandro\\Documents\\GitHub\\corona_dash\\docs\\data_reabertura_br.xlsx", sheetName='data')
+DataReabertBR   <-  read.xlsx("C:/Users/leandro/Documents/GitHub/corona_dash/docs/data_reabertura_br.xlsx", sheetName='data')
 DataReabertBR[DataReabertBR==0]<-as.character("2020-03-20") 
 DataReabertBR %>% mutate_all(as.character)
 
@@ -50,12 +50,12 @@ RawBrPop <- get_sidra(6579,
                       geo = "State" )
 
 
-SP_dic_reg <- read_delim(file="C:\\Users\\leandro\\Documents\\GitHub\\corona_dash\\docs\\dic_regs.csv",delim=";") 
+SP_dic_reg <- read_delim(file="C:/Users/leandro/Documents/GitHub/corona_dash/docs/dic_regs.csv",delim=";") 
 
 excel_base <- RawBr %>% select(date,country,state,city,newCases,totalCases,deaths)
 
 
-write.xlsx(excel_base, 'C:\\Users\\leandro\\Documents\\GitHub\\corona_dash\\docs\\excel_base.xlsx')
+write.xlsx(excel_base, 'C:/Users/leandro/Documents/GitHub/corona_dash/docs/excel_base.xlsx')
 
 
 
@@ -201,8 +201,8 @@ SPDeathsReg <-
 
 
 
-write.xlsx(SPCasesReg , 'C:\\Users\\leandro\\Documents\\GitHub\\corona_dash\\docs\\excel_sp.xlsx', sheetName="SPCasesReg ")
-write.xlsx(SPDeathsReg, 'C:\\Users\\leandro\\Documents\\GitHub\\corona_dash\\docs\\excel_sp.xlsx', sheetName="SPDeathsReg",append=TRUE)
+write.xlsx(SPCasesReg , 'C:/Users/leandro/Documents/GitHub/corona_dash/docs/excel_sp.xlsx', sheetName="SPCasesReg ")
+write.xlsx(SPDeathsReg, 'C:/Users/leandro/Documents/GitHub/corona_dash/docs/excel_sp.xlsx', sheetName="SPDeathsReg",append=TRUE)
 
 
 
