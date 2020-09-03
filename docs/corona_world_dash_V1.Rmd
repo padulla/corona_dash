@@ -270,7 +270,7 @@ lapply(colnames(dh)[2:21], function(x){
                                       showarrow = FALSE
                                     )
                            plot_ly(dh, x = ~Dates) %>% 
-                             add_trace(y = as.formula(expr),  type = 'bar', color = I("firebrick4")) %>% 
+                             add_trace(y = as.formula(expr),  type = 'bar', color = I("darkorange2")) %>% 
                              add_trace(y = as.formula(mexpr), type = 'scatter', mode = 'lines', color = I("black") ) %>% 
                              layout(showlegend = FALSE, annotations = a)
 })
@@ -442,7 +442,7 @@ lapply(colnames(dh)[2:21], function(x){
                                       showarrow = FALSE
                                     )
                            plot_ly(dh, x = ~Dates) %>% 
-                             add_trace(y = as.formula(expr),  type = 'bar', color = I("firebrick4")) %>% 
+                             add_trace(y = as.formula(expr),  type = 'bar', color = I("darkorange2")) %>% 
                              add_trace(y = as.formula(mexpr), type = 'scatter', mode = 'lines', color = I("black") ) %>% 
                              layout(showlegend = FALSE, annotations = a)
 })
@@ -607,7 +607,7 @@ lapply(colnames(dh)[2:58], function(x){
                                       showarrow = FALSE
                                     )
                            plot_ly(dh, x = ~Dates) %>% 
-                             add_trace(y = as.formula(expr),  type = 'bar', color = I("firebrick4")) %>% 
+                             add_trace(y = as.formula(expr),  type = 'bar', color = I("darkorange2")) %>% 
                              add_trace(y = as.formula(mexpr), type = 'scatter', mode = 'lines', color = I("black") ) %>% 
                            # add_segments(x = data_reab, xend = data_reab, y = 0, yend = maximum, color=I("red")) %>% 
                              layout(showlegend = FALSE, annotations = a)
@@ -701,7 +701,7 @@ lapply(colnames(dh)[2:58], function(x){
                                       showarrow = FALSE
                                     )
                            plot_ly(dh, x = ~Dates) %>% 
-                             add_trace(y = as.formula(expr),  type = 'bar', color = I("firebrick4")) %>% 
+                             add_trace(y = as.formula(expr),  type = 'bar', color = I("darkorange2")) %>% 
                              add_trace(y = as.formula(mexpr), type = 'scatter', mode = 'lines', color = I("black") ) %>% 
                            # add_segments(x = data_reab, xend = data_reab, y = 0, yend = maximum, color=I("red")) %>% 
                              layout(showlegend = FALSE, annotations = a)
@@ -1028,7 +1028,7 @@ lapply(colnames(dh)[2:58], function(x){
                                       showarrow = FALSE
                                     )
                            plot_ly(dh, x = ~Dates) %>% 
-                             add_trace(y = as.formula(expr),  type = 'bar', color = I("firebrick4")) %>% 
+                             add_trace(y = as.formula(expr),  type = 'bar', color = I("darkorange2")) %>% 
                              add_trace(y = as.formula(mexpr), type = 'scatter', mode = 'lines', color = I("black") ) %>% 
                             # add_segments(x = data_reab, xend = data_reab, y = 0, yend = maximum, color=I("red")) %>% 
                              layout(showlegend = FALSE, annotations = a)
@@ -1290,7 +1290,7 @@ lapply(colnames(dh)[2:29], function(x){
                                       showarrow = FALSE
                                     )
                            plot_ly(dh, x = ~Dates) %>% 
-                             add_trace(y = as.formula(expr),  type = 'bar', color = I("firebrick4")) %>% 
+                             add_trace(y = as.formula(expr),  type = 'bar', color = I("darkorange2")) %>% 
                              add_trace(y = as.formula(mexpr), type = 'scatter', mode = 'lines', color = I("black") ) %>% 
                               #add_segments(x = data_reab, xend = data_reab, y = 0, yend = maximum, color=I("red")) %>% 
                              layout(showlegend = FALSE, annotations = a)
@@ -1690,7 +1690,7 @@ lapply(colnames(dh)[2:29], function(x){
                                       showarrow = FALSE
                                     )
                            plot_ly(dh, x = ~Dates) %>% 
-                             add_trace(y = as.formula(expr),  type = 'bar', color = I("firebrick4")) %>% 
+                             add_trace(y = as.formula(expr),  type = 'bar', color = I("darkorange2")) %>% 
                              add_trace(y = as.formula(mexpr), type = 'scatter', mode = 'lines', color = I("black") ) %>%
                              #add_segments(x = data_reab, xend = data_reab, y = 0, yend = maximum, color=I("red")) %>% 
                              layout(showlegend = FALSE, annotations = a)
@@ -1774,7 +1774,7 @@ lapply(colnames(dh)[2:29], function(x){
                                       showarrow = FALSE
                                     )
                            plot_ly(dh, x = ~Dates) %>% 
-                             add_trace(y = as.formula(expr),  type = 'bar', color = I("firebrick4")) %>% 
+                             add_trace(y = as.formula(expr),  type = 'bar', color = I("darkorange2")) %>% 
                              add_trace(y = as.formula(mexpr), type = 'scatter', mode = 'lines', color = I("black") ) %>%
                              add_segments(x = data_reab, xend = data_reab, y = 0, yend = maximum, color=I("red")) %>% 
                              layout(showlegend = FALSE, annotations = a)
@@ -2103,7 +2103,7 @@ lapply(colnames(dh)[2:18], function(x){
                                       showarrow = FALSE
                                     )
                            plot_ly(dh, x = ~Dates) %>% 
-                             add_trace(y = as.formula(expr),  type = 'bar', color = I("firebrick4")) %>% 
+                             add_trace(y = as.formula(expr),  type = 'bar', color = I("darkorange2")) %>% 
                              add_trace(y = as.formula(mexpr), type = 'scatter', mode = 'lines', color = I("black") ) %>% 
                              layout(showlegend = FALSE, annotations = a)
 })
@@ -2173,7 +2173,7 @@ lapply(colnames(dh)[2:18], function(x){
                                       showarrow = FALSE
                                     )
                            plot_ly(dh, x = ~Dates) %>% 
-                             add_trace(y = as.formula(expr),  type = 'bar', color = I("firebrick4")) %>% 
+                             add_trace(y = as.formula(expr),  type = 'bar', color = I("darkorange2")) %>% 
                              add_trace(y = as.formula(mexpr), type = 'scatter', mode = 'lines', color = I("black") ) %>% 
                              layout(showlegend = FALSE, annotations = a)
 })
