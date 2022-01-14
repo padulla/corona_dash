@@ -233,7 +233,9 @@ WorldCases %>%
   mutate_all(~ . - lag(.)) %>% 
   mutate(Dates = as.Date(colnames(WorldCases), format = "%m/%d/%y") ) %>% 
   select(Dates, everything()) %>% 
-  mutate_if(~ any(is.na(.)), ~ if_else(is.na(.), 0, .))
+  mutate_if(~ any(is.na(.)), ~ if_else(is.na(.), 0, .))%>% 
+  mutate(Total = rowSums(.[2:21])) %>% 
+  select(Dates, Total,everything())
 
 
 
@@ -251,7 +253,7 @@ cbind(dz, dw) %>%
 f2 <- list(family = 'Old Standard TT, serif', size = 16, color = ("#4c1112"))
 
 plots <- 
-lapply(colnames(dh)[2:21], function(x){ 
+lapply(colnames(dh)[2:22], function(x){ 
                            expr   <- paste0("~", "`", x, "`")
                            mexpr  <- paste0("~", "`", "M", x, "`")
                            legm   <- paste0("Moving average of ", x)
@@ -407,7 +409,9 @@ WorldDeaths %>%
   mutate_all(~ . - lag(.)) %>% 
   mutate(Dates = as.Date(colnames(WorldDeaths), format = "%m/%d/%y") ) %>% 
   select(Dates, everything()) %>% 
-  mutate_if(~ any(is.na(.)), ~ if_else(is.na(.), 0, .))
+  mutate_if(~ any(is.na(.)), ~ if_else(is.na(.), 0, .))%>% 
+  mutate(Total = rowSums(.[2:21])) %>% 
+  select(Dates, Total,everything())
 
 dw <- 
 do.call(cbind, lapply(colnames(dz)[-1], function(x) TTR::SMA(dz[,x], 7))) %>% 
@@ -423,7 +427,7 @@ cbind(dz, dw) %>%
 f2 <- list(family = 'Old Standard TT, serif', size = 16, color = ("#4c1112"))
 
 plots <- 
-lapply(colnames(dh)[2:21], function(x){ 
+lapply(colnames(dh)[2:22], function(x){ 
                            expr   <- paste0("~", "`", x, "`")
                            mexpr  <- paste0("~", "`", "M", x, "`")
                            legm   <- paste0("Moving average of ", x)
@@ -622,13 +626,13 @@ p
 
 
 
-Hospitalized per day Graphs {data-navmenu='US'} 
+Hospitalized Currently {data-navmenu='US'} 
 ==========================================================================
 
 Column
 -----------------------------------------------------------------------
 
-### Hospitalized per day
+### Hospitalized Currently
 ```{r, fig.width = 5, fig.height = 30}
 cols_names <- USACodes %>% rbind("US") 
 dz <- 
@@ -657,8 +661,7 @@ dzz <- t(dz) %>%
   
   
   dz <- t(dz) %>% 
-  as_tibble %>% 
-  mutate_all(~ . - lag(.)) %>% 
+  as_tibble  %>% 
   mutate(Dates = as.Date(colnames(UsCases), format = "%m/%d/%y") ) %>% 
   select(Dates, everything()) %>% 
   mutate_if(~ any(is.na(.)), ~ if_else(is.na(.), 0, .))
@@ -702,7 +705,7 @@ lapply(colnames(dh)[2:58], function(x){
                                     )
                            plot_ly(dh, x = ~Dates) %>% 
                              add_trace(y = as.formula(expr),  type = 'bar', color = I("darkorange2")) %>% 
-                             add_trace(y = as.formula(mexpr), type = 'scatter', mode = 'lines', color = I("black") ) %>% 
+                              
                            # add_segments(x = data_reab, xend = data_reab, y = 0, yend = maximum, color=I("red")) %>% 
                              layout(showlegend = FALSE, annotations = a)
 })
@@ -1999,51 +2002,51 @@ printDT(porce_d_sp/100,
 ```
 
 
-Doubling Time {data-navmenu='Brasil - SP'}
-====================================================================
+<!-- Doubling Time {data-navmenu='Brasil - SP'} -->
+<!-- ==================================================================== -->
 
-Column {.tabset}
------------------------------------------------------------------------
+<!-- Column {.tabset} -->
+<!-- ----------------------------------------------------------------------- -->
 
-### <b style = "color: #4c1112">  Time to double cases </b>
-```{r, fig.height = 6, fig.width = 10}
+<!-- ### <b style = "color: #4c1112">  Time to double cases </b> -->
+<!-- ```{r, fig.height = 6, fig.width = 10} -->
 
-doublingTime <- function(x) {
-  y <- x - dplyr::lag(x) 
-  x / y
-}
-
-
-Dates <- seq.Date(from = as.Date('2020-02-25'),
-                  to   = HereBR,
-                  by   = 'day')
+<!-- doublingTime <- function(x) { -->
+<!--   y <- x - dplyr::lag(x)  -->
+<!--   x / y -->
+<!-- } -->
 
 
-da <- 
-SPCasesReg %>% 
-  t() %>% 
-  as_tibble() %>% 
-  mutate_all(~ TTR::SMA(., 7)) %>% 
-  mutate_all(doublingTime) %>% 
-  mutate(Days = as.Date(Dates)) %>% 
-  filter(Days >= as.Date("2020-03-01"))
+<!-- Dates <- seq.Date(from = as.Date('2020-02-25'), -->
+<!--                   to   = HereBR, -->
+<!--                   by   = 'day') -->
 
 
-regs_sp <- rownames(SPCasesReg)
+<!-- da <-  -->
+<!-- SPCasesReg %>%  -->
+<!--   t() %>%  -->
+<!--   as_tibble() %>%  -->
+<!--   mutate_all(~ TTR::SMA(., 7)) %>%  -->
+<!--   mutate_all(doublingTime) %>%  -->
+<!--   mutate(Days = as.Date(Dates)) %>%  -->
+<!--   filter(Days >= as.Date("2020-03-01")) -->
 
-gg <- ggplot(da, aes(x = Days)) 
-for (i in regs_sp) {
-  gg <- gg + geom_line(aes_(y = as.name(i),  colour = i), na.rm = TRUE) +
-             geom_point(aes_(y = as.name(i), colour = i), na.rm = TRUE)
-}
-gg <- gg + labs(x = "Days", y = "Doubling Time")
-gg <- gg + theme(legend.position = 'bottom') +
-           scale_color_manual("", values = plotlyColors, breaks = regs_sp)
 
-ggplotly(gg, height = 500, width = 1200) %>%
-  layout(legend = list(orientation = 'h', x = +0.05, y = -0.15))
-##ggsave(paste0(ggpath, "DoublingTime.png"))
-```
+<!-- regs_sp <- rownames(SPCasesReg) -->
+
+<!-- gg <- ggplot(da, aes(x = Days))  -->
+<!-- for (i in regs_sp) { -->
+<!--   gg <- gg + geom_line(aes_(y = as.name(i),  colour = i), na.rm = TRUE) + -->
+<!--              geom_point(aes_(y = as.name(i), colour = i), na.rm = TRUE) -->
+<!-- } -->
+<!-- gg <- gg + labs(x = "Days", y = "Doubling Time") -->
+<!-- gg <- gg + theme(legend.position = 'bottom') + -->
+<!--            scale_color_manual("", values = plotlyColors, breaks = regs_sp) -->
+
+<!-- ggplotly(gg, height = 500, width = 1200) %>% -->
+<!--   layout(legend = list(orientation = 'h', x = +0.05, y = -0.15)) -->
+<!-- ##ggsave(paste0(ggpath, "DoublingTime.png")) -->
+<!-- ``` -->
 
 
 
@@ -2183,75 +2186,75 @@ p
 ```
 
 
-SP - Data for Opening  {data-navmenu='Brasil - SP'}
-==========================================================================
+<!-- SP - Data for Opening  {data-navmenu='Brasil - SP'} -->
+<!-- ========================================================================== -->
 
-Row
---------------------------------------------------------------------
+<!-- Row -->
+<!-- -------------------------------------------------------------------- -->
 
-### Cases
-```{r}
-TABELA_R_eff <- dd %>%
-mutate_all(~ .x/lag(.x,7)) %>%
-mutate_if(~ any(is.infinite(.x)),~ replace(.x,is.infinite(.x),0)) %>%
-mutate_if(~ any(is.na(.x)),~ replace(.x,is.na(.x),0)) %>%
-mutate_all(~ round(.x,1))  %>%
-rownames_to_column() %>%
-pivot_longer(-rowname) %>%
-pivot_wider(names_from=rowname, values_from=value) %>%
-arrange_at(vars(last_col()))%>%
-rename_all(~ c("RAs", format(seq.Date(from=as.Date("2020-02-25"),to=HereBR,by="days"),"%d/%m/%y"))) %>%
-select("RAs",last_col(50:0))
+<!-- ### Cases -->
+<!-- ```{r} -->
+<!-- TABELA_R_eff <- dd %>% -->
+<!-- mutate_all(~ .x/lag(.x,7)) %>% -->
+<!-- mutate_if(~ any(is.infinite(.x)),~ replace(.x,is.infinite(.x),0)) %>% -->
+<!-- mutate_if(~ any(is.na(.x)),~ replace(.x,is.na(.x),0)) %>% -->
+<!-- mutate_all(~ round(.x,1))  %>% -->
+<!-- rownames_to_column() %>% -->
+<!-- pivot_longer(-rowname) %>% -->
+<!-- pivot_wider(names_from=rowname, values_from=value) %>% -->
+<!-- arrange_at(vars(last_col()))%>% -->
+<!-- rename_all(~ c("RAs", format(seq.Date(from=as.Date("2020-02-25"),to=HereBR,by="days"),"%d/%m/%y"))) %>% -->
+<!-- select("RAs",last_col(50:0)) -->
 
-m <-  TABELA_R_eff %>%
-    column_to_rownames("RAs") %>%
-    as.matrix()
+<!-- m <-  TABELA_R_eff %>% -->
+<!--     column_to_rownames("RAs") %>% -->
+<!--     as.matrix() -->
 
-colorScale <- data.frame(z=c(0,0.33,0.33,0.66,0.66,1),col=c("#008000","#008000","#FFFF00","#FFFF00", "#FF0000", "#FF0000"))
-colorScale$col <- as.character(colorScale$col)
-
-
-
-p <- plot_ly(x=colnames(m), y=rownames(m), z = m, zmin=0,zmax=3, zsmooth=FALSE, ygap =0.25,xgap =0.25, colorscale=colorScale, type = "heatmap") 
-p
-
-
-```
+<!-- colorScale <- data.frame(z=c(0,0.33,0.33,0.66,0.66,1),col=c("#008000","#008000","#FFFF00","#FFFF00", "#FF0000", "#FF0000")) -->
+<!-- colorScale$col <- as.character(colorScale$col) -->
 
 
 
+<!-- p <- plot_ly(x=colnames(m), y=rownames(m), z = m, zmin=0,zmax=3, zsmooth=FALSE, ygap =0.25,xgap =0.25, colorscale=colorScale, type = "heatmap")  -->
+<!-- p -->
 
 
-### Deaths
-```{r}
-
-
-TABELA_R_eff <- dw %>%
-mutate_all(~ .x/lag(.x,7)) %>%
-mutate_if(~ any(is.infinite(.x)),~ replace(.x,is.infinite(.x),0)) %>%
-mutate_if(~ any(is.na(.x)),~ replace(.x,is.na(.x),0)) %>%
-mutate_all(~ round(.x,1))  %>%
-rownames_to_column() %>%
-pivot_longer(-rowname) %>%
-pivot_wider(names_from=rowname, values_from=value) %>% 
-arrange_at(vars(last_col()))%>%
-rename_all(~ c("RAs", format(seq.Date(from=as.Date("2020-02-25"),to=HereBR,by="days"),"%d/%m/%y"))) %>%
-select("RAs",last_col(50:0))
-
-m <-  TABELA_R_eff %>%
-    column_to_rownames("RAs") %>%
-    as.matrix()
-
-colorScale <- data.frame(z=c(0,0.17,0.17,0.33,0.33,0.66,0.66,1),col=c("#008000","#008000","#FFFF00","#FFFF00","#ffa500", "#ffa500", "#FF0000", "#FF0000"))
-colorScale$col <- as.character(colorScale$col)
+<!-- ``` -->
 
 
 
-p <- plot_ly(x=colnames(m), y=rownames(m), z = m, zmin=0 , zmax=3, zsmooth=FALSE, ygap =0.25,xgap =0.25, colorscale=colorScale, type = "heatmap") 
-p
 
 
-```
+<!-- ### Deaths -->
+<!-- ```{r} -->
+
+
+<!-- TABELA_R_eff <- dw %>% -->
+<!-- mutate_all(~ .x/lag(.x,7)) %>% -->
+<!-- mutate_if(~ any(is.infinite(.x)),~ replace(.x,is.infinite(.x),0)) %>% -->
+<!-- mutate_if(~ any(is.na(.x)),~ replace(.x,is.na(.x),0)) %>% -->
+<!-- mutate_all(~ round(.x,1))  %>% -->
+<!-- rownames_to_column() %>% -->
+<!-- pivot_longer(-rowname) %>% -->
+<!-- pivot_wider(names_from=rowname, values_from=value) %>%  -->
+<!-- arrange_at(vars(last_col()))%>% -->
+<!-- rename_all(~ c("RAs", format(seq.Date(from=as.Date("2020-02-25"),to=HereBR,by="days"),"%d/%m/%y"))) %>% -->
+<!-- select("RAs",last_col(50:0)) -->
+
+<!-- m <-  TABELA_R_eff %>% -->
+<!--     column_to_rownames("RAs") %>% -->
+<!--     as.matrix() -->
+
+<!-- colorScale <- data.frame(z=c(0,0.17,0.17,0.33,0.33,0.66,0.66,1),col=c("#008000","#008000","#FFFF00","#FFFF00","#ffa500", "#ffa500", "#FF0000", "#FF0000")) -->
+<!-- colorScale$col <- as.character(colorScale$col) -->
+
+
+
+<!-- p <- plot_ly(x=colnames(m), y=rownames(m), z = m, zmin=0 , zmax=3, zsmooth=FALSE, ygap =0.25,xgap =0.25, colorscale=colorScale, type = "heatmap")  -->
+<!-- p -->
+
+
+<!-- ``` -->
 
 
 
